@@ -2,6 +2,8 @@
 #include "FileSystem.h"
 #include "ScriptController.h"
 
+#define GP_NO_LUA_BINDINGS
+
 #ifndef GP_NO_LUA_BINDINGS
 #include "lua/lua_all_bindings.h"
 #endif
