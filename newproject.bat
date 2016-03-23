@@ -179,24 +179,6 @@ mkdir "%projPath%\android\res\values"
 copy template\android\res\values\template.strings.xml "%projPath%\android\res\values\strings.xml"
 call:replace "%projPath%\android\res\values\strings.xml" TEMPLATE_TITLE "%title%"
 
-REM Copy Eclipse files for Android
-copy template\android\.cproject "%projPath%\android\.cproject"
-call:replace "%projPath%\android\.cproject" TEMPLATE_PROJECT "%projName%"
-call:replace "%projPath%\android\.cproject" TEMPLATE_UUID "%uuid%"
-call:replace "%projPath%\android\.cproject" GAMEPLAY_PATH "%gpPath%"
-copy template\android\.project "%projPath%\android\.project"
-call:replace "%projPath%\android\.project" TEMPLATE_PROJECT "%projName%"
-copy template\android\.classpath "%projPath%\android\.classpath"
-call:replace "%projPath%\android\.classpath" TEMPLATE_PROJECT "%projName%"
-
-REM Copy Eclipse files for Linux
-copy template\.cproject "%projPath%\.cproject"
-call:replace "%projPath%\.cproject" TEMPLATE_PROJECT "%projName%"
-call:replace "%projPath%\.cproject" TEMPLATE_UUID "%uuid%"
-call:replace "%projPath%\.cproject" GAMEPLAY_PATH "%gpPath%"
-copy template\.project "%projPath%\.project"
-call:replace "%projPath%\.project" TEMPLATE_PROJECT "%projName%"
-
 REM Copy QtCreator files
 copy template\TEMPLATE_PROJECT.pro "%projPath%\%projName%.pro"
 call:replace "%projPath%\%projName%.pro" TEMPLATE_PROJECT "%projName%"

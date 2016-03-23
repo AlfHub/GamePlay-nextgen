@@ -199,28 +199,6 @@ cp "template/android/res/values/template.strings.xml" "$projPath/android/res/val
 aliassedinplace "s*TEMPLATE_TITLE*$title*g" "$projPath/android/res/values/strings.xml"
 
 #############################################
-# Copy Eclipse files for Android
-#############################################
-cp "template/android/.cproject" "$projPath/android/.cproject"
-aliassedinplace "s*TEMPLATE_PROJECT*$projName*g" "$projPath/android/.cproject"
-aliassedinplace "s*TEMPLATE_UUID*$uuid*g" "$projPath/android/.cproject"
-aliassedinplace "s*GAMEPLAY_PATH*$gpPath*g" "$projPath/android/.cproject"
-cp "template/android/.project" "$projPath/android/.project"
-aliassedinplace "s*TEMPLATE_PROJECT*$projName*g" "$projPath/android/.project"
-cp "template/android/.classpath" "$projPath/android/.classpath"
-aliassedinplace "s*TEMPLATE_PROJECT*$projName*g" "$projPath/android/.classpath"
-
-#############################################
-# Copy Eclipse files for Linux
-#############################################
-cp "template/.cproject" "$projPath/.cproject"
-aliassedinplace "s*TEMPLATE_PROJECT*$projName*g" "$projPath/.cproject"
-aliassedinplace "s*TEMPLATE_UUID*$uuid*g" "$projPath/.cproject"
-aliassedinplace "s*GAMEPLAY_PATH*$gpPath*g" "$projPath/.cproject"
-cp "template/.project" "$projPath/.project"
-aliassedinplace "s*TEMPLATE_PROJECT*$projName*g" "$projPath/.project"
-
-#############################################
 # Copy QtCreator files
 #############################################
 cp "template/TEMPLATE_PROJECT.pro" "$projPath/$projName.pro"
