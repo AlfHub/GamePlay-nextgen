@@ -115,6 +115,7 @@ extern int strcmpnocase(const char* s1, const char* s2);
     #pragma warning( disable : 4172 )
     #pragma warning( disable : 4244 )
     #pragma warning( disable : 4267 )
+    #pragma warning( disable : 4302 )
     #pragma warning( disable : 4311 )
 	#pragma warning( disable : 4316 )
     #pragma warning( disable : 4390 )
