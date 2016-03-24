@@ -115,6 +115,9 @@ SOURCES += src/AbsoluteLayout.cpp \
     src/ScriptController.cpp \
     src/ScriptController.inl \
     src/ScriptTarget.cpp \
+    src/Serializer.cpp \
+    src/SerializerBinary.cpp \
+    src/SerializerJson.cpp \
     src/Slider.cpp \
     src/Sprite.cpp \
     src/SpriteBatch.cpp \
@@ -230,6 +233,10 @@ HEADERS += src/AbsoluteLayout.h \
     src/Script.h \
     src/ScriptController.h \
     src/ScriptTarget.h \
+    src/Serializable.h \
+    src/Serializer.h \
+    src/SerializerBinary.h \
+    src/SerializerJson.h \
     src/Slider.h \
     src/Sprite.h \
     src/SpriteBatch.h \

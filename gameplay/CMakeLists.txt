@@ -196,6 +196,13 @@ set(GAMEPLAY_SRC
     src/ScriptController.inl
     src/ScriptTarget.cpp
     src/ScriptTarget.h
+    src/Serializable.h
+    src/Serializer.cpp
+    src/Serializer.h
+    src/SerializerBinary.cpp
+    src/SerializerBinary.h
+    src/SerializerJson.cpp
+    src/SerializerJson.h
     src/Slider.cpp
     src/Slider.h
     src/Sprite.cpp
@@ -276,16 +283,23 @@ include_directories(
     ../external-deps/include
 )
 
-IF(CMAKE_SYSTEM_NAME MATCHES "Linux")
-find_package(PkgConfig REQUIRED)
-pkg_check_modules(GTK2 REQUIRED gtk+-2.0)
-include_directories(${GTK2_INCLUDE_DIRS})
-add_definitions(${GTK2_CFLAGS_OTHER})
-add_definitions(-D__linux__)
-ENDIF(CMAKE_SYSTEM_NAME MATCHES "Linux")
 
 add_definitions(-std=c++11)
-add_definitions(-lstdc++)
+
+if(CMAKE_SYSTEM_NAME MATCHES "Windows")
+    add_definitions(-lstdc++)
+endif()
+if(CMAKE_SYSTEM_NAME MATCHES "Linux")
+    find_package(PkgConfig REQUIRED)
+    pkg_check_modules(GTK2 REQUIRED gtk+-2.0)
+    include_directories(${GTK2_INCLUDE_DIRS})
+    add_definitions(${GTK2_CFLAGS_OTHER})
+    add_definitions(-D__linux__)
+    add_definitions(-lstdc++)
+endif()
+if (CMAKE_SYSTEM_NAME MATCHES "Darwin")
+    set(CMAKE_CXX_FLAGS -Wno-warnings)
+endif()
 
 add_library(gameplay STATIC
     ${GAMEPLAY_SRC}

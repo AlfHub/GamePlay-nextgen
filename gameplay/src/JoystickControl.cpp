@@ -4,8 +4,13 @@
 namespace gameplay
 {
 
-JoystickControl::JoystickControl() : _radiusPixels(1.0f), _relative(true), _innerSizePixels(NULL), _outerSizePixels(NULL), _index(0),
-    _innerRegionCoord(NULL), _outerRegionCoord(NULL), _innerRegionCoordBoundsBits(0), _outerRegionCoordBoundsBits(0), _radiusCoord(_radiusPixels)
+JoystickControl::JoystickControl()
+    : _radiusCoord(1.0f),
+    _innerRegionCoord(NULL), _outerRegionCoord(NULL),
+    _innerRegionCoordBoundsBits(0), _outerRegionCoordBoundsBits(0),
+    _radiusPixels(1.0f),
+    _innerSizePixels(NULL), _outerSizePixels(NULL),
+    _relative(true), _index(0)
 {
 }
 
