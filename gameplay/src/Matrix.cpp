@@ -968,4 +968,14 @@ void Matrix::transpose(Matrix* dst) const
     MathUtil::transposeMatrix(m, dst->m);
 }
 
+bool Matrix::operator==(const Matrix& m) const
+{
+    return memcmp(this->m, m.m, MATRIX_SIZE) == 0;
+}
+
+bool Matrix::operator!=(const Matrix& m) const
+{
+    return memcmp(this->m, m.m, MATRIX_SIZE) != 0;
+}
+
 }

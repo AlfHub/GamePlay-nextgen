@@ -83,6 +83,24 @@ public:
     static Vector4 fromColor(unsigned int color);
 
     /**
+     * Creates a new vector from a hex formatted string interpreted as an RGBA value.
+     * E.g. "#ff0000ff" represents opaque red or the vector (1, 0, 0, 1).
+     *
+     * @param str The hex string to interpret as an RGBA value.
+     *
+     * @return A vector corresponding to the interpreted RGBA color.
+     */
+    static Vector4 fromColorString(const char* str);
+
+    /**
+     * Gets the vector as a packed unsigned integer represented as RGBA value.
+     * E.g. 0xff0000ff represents opaque red or the vector (1, 0, 0, 1).
+     *
+     * @return The vector as an unsigned integer color value.
+     */
+    unsigned int toColor() const;
+
+    /**
      * Destructor.
      */
     ~Vector4();

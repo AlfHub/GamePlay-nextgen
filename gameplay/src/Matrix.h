@@ -861,6 +861,24 @@ public:
     void transpose(Matrix* dst) const;
 
     /**
+     * Determines if this matrix is equal to the given matrix.
+     *
+     * @param m The matrix to compare against.
+     *
+     * @return True if this matrix is equal to the given matrix, false otherwise.
+     */
+    bool operator==(const Matrix& m) const;
+
+    /**
+     * Determines if this vector is not equal to the given vector.
+     *
+     * @param v The vector to compare against.
+     *
+     * @return True if this matrix is not equal to the given matrix, false otherwise.
+     */
+    bool operator!=(const Matrix& m) const;
+
+    /**
      * Calculates the sum of this matrix with the given matrix.
      * 
      * Note: this does not modify this matrix.

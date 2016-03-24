@@ -294,6 +294,8 @@ typedef unsigned int GamepadHandle;
 #else
 typedef unsigned long GamepadHandle;
 #endif
+
+const char GP_FILE_IDENTIFIER[9] = { '\xAB', 'G', 'P', 'B', '\xBB', '\r', '\n', '\x1A', '\n' };
 }
 
 /**

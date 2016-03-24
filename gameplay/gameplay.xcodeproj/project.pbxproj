@@ -18,6 +18,12 @@
 		426F8318187F72A700640CBA /* JoystickControl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 426F8315187F72A700640CBA /* JoystickControl.cpp */; };
 		42BC99AD1CA2C48000B11FE7 /* main-macosx.mm in Sources */ = {isa = PBXBuildFile; fileRef = 42BC99AC1CA2C48000B11FE7 /* main-macosx.mm */; };
 		42BC99AF1CA2C49A00B11FE7 /* main-ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = 42BC99AE1CA2C49A00B11FE7 /* main-ios.mm */; };
+		42BC99B71CA358CE00B11FE7 /* Serializer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BC99B11CA358CE00B11FE7 /* Serializer.cpp */; };
+		42BC99B81CA358CE00B11FE7 /* Serializer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BC99B11CA358CE00B11FE7 /* Serializer.cpp */; };
+		42BC99B91CA358CE00B11FE7 /* SerializerBinary.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BC99B31CA358CE00B11FE7 /* SerializerBinary.cpp */; };
+		42BC99BA1CA358CE00B11FE7 /* SerializerBinary.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BC99B31CA358CE00B11FE7 /* SerializerBinary.cpp */; };
+		42BC99BB1CA358CE00B11FE7 /* SerializerJson.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BC99B51CA358CE00B11FE7 /* SerializerJson.cpp */; };
+		42BC99BC1CA358CE00B11FE7 /* SerializerJson.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BC99B51CA358CE00B11FE7 /* SerializerJson.cpp */; };
 		42CC556C1809A4EF00AAD8AD /* AbsoluteLayout.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42CC52F71809A4EB00AAD8AD /* AbsoluteLayout.cpp */; };
 		42CC556D1809A4EF00AAD8AD /* AbsoluteLayout.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42CC52F71809A4EB00AAD8AD /* AbsoluteLayout.cpp */; };
 		42CC55701809A4EF00AAD8AD /* AIAgent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42CC52F91809A4EB00AAD8AD /* AIAgent.cpp */; };
@@ -259,6 +265,13 @@
 		426F8316187F72A700640CBA /* JoystickControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JoystickControl.h; path = src/JoystickControl.h; sourceTree = SOURCE_ROOT; };
 		42BC99AC1CA2C48000B11FE7 /* main-macosx.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = "main-macosx.mm"; path = "src/main-macosx.mm"; sourceTree = SOURCE_ROOT; };
 		42BC99AE1CA2C49A00B11FE7 /* main-ios.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = "main-ios.mm"; path = "src/main-ios.mm"; sourceTree = SOURCE_ROOT; };
+		42BC99B01CA358CE00B11FE7 /* Serializable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Serializable.h; path = src/Serializable.h; sourceTree = SOURCE_ROOT; };
+		42BC99B11CA358CE00B11FE7 /* Serializer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Serializer.cpp; path = src/Serializer.cpp; sourceTree = SOURCE_ROOT; };
+		42BC99B21CA358CE00B11FE7 /* Serializer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Serializer.h; path = src/Serializer.h; sourceTree = SOURCE_ROOT; };
+		42BC99B31CA358CE00B11FE7 /* SerializerBinary.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SerializerBinary.cpp; path = src/SerializerBinary.cpp; sourceTree = SOURCE_ROOT; };
+		42BC99B41CA358CE00B11FE7 /* SerializerBinary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SerializerBinary.h; path = src/SerializerBinary.h; sourceTree = SOURCE_ROOT; };
+		42BC99B51CA358CE00B11FE7 /* SerializerJson.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SerializerJson.cpp; path = src/SerializerJson.cpp; sourceTree = SOURCE_ROOT; };
+		42BC99B61CA358CE00B11FE7 /* SerializerJson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SerializerJson.h; path = src/SerializerJson.h; sourceTree = SOURCE_ROOT; };
 		42CC52F71809A4EB00AAD8AD /* AbsoluteLayout.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AbsoluteLayout.cpp; path = src/AbsoluteLayout.cpp; sourceTree = SOURCE_ROOT; };
 		42CC52F81809A4EB00AAD8AD /* AbsoluteLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AbsoluteLayout.h; path = src/AbsoluteLayout.h; sourceTree = SOURCE_ROOT; };
 		42CC52F91809A4EB00AAD8AD /* AIAgent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AIAgent.cpp; path = src/AIAgent.cpp; sourceTree = SOURCE_ROOT; };
@@ -772,6 +785,13 @@
 				42CC552E1809A4EE00AAD8AD /* ScriptController.inl */,
 				42CC552F1809A4EE00AAD8AD /* ScriptTarget.cpp */,
 				42CC55301809A4EE00AAD8AD /* ScriptTarget.h */,
+				42BC99B01CA358CE00B11FE7 /* Serializable.h */,
+				42BC99B11CA358CE00B11FE7 /* Serializer.cpp */,
+				42BC99B21CA358CE00B11FE7 /* Serializer.h */,
+				42BC99B31CA358CE00B11FE7 /* SerializerBinary.cpp */,
+				42BC99B41CA358CE00B11FE7 /* SerializerBinary.h */,
+				42BC99B51CA358CE00B11FE7 /* SerializerJson.cpp */,
+				42BC99B61CA358CE00B11FE7 /* SerializerJson.h */,
 				42CC55311809A4EE00AAD8AD /* Slider.cpp */,
 				42CC55321809A4EE00AAD8AD /* Slider.h */,
 				4204EC441A2F878C0074FCE9 /* Sprite.cpp */,
@@ -941,6 +961,7 @@
 				42CC55A41809A4EF00AAD8AD /* AudioSource.cpp in Sources */,
 				42CC55C61809A4EF00AAD8AD /* Control.cpp in Sources */,
 				42CC56161809A4EF00AAD8AD /* Joint.cpp in Sources */,
+				42BC99BB1CA358CE00B11FE7 /* SerializerJson.cpp in Sources */,
 				42CC59961809A4EF00AAD8AD /* RenderState.cpp in Sources */,
 				42CC59721809A4EF00AAD8AD /* PlatformAndroid.cpp in Sources */,
 				42CC55881809A4EF00AAD8AD /* AnimationClip.cpp in Sources */,
@@ -1019,6 +1040,7 @@
 				42CC59A21809A4EF00AAD8AD /* SceneLoader.cpp in Sources */,
 				42CC556C1809A4EF00AAD8AD /* AbsoluteLayout.cpp in Sources */,
 				42CC59181809A4EF00AAD8AD /* MeshPart.cpp in Sources */,
+				42BC99B71CA358CE00B11FE7 /* Serializer.cpp in Sources */,
 				42CC55781809A4EF00AAD8AD /* AIMessage.cpp in Sources */,
 				42CC594A1809A4EF00AAD8AD /* PhysicsGenericConstraint.cpp in Sources */,
 				42CC593A1809A4EF00AAD8AD /* PhysicsCollisionShape.cpp in Sources */,
@@ -1028,6 +1050,7 @@
 				42CC59461809A4EF00AAD8AD /* PhysicsFixedConstraint.cpp in Sources */,
 				42CC55F21809A4EF00AAD8AD /* Game.cpp in Sources */,
 				42CC59101809A4EF00AAD8AD /* Mesh.cpp in Sources */,
+				42BC99B91CA358CE00B11FE7 /* SerializerBinary.cpp in Sources */,
 				42CC55DA1809A4EF00AAD8AD /* FileSystem.cpp in Sources */,
 				42CC59621809A4EF00AAD8AD /* PhysicsVehicle.cpp in Sources */,
 				42ECC3FA1A4EF5A00036C839 /* Text.cpp in Sources */,
@@ -1060,6 +1083,7 @@
 				42CC55991809A4EF00AAD8AD /* AudioBuffer.cpp in Sources */,
 				42CC55A51809A4EF00AAD8AD /* AudioSource.cpp in Sources */,
 				42CC55C71809A4EF00AAD8AD /* Control.cpp in Sources */,
+				42BC99BC1CA358CE00B11FE7 /* SerializerJson.cpp in Sources */,
 				42CC56171809A4EF00AAD8AD /* Joint.cpp in Sources */,
 				42CC59971809A4EF00AAD8AD /* RenderState.cpp in Sources */,
 				42CC59731809A4EF00AAD8AD /* PlatformAndroid.cpp in Sources */,
@@ -1138,6 +1162,7 @@
 				42CC59A31809A4EF00AAD8AD /* SceneLoader.cpp in Sources */,
 				42CC556D1809A4EF00AAD8AD /* AbsoluteLayout.cpp in Sources */,
 				42CC59191809A4EF00AAD8AD /* MeshPart.cpp in Sources */,
+				42BC99B81CA358CE00B11FE7 /* Serializer.cpp in Sources */,
 				42CC55791809A4EF00AAD8AD /* AIMessage.cpp in Sources */,
 				42CC594B1809A4EF00AAD8AD /* PhysicsGenericConstraint.cpp in Sources */,
 				42CC593B1809A4EF00AAD8AD /* PhysicsCollisionShape.cpp in Sources */,
@@ -1147,6 +1172,7 @@
 				42CC59471809A4EF00AAD8AD /* PhysicsFixedConstraint.cpp in Sources */,
 				42CC55F31809A4EF00AAD8AD /* Game.cpp in Sources */,
 				42CC59111809A4EF00AAD8AD /* Mesh.cpp in Sources */,
+				42BC99BA1CA358CE00B11FE7 /* SerializerBinary.cpp in Sources */,
 				42CC55DB1809A4EF00AAD8AD /* FileSystem.cpp in Sources */,
 				42CC59631809A4EF00AAD8AD /* PhysicsVehicle.cpp in Sources */,
 				42ECC3FB1A4EF5A00036C839 /* Text.cpp in Sources */,

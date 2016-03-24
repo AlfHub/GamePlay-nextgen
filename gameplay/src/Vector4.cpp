@@ -44,6 +44,43 @@ Vector4 Vector4::fromColor(unsigned int color)
     return value;
 }
 
+Vector4 Vector4::fromColorString(const char* str)
+{
+    Vector4 value = Vector4(0, 0, 0, 0);
+    if (str[0] == '#' && strlen(str) == 9 )
+    {
+        // Read the string into an int as hex.
+        unsigned int color;
+        if (sscanf(str + 1, "%x", &color) == 1)
+            value = Vector4::fromColor(color);
+    }
+    else
+    {
+        GP_WARN("Invalid color string formatting:%s", str);
+    }
+    return value;
+}
+
+unsigned int Vector4::toColor() const
+{
+    unsigned char component;
+    unsigned int value = 0;
+    // Red component
+    component = static_cast<unsigned char>(x * 255);
+    value = component << 24;
+    // Green component
+    component = static_cast<unsigned char>(y * 255);
+    value += component << 16;
+    // Blue component
+    component = static_cast<unsigned char>(z * 255);
+    value += component << 8;
+    // Alpha component
+    component = static_cast<unsigned char>(w * 255);
+    value += component;
+
+    return value;
+}
+
 Vector4::~Vector4()
 {
 }
