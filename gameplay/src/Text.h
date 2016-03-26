@@ -3,7 +3,6 @@
 
 #include "Ref.h"
 #include "AnimationTarget.h"
-#include "Properties.h"
 #include "Font.h"
 #include "Vector2.h"
 #include "Vector4.h"
@@ -54,8 +53,8 @@ public:
      *
      * @param properties The properties object to load from.
      * @return The tile set created.
-     */
-    static Text* create(Properties* properties);
+     *
+    static Text* create(Properties* properties);*/
     
     /**
      * Sets the text to be drawn.

@@ -55,8 +55,8 @@ public:
      * @param properties The properties object defining the audio source (must have namespace equal to 'audio').
      * @return The newly created audio source, or <code>NULL</code> if the audio source failed to load.
      * @script{create}
-     */
-    static AudioSource* create(Properties* properties);
+     *
+    static AudioSource* create(Properties* properties);*/
 
     /**
      * Plays the audio source.

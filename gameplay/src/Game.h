@@ -129,8 +129,8 @@ public:
      * of the game.config file.
      *
      * @return The game configuration Properties object.
-     */
-    Properties* getConfig() const;
+     *
+    Properties* getConfig() const;*/
 
     /**
      * Called to initialize the game, and begin running the game.
@@ -723,8 +723,8 @@ private:
 
     /**
      * Loads the game configuration.
-     */
-    void loadConfig();
+     *
+    void loadConfig();*/
 
     /**
      * Loads the gamepads from the configuration file.
@@ -757,7 +757,7 @@ private:
     Vector4 _clearColor;                        // The clear color value last used for clearing the color buffer.
     float _clearDepth;                          // The clear depth value last used for clearing the depth buffer.
     int _clearStencil;                          // The clear stencil value last used for clearing the stencil buffer.
-    Properties* _properties;                    // Game configuration properties object.
+    //Properties* _properties;                    // Game configuration properties object.
     AnimationController* _animationController;  // Controls the scheduling and running of animations.
     AudioController* _audioController;          // Controls audio sources that are playing in the game.
     PhysicsController* _physicsController;      // Controls the simulation of a physics scene and entities.

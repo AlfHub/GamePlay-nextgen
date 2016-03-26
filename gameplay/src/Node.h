@@ -710,7 +710,7 @@ private:
      */
     Node& operator=(const Node&);
 
-    PhysicsCollisionObject* setCollisionObject(Properties* properties);
+    /*PhysicsCollisionObject* setCollisionObject(Properties* properties);*/
 
 protected:
 

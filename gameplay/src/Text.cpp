@@ -58,7 +58,7 @@ Text* Text::create(const char* fontPath, const char* str, const Vector4& color, 
     return text;
 }
     
-Text* Text::create(Properties* properties)
+/*Text* Text::create(Properties* properties)
 {
     // Check if the Properties is valid and has a valid namespace.
     if (!properties || strcmp(properties->getNamespace(), "text") != 0)
@@ -113,7 +113,7 @@ Text* Text::create(Properties* properties)
 
     // Create
     return Text::create(fontPath, text, color, size);
-}
+}*/
     
 void Text::setText(const char* str)
 {

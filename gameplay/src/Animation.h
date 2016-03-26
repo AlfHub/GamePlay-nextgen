@@ -2,7 +2,6 @@
 #define ANIMATION_H_
 
 #include "Ref.h"
-#include "Properties.h"
 #include "Curve.h"
 
 namespace gameplay
@@ -179,8 +178,8 @@ private:
 
     /**
      * Creates AnimationClip's for this Animation from the specified Property object.
-     */
-    void createClips(Properties* animationProperties, unsigned int frameCount);
+     *
+    void createClips(Properties* animationProperties, unsigned int frameCount);*/
 
     /**
      * Adds a clip to this Animation.

@@ -51,7 +51,7 @@ TileSet* TileSet::create(const char* imagePath,
     return tileset;
 }
     
-TileSet* TileSet::create(Properties* properties)
+/*TileSet* TileSet::create(Properties* properties)
 {
     // Check if the Properties is valid and has a valid namespace.
     if (!properties || strcmp(properties->getNamespace(), "tileset") != 0)
@@ -144,7 +144,7 @@ TileSet* TileSet::create(Properties* properties)
     }
 
     return set;
-}
+}*/
 
 void TileSet::setTileSource(unsigned int column, unsigned int row, const Vector2& source)
 {

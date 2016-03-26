@@ -88,13 +88,13 @@ protected:
 	*
 	* @return The new label.
 	* @script{create}
-	*/
-	static Control* create(Theme::Style* style, Properties* properties);
+	*
+	static Control* create(Theme::Style* style, Properties* properties);*/
 
     /**
      * @see Control::initialize
-     */
-    void initialize(const char* typeName, Theme::Style* style, Properties* properties);
+     *
+    void initialize(const char* typeName, Theme::Style* style, Properties* properties);*/
 
     /**
      * @see Control::update

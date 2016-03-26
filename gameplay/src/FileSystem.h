@@ -7,8 +7,6 @@
 namespace gameplay
 {
 
-class Properties;
-
 /**
  * Defines a set of functions for interacting with the device file system.
  */
@@ -73,8 +71,6 @@ public:
      * to the alias name instead of the actual hard file name.
      *
      * @param aliasFilePath Path to a properties file containing filesystem aliases.
-     * 
-     * @see Properties
      */
     static void loadResourceAliases(const char* aliasFilePath);
 
@@ -93,8 +89,8 @@ public:
      * @param properties Properties object containing filesystem aliases.
      * 
      * @see Properties
-     */
-    static void loadResourceAliases(Properties* properties);
+     *
+    static void loadResourceAliases(Properties* properties);*/
 
     /**
      * Displays an open or save dialog using the native platform dialog system.

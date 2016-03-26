@@ -45,15 +45,10 @@ Terrain::~Terrain()
 
 Terrain* Terrain::create(const char* path)
 {
-    return create(path, NULL);
+    return NULL;
 }
 
-Terrain* Terrain::create(Properties* properties)
-{
-    return create(properties->getNamespace(), properties);
-}
-
-Terrain* Terrain::create(const char* path, Properties* properties)
+/*Terrain* Terrain::create(const char* path, Properties* properties)
 {
     // Terrain properties
     Properties* p = properties;
@@ -232,14 +227,14 @@ Terrain* Terrain::create(const char* path, Properties* properties)
         SAFE_DELETE(p);
 
     return terrain;
-}
+}*/
 
 Terrain* Terrain::create(HeightField* heightfield, const Vector3& scale, unsigned int patchSize, unsigned int detailLevels, float skirtScale, const char* normalMapPath, const char* materialPath)
 {
-    return create(heightfield, scale, patchSize, detailLevels, skirtScale, normalMapPath, materialPath, NULL);
+    return NULL;
 }
 
-Terrain* Terrain::create(HeightField* heightfield, const Vector3& scale,
+/*Terrain* Terrain::create(HeightField* heightfield, const Vector3& scale,
     unsigned int patchSize, unsigned int detailLevels, float skirtScale,
     const char* normalMapPath, const char* materialPath, Properties* properties)
 {
@@ -374,7 +369,7 @@ Terrain* Terrain::create(HeightField* heightfield, const Vector3& scale,
         terrain->_patches[i]->updateMaterial();
 
     return terrain;
-}
+}*/
 
 void Terrain::setNode(Node* node)
 {

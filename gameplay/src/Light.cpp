@@ -72,7 +72,7 @@ Light* Light::createSpot(float red, float green, float blue, float range, float 
     return new Light(SPOT, Vector3(red, green, blue), range, innerAngle, outerAngle);
 }
 
-Light* Light::create(Properties* properties)
+/*Light* Light::create(Properties* properties)
 {
     GP_ASSERT(properties);
 
@@ -149,7 +149,7 @@ Light* Light::create(Properties* properties)
     }
 
     return light;
-}
+}*/
 
 Light::Type Light::getLightType() const
 {

@@ -174,8 +174,6 @@
 		42CC597A1809A4EF00AAD8AD /* PlatformMacOSX.mm in Sources */ = {isa = PBXBuildFile; fileRef = 42CC550E1809A4ED00AAD8AD /* PlatformMacOSX.mm */; };
 		42CC597C1809A4EF00AAD8AD /* PlatformWindows.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42CC550F1809A4EE00AAD8AD /* PlatformWindows.cpp */; };
 		42CC597D1809A4EF00AAD8AD /* PlatformWindows.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42CC550F1809A4EE00AAD8AD /* PlatformWindows.cpp */; };
-		42CC597E1809A4EF00AAD8AD /* Properties.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42CC55101809A4EE00AAD8AD /* Properties.cpp */; };
-		42CC597F1809A4EF00AAD8AD /* Properties.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42CC55101809A4EE00AAD8AD /* Properties.cpp */; };
 		42CC59821809A4EF00AAD8AD /* Quaternion.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42CC55121809A4EE00AAD8AD /* Quaternion.cpp */; };
 		42CC59831809A4EF00AAD8AD /* Quaternion.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42CC55121809A4EE00AAD8AD /* Quaternion.cpp */; };
 		42CC59861809A4EF00AAD8AD /* RadioButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42CC55151809A4EE00AAD8AD /* RadioButton.cpp */; };
@@ -438,8 +436,6 @@
 		42CC550D1809A4ED00AAD8AD /* PlatformLinux.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PlatformLinux.cpp; path = src/PlatformLinux.cpp; sourceTree = SOURCE_ROOT; };
 		42CC550E1809A4ED00AAD8AD /* PlatformMacOSX.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = PlatformMacOSX.mm; path = src/PlatformMacOSX.mm; sourceTree = SOURCE_ROOT; };
 		42CC550F1809A4EE00AAD8AD /* PlatformWindows.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PlatformWindows.cpp; path = src/PlatformWindows.cpp; sourceTree = SOURCE_ROOT; };
-		42CC55101809A4EE00AAD8AD /* Properties.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Properties.cpp; path = src/Properties.cpp; sourceTree = SOURCE_ROOT; };
-		42CC55111809A4EE00AAD8AD /* Properties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Properties.h; path = src/Properties.h; sourceTree = SOURCE_ROOT; };
 		42CC55121809A4EE00AAD8AD /* Quaternion.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Quaternion.cpp; path = src/Quaternion.cpp; sourceTree = SOURCE_ROOT; };
 		42CC55131809A4EE00AAD8AD /* Quaternion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Quaternion.h; path = src/Quaternion.h; sourceTree = SOURCE_ROOT; };
 		42CC55141809A4EE00AAD8AD /* Quaternion.inl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = Quaternion.inl; path = src/Quaternion.inl; sourceTree = SOURCE_ROOT; };
@@ -754,8 +750,6 @@
 				42CC550D1809A4ED00AAD8AD /* PlatformLinux.cpp */,
 				42CC550E1809A4ED00AAD8AD /* PlatformMacOSX.mm */,
 				42CC550F1809A4EE00AAD8AD /* PlatformWindows.cpp */,
-				42CC55101809A4EE00AAD8AD /* Properties.cpp */,
-				42CC55111809A4EE00AAD8AD /* Properties.h */,
 				42CC55121809A4EE00AAD8AD /* Quaternion.cpp */,
 				42CC55131809A4EE00AAD8AD /* Quaternion.h */,
 				42CC55141809A4EE00AAD8AD /* Quaternion.inl */,
@@ -968,7 +962,6 @@
 				42CC59921809A4EF00AAD8AD /* Ref.cpp in Sources */,
 				42CC595A1809A4EF00AAD8AD /* PhysicsSocketConstraint.cpp in Sources */,
 				42CC59EA1809A4EF00AAD8AD /* Terrain.cpp in Sources */,
-				42CC597E1809A4EF00AAD8AD /* Properties.cpp in Sources */,
 				42CC5A161809A4EF00AAD8AD /* VertexAttributeBinding.cpp in Sources */,
 				42CC59B21809A4EF00AAD8AD /* ScriptController.cpp in Sources */,
 				42CC55AA1809A4EF00AAD8AD /* BoundingBox.cpp in Sources */,
@@ -1091,7 +1084,6 @@
 				42CC59931809A4EF00AAD8AD /* Ref.cpp in Sources */,
 				42CC595B1809A4EF00AAD8AD /* PhysicsSocketConstraint.cpp in Sources */,
 				42CC59EB1809A4EF00AAD8AD /* Terrain.cpp in Sources */,
-				42CC597F1809A4EF00AAD8AD /* Properties.cpp in Sources */,
 				42CC5A171809A4EF00AAD8AD /* VertexAttributeBinding.cpp in Sources */,
 				42CC59B31809A4EF00AAD8AD /* ScriptController.cpp in Sources */,
 				42CC55AB1809A4EF00AAD8AD /* BoundingBox.cpp in Sources */,

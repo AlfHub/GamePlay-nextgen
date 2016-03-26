@@ -76,7 +76,7 @@ PhysicsCharacter::~PhysicsCharacter()
 
 }
 
-PhysicsCharacter* PhysicsCharacter::create(Node* node, Properties* properties)
+/*PhysicsCharacter* PhysicsCharacter::create(Node* node, Properties* properties)
 {
     // Check if the properties is valid and has a valid namespace.
     if (!properties || !(strcmp(properties->getNamespace(), "collisionObject") == 0))
@@ -138,7 +138,7 @@ PhysicsCharacter* PhysicsCharacter::create(Node* node, Properties* properties)
     character->setMaxSlopeAngle(maxSlopeAngle);
 
     return character;
-}
+}*/
 
 PhysicsCollisionObject::Type PhysicsCharacter::getType() const
 {

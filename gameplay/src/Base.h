@@ -204,8 +204,8 @@ extern int strcmpnocase(const char* s1, const char* s2);
 #include <png.h>
 
 // Scripting
-using std::va_list;
-#include <lua/lua.hpp>
+
+// Physics
 
 #define WINDOW_VSYNC        1
 

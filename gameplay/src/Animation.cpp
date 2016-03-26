@@ -5,7 +5,6 @@
 #include "AnimationTarget.h"
 #include "Game.h"
 #include "Transform.h"
-#include "Properties.h"
 
 #define ANIMATION_INDEFINITE_STR "INDEFINITE"
 #define ANIMATION_DEFAULT_CLIP 0
@@ -121,7 +120,7 @@ unsigned long Animation::getDuration() const
     return _duration;
 }
 
-void Animation::createClips(const char* url)
+/*void Animation::createClips(const char* url)
 {
     Properties* properties = Properties::create(url);
     GP_ASSERT(properties);
@@ -136,7 +135,7 @@ void Animation::createClips(const char* url)
     createClips(pAnimation, (unsigned int)frameCount);
 
     SAFE_DELETE(properties);
-}
+}*/
 
 AnimationClip* Animation::createClip(const char* id, unsigned long begin, unsigned long end)
 {
@@ -244,7 +243,7 @@ void Animation::createDefaultClip()
     _defaultClip = new AnimationClip("default_clip", this, 0.0f, _duration);
 }
 
-void Animation::createClips(Properties* animationProperties, unsigned int frameCount)
+/*void Animation::createClips(Properties* animationProperties, unsigned int frameCount)
 {
     GP_ASSERT(animationProperties);
 
@@ -284,7 +283,7 @@ void Animation::createClips(Properties* animationProperties, unsigned int frameC
 
         pClip = animationProperties->getNextNamespace();
     }
-}
+}*/
 
 void Animation::addClip(AnimationClip* clip)
 {

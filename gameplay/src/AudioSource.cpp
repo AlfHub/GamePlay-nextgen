@@ -47,6 +47,7 @@ AudioSource::~AudioSource()
 
 AudioSource* AudioSource::create(const char* url, bool streamed)
 {
+    /*
     // Load from a .audio file.
     std::string pathStr = url;
     if (pathStr.find(".audio") != std::string::npos)
@@ -79,10 +80,11 @@ AudioSource* AudioSource::create(const char* url, bool streamed)
         return NULL;
     }
     
-    return new AudioSource(buffer, alSource);
+    return new AudioSource(buffer, alSource);*/
+    return NULL;
 }
 
-AudioSource* AudioSource::create(Properties* properties)
+/*AudioSource* AudioSource::create(Properties* properties)
 {
     // Check if the properties is valid and has a valid namespace.
     GP_ASSERT(properties);
@@ -133,7 +135,7 @@ AudioSource* AudioSource::create(Properties* properties)
     }
 
     return audio;
-}
+}*/
 
 AudioSource::State AudioSource::getState() const
 {

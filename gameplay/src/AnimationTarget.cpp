@@ -54,14 +54,16 @@ Animation* AnimationTarget::createAnimation(const char* id, int propertyId, unsi
 
 Animation* AnimationTarget::createAnimation(const char* id, const char* url)
 {
+    /*
     Properties* p = Properties::create(url);
     GP_ASSERT(p);
-
+     
     Animation* animation = createAnimation(id, (strlen(p->getNamespace()) > 0) ? p : p->getNextNamespace());
 
     SAFE_DELETE(p);
 
-    return animation;
+    return animation;*/
+    return NULL;
 }
 
 Animation* AnimationTarget::createAnimationFromTo(const char* id, int propertyId, float* from, float* to, Curve::InterpolationType type, unsigned long duration)
@@ -114,7 +116,7 @@ Animation* AnimationTarget::createAnimationFromBy(const char* id, int propertyId
     return animation;
 }
 
-Animation* AnimationTarget::createAnimation(const char* id, Properties* animationProperties)
+/*Animation* AnimationTarget::createAnimation(const char* id, Properties* animationProperties)
 {
     GP_ASSERT(animationProperties);
     if (std::strcmp(animationProperties->getNamespace(), "animation") != 0)
@@ -297,7 +299,7 @@ Animation* AnimationTarget::createAnimation(const char* id, Properties* animatio
     }
     
     return animation;
-}
+}*/
 
 void AnimationTarget::destroyAnimation(const char* id)
 {

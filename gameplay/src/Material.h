@@ -3,7 +3,6 @@
 
 #include "RenderState.h"
 #include "Technique.h"
-#include "Properties.h"
 
 namespace gameplay
 {
@@ -73,8 +72,8 @@ public:
      *      material (must have namespace equal to 'material').
      * @return A new Material.
      * @script{create}
-     */
-    static Material* create(Properties* materialProperties);
+     *
+    static Material* create(Properties* materialProperties);*/
 
     /**
      * Creates a material from the specified effect.
@@ -177,23 +176,23 @@ private:
 
     /**
      * Creates a new material with optional pass callback function.
-     */
-    static Material* create(Properties* materialProperties, PassCallback callback, void* cookie);
+     *
+    static Material* create(Properties* materialProperties, PassCallback callback, void* cookie);*/
 
     /**
      * Loads a technique from the given properties object into the specified material.
-     */
-    static bool loadTechnique(Material* material, Properties* techniqueProperties, PassCallback callback, void* cookie);
+     *
+    static bool loadTechnique(Material* material, Properties* techniqueProperties, PassCallback callback, void* cookie);*/
 
     /**
      * Load a pass from the given properties object into the specified technique.
-     */
-    static bool loadPass(Technique* technique, Properties* passProperites, PassCallback callback, void* cookie);
+     *
+    static bool loadPass(Technique* technique, Properties* passProperites, PassCallback callback, void* cookie);*/
 
     /**
      * Loads render state from the specified properties object.
-     */
-    static void loadRenderState(RenderState* renderState, Properties* properties);
+     *
+    static void loadRenderState(RenderState* renderState, Properties* properties);*/
 
     Technique* _currentTechnique;
     std::vector<Technique*> _techniques;

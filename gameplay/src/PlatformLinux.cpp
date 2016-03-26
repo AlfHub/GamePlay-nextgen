@@ -581,7 +581,8 @@ Platform* Platform::create(Game* game)
     const char *title = NULL;
     int __x = 0, __y = 0, __width = 1280, __height = 800, __samples = 0;
     bool fullscreen = false;
-    if (game->getConfig())
+    
+    /*if (game->getConfig())
     {
         Properties* config = game->getConfig()->getNamespace("window", true);
         if (config)
@@ -610,7 +611,7 @@ Platform* Platform::create(Game* game)
             if (height != 0) __height = height;
             if (samples != 0) __samples = samples;
         }
-    }
+    }*/
 
     // GLX version
     GLint majorGLX, minorGLX = 0;

@@ -4,7 +4,6 @@
 #include "Ref.h"
 #include "Drawable.h"
 #include "AnimationTarget.h"
-#include "Properties.h"
 #include "Rectangle.h"
 #include "Vector4.h"
 #include "SpriteBatch.h"
@@ -126,8 +125,8 @@ public:
      *
      * @param properties The properties object to create from.
      * @return The new Sprite.
-     */
-    static Sprite* create(Properties* properties);
+     *
+    static Sprite* create(Properties* properties);*/
     
     /**
      * Gets the width of the sprite.

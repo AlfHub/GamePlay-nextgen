@@ -4,7 +4,6 @@
 #include "Ref.h"
 #include "Drawable.h"
 #include "Transform.h"
-#include "Properties.h"
 #include "HeightField.h"
 #include "Texture.h"
 #include "BoundingBox.h"
@@ -143,8 +142,8 @@ public:
      *
      * @see create(const char*)
      * @script{create}
-     */
-    static Terrain* create(Properties* properties);
+     *
+    static Terrain* create(Properties* properties);*/
 
     /**
      * Creates a terrain from the given heightfield.
@@ -303,15 +302,15 @@ private:
 
     /**
      * Internal method for creating terrain.
-     */
+     *
     static Terrain* create(HeightField* heightfield, const Vector3& scale, 
         unsigned int patchSize, unsigned int detailLevels, float skirtScale, 
-        const char* normalMapPath, const char* materialPath, Properties* properties);
+        const char* normalMapPath, const char* materialPath, Properties* properties);*/
 
     /**
      * Internal method for creating terrain.
-     */
-    static Terrain* create(const char* path, Properties* properties);
+     *
+    static Terrain* create(const char* path, Properties* properties);*/
 
     /**
      * @see Transform::Listener::transformChanged.

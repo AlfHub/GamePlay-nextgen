@@ -219,7 +219,7 @@ static bool parseOffset(const char* str, Sprite::Offset* offset)
     return true;
 }
 
-Sprite* Sprite::create(Properties* properties)
+/*Sprite* Sprite::create(Properties* properties)
 {
     // Check if the Properties is valid and has a valid namespace.
     if (!properties || strcmp(properties->getNamespace(), "sprite") != 0)
@@ -366,7 +366,7 @@ Sprite* Sprite::create(Properties* properties)
     }
 
     return sprite;
-}
+}*/
     
 float Sprite::getWidth() const
 {

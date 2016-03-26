@@ -814,7 +814,7 @@ Platform* Platform::create(Game* game)
     params.rect.right = 0;
     params.rect.bottom = 0;
     params.samples = 0;
-    if (game->getConfig())
+    /*if (game->getConfig())
     {
         Properties* config = game->getConfig()->getNamespace("window", true);
         if (config)
@@ -855,7 +855,7 @@ Platform* Platform::create(Game* game)
             if (height != 0)
                 params.rect.bottom = params.rect.top + height;
         }
-    }
+    }*/
 
     // If window size was not specified, set it to a default value
     if (params.rect.right == 0)

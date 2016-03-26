@@ -18,11 +18,11 @@ Button* Button::create(const char* id, Theme::Style* style)
 {
     Button* button = new Button();
     button->_id = id ? id : "";
-    button->initialize("Button", style, NULL);
+    //button->initialize("Button", style, NULL);
     return button;
 }
 
-Control* Button::create(Theme::Style* style, Properties* properties)
+/*Control* Button::create(Theme::Style* style, Properties* properties)
 {
     Button* button = new Button();
 	button->initialize("Button", style, properties);
@@ -43,7 +43,7 @@ void Button::initialize(const char* typeName, Theme::Style* style, Properties* p
             _dataBinding = Gamepad::getButtonMappingFromString(mapping);
         }
     }
-}
+}*/
 
 const char* Button::getTypeName() const
 {

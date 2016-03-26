@@ -16,11 +16,11 @@ Label* Label::create(const char* id, Theme::Style* style)
 {
     Label* label = new Label();
     label->_id = id ? id : "";
-    label->initialize("Label", style, NULL);
+    //label->initialize("Label", style, NULL);
     return label;
 }
 
-Control* Label::create(Theme::Style* style, Properties* properties)
+/*Control* Label::create(Theme::Style* style, Properties* properties)
 {
     Label* label = new Label();
 	label->initialize("Label", style, properties);
@@ -39,7 +39,7 @@ void Label::initialize(const char* typeName, Theme::Style* style, Properties* pr
 			_text = text;
 		}
 	}
-}
+}*/
 
 const char* Label::getTypeName() const
 {

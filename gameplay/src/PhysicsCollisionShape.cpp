@@ -2,7 +2,6 @@
 #include "PhysicsCollisionShape.h"
 #include "Node.h"
 #include "Image.h"
-#include "Properties.h"
 #include "FileSystem.h"
 #include "HeightField.h"
 #include "Terrain.h"
@@ -127,7 +126,7 @@ bool PhysicsCollisionShape::Definition::isEmpty() const
     return type == SHAPE_NONE;
 }
 
-PhysicsCollisionShape::Definition PhysicsCollisionShape::Definition::create(Node* node, Properties* properties)
+/*PhysicsCollisionShape::Definition PhysicsCollisionShape::Definition::create(Node* node, Properties* properties)
 {
     GP_ASSERT(node);
 
@@ -351,7 +350,7 @@ PhysicsCollisionShape::Definition PhysicsCollisionShape::Definition::create(Node
     }
 
     return shape;
-}
+}*/
 
 PhysicsCollisionShape::Definition PhysicsCollisionShape::box()
 {

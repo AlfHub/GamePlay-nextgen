@@ -60,7 +60,7 @@ Form* Form::create(const char* url)
 {
     Form* form = new Form();
 
-    // Load Form from .form file.
+    /* Load Form from .form file.
     Properties* properties = Properties::create(url);
     if (!properties)
     {
@@ -112,7 +112,7 @@ Form* Form::create(const char* url)
         SAFE_RELEASE(theme);
     }
 
-    SAFE_DELETE(properties);
+    SAFE_DELETE(properties);*/
 
     return form;
 }
@@ -122,11 +122,11 @@ Form* Form::create(const char* id, Theme::Style* style, Layout::Type layoutType)
 	Form* form = new Form();
 	form->_id = id ? id : "";
 	form->_layout = createLayout(layoutType);
-	form->initialize("Form", style, NULL);
+	//form->initialize("Form", style, NULL);
 	return form;
 }
 
-void Form::initialize(const char* typeName, Theme::Style* style, Properties* properties)
+/*void Form::initialize(const char* typeName, Theme::Style* style, Properties* properties)
 {
     Container::initialize(typeName, style, properties);
 
@@ -136,7 +136,7 @@ void Form::initialize(const char* typeName, Theme::Style* style, Properties* pro
     // creation has access to up-to-date bounds.
     if (updateBoundsInternal(Vector2::zero()))
         updateBoundsInternal(Vector2::zero());
-}
+}*/
 
 Form* Form::getForm(const char* id)
 {

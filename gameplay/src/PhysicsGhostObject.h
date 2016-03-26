@@ -64,8 +64,8 @@ protected:
      *      a model attached to it prior to creating a ghost object for it.
      * @param properties The properties object defining the ghost object (must have namespace equal to 'ghost').
      * @return The newly created ghost object, or <code>NULL</code> if the ghost object failed to load.
-     */
-    static PhysicsGhostObject* create(Node* node, Properties* properties);
+     *
+    static PhysicsGhostObject* create(Node* node, Properties* properties);*/
 
     /**
      * Pointer to the Bullet ghost collision object.

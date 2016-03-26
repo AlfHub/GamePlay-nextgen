@@ -169,13 +169,13 @@ protected:
      * @param properties A properties object containing a definition of the joystick.
 	 *
      * @return The new joystick.
-     */
-    static Control* create(Theme::Style* style, Properties* properties = NULL);
+     *
+    static Control* create(Theme::Style* style, Properties* properties = NULL);*/
 
     /**
      * @see Control::initialize
-     */
-    void initialize(const char* typeName, Theme::Style* style, Properties* properties);
+     *
+    void initialize(const char* typeName, Theme::Style* style, Properties* properties);*/
 
     /**
      * Touch callback on touch events.  Controls return true if they consume the touch event.

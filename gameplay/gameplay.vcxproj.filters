@@ -63,9 +63,6 @@
     <ClCompile Include="src\VertexFormat.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\Properties.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="src\Technique.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -402,9 +399,6 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="src\ParticleEmitter.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Properties.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="src\Technique.h">

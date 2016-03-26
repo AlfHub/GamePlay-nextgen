@@ -98,7 +98,6 @@ SOURCES += src/AbsoluteLayout.cpp \
     src/Plane.cpp \
     src/Plane.inl \
     src/Platform.cpp \
-    src/Properties.cpp \
     src/Quaternion.cpp \
     src/Quaternion.inl \
     src/RadioButton.cpp \
@@ -219,7 +218,6 @@ HEADERS += src/AbsoluteLayout.h \
     src/PhysicsVehicleWheel.h \
     src/Plane.h \
     src/Platform.h \
-    src/Properties.h \
     src/Quaternion.h \
     src/RadioButton.h \
     src/Ray.h \

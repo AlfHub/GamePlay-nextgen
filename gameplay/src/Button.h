@@ -5,7 +5,6 @@
 #include "Label.h"
 #include "Touch.h"
 #include "Theme.h"
-#include "Properties.h"
 
 namespace gameplay
 {
@@ -53,13 +52,13 @@ protected:
      * @param properties A properties object containing a definition of the button (optional).
      *
      * @return The new button.
-     */
-    static Control* create(Theme::Style* style, Properties* properties = NULL);
+     *
+    static Control* create(Theme::Style* style, Properties* properties = NULL);*/
 
     /**
      * @see Control::initialize
-     */
-    void initialize(const char* typeName, Theme::Style* style, Properties* properties);
+     *
+    void initialize(const char* typeName, Theme::Style* style, Properties* properties);*/
 
     /**
      * Extends ScriptTarget::getTypeName() to return the type name of this class.

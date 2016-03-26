@@ -18,7 +18,7 @@ PhysicsVehicleWheel::PhysicsVehicleWheel(Node* node)
     findAncestorAndBind();
 }
 
-PhysicsVehicleWheel* PhysicsVehicleWheel::create(Node* node, Properties* properties)
+/*PhysicsVehicleWheel* PhysicsVehicleWheel::create(Node* node, Properties* properties)
 {
     PhysicsVehicleWheel* wheel = new PhysicsVehicleWheel(node);
 
@@ -87,7 +87,7 @@ PhysicsVehicleWheel* PhysicsVehicleWheel::create(Node* node, Properties* propert
     }
 
     return wheel;
-}
+}*/
 
 PhysicsVehicleWheel::~PhysicsVehicleWheel()
 {

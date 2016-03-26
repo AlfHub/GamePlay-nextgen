@@ -4,7 +4,6 @@
 #include "AnimationClip.h"
 #include "Animation.h"
 #include "AnimationTarget.h"
-#include "Properties.h"
 
 namespace gameplay
 {

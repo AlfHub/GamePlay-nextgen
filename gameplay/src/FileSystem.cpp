@@ -1,6 +1,5 @@
 #include "Base.h"
 #include "FileSystem.h"
-#include "Properties.h"
 #include "Stream.h"
 #include "Platform.h"
 
@@ -203,7 +202,7 @@ const char* FileSystem::getResourcePath()
 
 void FileSystem::loadResourceAliases(const char* aliasFilePath)
 {
-    Properties* properties = Properties::create(aliasFilePath);
+    /*Properties* properties = Properties::create(aliasFilePath);
     if (properties)
     {
         Properties* aliases;
@@ -212,10 +211,10 @@ void FileSystem::loadResourceAliases(const char* aliasFilePath)
             loadResourceAliases(aliases);
         }
     }
-    SAFE_DELETE(properties);
+    SAFE_DELETE(properties);*/
 }
 
-void FileSystem::loadResourceAliases(Properties* properties)
+/*void FileSystem::loadResourceAliases(Properties* properties)
 {
     assert(properties);
 
@@ -224,7 +223,7 @@ void FileSystem::loadResourceAliases(Properties* properties)
     {
         __aliases[name] = properties->getString();
     }
-}
+}*/
 
 std::string FileSystem::displayFileDialog(size_t dialogMode, const char* title, const char* filterDescription, const char* filterExtensions, const char* initialDirectory)
 {

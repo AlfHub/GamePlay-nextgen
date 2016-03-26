@@ -25,11 +25,11 @@ Slider* Slider::create(const char* id, Theme::Style* style)
 {
     Slider* slider = new Slider();
     slider->_id = id ? id : "";
-    slider->initialize("Slider", style, NULL);
+    //slider->initialize("Slider", style, NULL);
     return slider;
 }
 
-Control* Slider::create(Theme::Style* style, Properties* properties)
+/*Control* Slider::create(Theme::Style* style, Properties* properties)
 {
     Slider* slider = new Slider();
     slider->initialize("Slider", style, properties);
@@ -57,7 +57,7 @@ void Slider::initialize(const char* typeName, Theme::Style* style, Properties* p
 
     // Force value text to be updated
     setValue(_value);
-}
+}*/
 
 const char* Slider::getTypeName() const
 {

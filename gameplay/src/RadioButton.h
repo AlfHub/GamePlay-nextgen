@@ -3,7 +3,6 @@
 
 #include "Button.h"
 #include "Theme.h"
-#include "Properties.h"
 
 namespace gameplay
 {
@@ -101,13 +100,13 @@ protected:
      * @param properties A properties object containing a definition of the radio button (optional).
      *
      * @return The new radio button.
-     */
-    static Control* create(Theme::Style* style, Properties* properties = NULL);
+     *
+    static Control* create(Theme::Style* style, Properties* properties = NULL);*/
 
     /**
      * @see Control::initialize
-     */
-    void initialize(const char* typeName, Theme::Style* style, Properties* properties);
+     *
+    void initialize(const char* typeName, Theme::Style* style, Properties* properties);*/
 
     /**
      * Keyboard callback on key events.

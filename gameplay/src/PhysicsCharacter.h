@@ -3,7 +3,6 @@
 
 #include "Node.h"
 #include "PhysicsGhostObject.h"
-#include "Properties.h"
 
 namespace gameplay
 {
@@ -224,8 +223,8 @@ private:
      *      a model attached to it prior to creating a physics character for it.
      * @param properties The properties object defining the physics character (must have namespace equal to 'character').
      * @return The newly created physics character, or <code>NULL</code> if the physics character failed to load.
-     */
-    static PhysicsCharacter* create(Node* node, Properties* properties);
+     *
+    static PhysicsCharacter* create(Node* node, Properties* properties);*/
 
     void updateCurrentVelocity();
 

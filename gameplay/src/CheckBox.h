@@ -2,7 +2,6 @@
 #define CHECKBOX_H_
 
 #include "Theme.h"
-#include "Properties.h"
 #include "Touch.h"
 #include "Button.h"
 
@@ -89,13 +88,13 @@ protected:
      * @param properties A properties object containing a definition of the checkbox (optional).
      *
      * @return The new checkbox.
-     */
-    static Control* create(Theme::Style* style, Properties* properties = NULL);
+     *
+    static Control* create(Theme::Style* style, Properties* properties = NULL);*/
 
     /**
     * @see Control::initialize
-    */
-    void initialize(const char* typeName, Theme::Style* style, Properties* properties);
+    *
+    void initialize(const char* typeName, Theme::Style* style, Properties* properties);*/
 
     /**
      * Keyboard callback on key events.

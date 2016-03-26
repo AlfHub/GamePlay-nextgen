@@ -17,11 +17,11 @@ TextBox* TextBox::create(const char* id, Theme::Style* style)
 {
     TextBox* textBox = new TextBox();
     textBox->_id = id ? id : "";
-    textBox->initialize("TextBox", style, NULL);
+    //textBox->initialize("TextBox", style, NULL);
     return textBox;
 }
 
-Control* TextBox::create(Theme::Style* style, Properties* properties)
+/*Control* TextBox::create(Theme::Style* style, Properties* properties)
 {
     TextBox* textBox = new TextBox();
     textBox->initialize("TextBox", style, properties);
@@ -36,7 +36,7 @@ void TextBox::initialize(const char* typeName, Theme::Style* style, Properties* 
 	{
 		_inputMode = getInputMode(properties->getString("inputMode"));
 	}
-}
+}*/
 
 const char* TextBox::getTypeName() const
 {

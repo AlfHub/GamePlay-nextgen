@@ -5,7 +5,6 @@
 #include "Transform.h"
 #include "Frustum.h"
 #include "Rectangle.h"
-#include "Properties.h"
 
 namespace gameplay
 {
@@ -83,8 +82,8 @@ public:
      * @param properties The properties definition of the Camera.
      *
      * @return The new Camera.
-     */
-    static Camera* create(Properties* properties);
+     *
+    static Camera* create(Properties* properties);*/
 
     /**
      * Gets the type of camera.

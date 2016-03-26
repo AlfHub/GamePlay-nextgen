@@ -6,7 +6,6 @@
 namespace gameplay 
 {	
 
-class Properties;
 class Control;
 
 /**
@@ -24,7 +23,7 @@ public:
 	/**
 	 * The activator interface for controls that are created.
 	 */
-	typedef Control* (*ControlActivator)(Theme::Style*, Properties*);
+	typedef Control* (*ControlActivator)(Theme::Style*, const char*);
 
 	/**
 	 * Gets the single instance of the control factory used to create controls and register/unregister custom controls.
@@ -84,8 +83,8 @@ private:
 	* @param style The style to apply to the control.
 	* @param properties A Properties object describing the control (optional).
 	* @return The new control.
-	*/
-    Control* createControl(const char* typeName, Theme::Style *style, Properties *properties = NULL);
+	*
+    Control* createControl(const char* typeName, Theme::Style *style, Properties *properties = NULL);*/
 
     /**
 	 * Registers the standard (built-in) controls

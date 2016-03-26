@@ -72,8 +72,8 @@ public:
      * @param animationProperties The properties object defining the animation data.
      *
      * @return The newly created animation.
-     */
-    Animation* createAnimation(const char* id, Properties* animationProperties);
+     *
+    Animation* createAnimation(const char* id, Properties* animationProperties);*/
 
     /**
      * Creates a simple two keyframe from-to animation.

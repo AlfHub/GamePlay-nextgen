@@ -62,7 +62,7 @@ public:
 Game::Game()
     : _initialized(false), _state(UNINITIALIZED), _pausedCount(0),
       _frameLastFPS(0), _frameCount(0), _frameRate(0), _width(0), _height(0),
-      _clearDepth(1.0f), _clearStencil(0), _properties(NULL),
+      _clearDepth(1.0f), _clearStencil(0), //_properties(NULL),
       _animationController(NULL), _audioController(NULL),
       _physicsController(NULL), _aiController(NULL), _audioListener(NULL),
       _timeEvents(NULL), _scriptController(NULL), _scriptTarget(NULL)
@@ -140,7 +140,7 @@ int Game::run()
     if (_state != UNINITIALIZED)
         return -1;
 
-    loadConfig();
+    //loadConfig();
 
     _width = Platform::getDisplayWidth();
     _height = Platform::getDisplayHeight();
@@ -182,7 +182,7 @@ bool Game::startup()
     // Load any gamepads, ui or physical.
     loadGamepads();
 
-    // Set script handler
+    /* Set script handler
     if (_properties)
     {
         const char* scriptPath = _properties->getString("script");
@@ -220,7 +220,7 @@ bool Game::startup()
                 GP_REG_GAME_SCRIPT_CB(gamepadEvent);
             }
         }
-    }
+    }*/
 
     _state = RUNNING;
 
@@ -282,7 +282,7 @@ void Game::shutdown()
         FrameBuffer::finalize();
         RenderState::finalize();
 
-        SAFE_DELETE(_properties);
+        //SAFE_DELETE(_properties);
 
 		_state = UNINITIALIZED;
     }
@@ -755,7 +755,7 @@ bool Game::TimeEvent::operator<(const TimeEvent& v) const
     return time > v.time;
 }
 
-Properties* Game::getConfig() const
+/*Properties* Game::getConfig() const
 {
     if (_properties == NULL)
         const_cast<Game*>(this)->loadConfig();
@@ -785,11 +785,11 @@ void Game::loadConfig()
             _properties = new Properties();
         }
     }
-}
+}*/
 
 void Game::loadGamepads()
 {
-    // Load virtual gamepads.
+    /* Load virtual gamepads.
     if (_properties)
     {
         // Check if there are any virtual gamepads included in the .config file.
@@ -814,7 +814,7 @@ void Game::loadGamepads()
 
             inner = _properties->getNextNamespace();
         }
-    }
+    }*/
 }
 
 void Game::ShutdownListener::timeEvent(long timeDiff, void* cookie)

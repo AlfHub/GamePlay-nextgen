@@ -4,7 +4,6 @@
 #include "Effect.h"
 #include "Technique.h"
 #include "Pass.h"
-#include "Properties.h"
 #include "Node.h"
 
 namespace gameplay
@@ -32,7 +31,7 @@ Material* Material::create(const char* url)
 
 Material* Material::create(const char* url, PassCallback callback, void* cookie)
 {
-    // Load the material properties from file.
+    /* Load the material properties from file.
     Properties* properties = Properties::create(url);
     if (properties == NULL)
     {
@@ -43,10 +42,11 @@ Material* Material::create(const char* url, PassCallback callback, void* cookie)
     Material* material = create((strlen(properties->getNamespace()) > 0) ? properties : properties->getNextNamespace(), callback, cookie);
     SAFE_DELETE(properties);
 
-    return material;
+    return material;*/
+    return NULL;
 }
 
-Material* Material::create(Properties* materialProperties)
+/*Material* Material::create(Properties* materialProperties)
 {
     return create(materialProperties, (PassCallback)NULL, NULL);
 }
@@ -91,7 +91,7 @@ Material* Material::create(Properties* materialProperties, PassCallback callback
         }
     }
     return material;
-}
+}*/
 
 Material* Material::create(Effect* effect)
 {
@@ -209,7 +209,7 @@ Material* Material::clone(NodeCloneContext &context) const
     return material;
 }
 
-bool Material::loadTechnique(Material* material, Properties* techniqueProperties, PassCallback callback, void* cookie)
+/*bool Material::loadTechnique(Material* material, Properties* techniqueProperties, PassCallback callback, void* cookie)
 {
     GP_ASSERT(material);
     GP_ASSERT(techniqueProperties);
@@ -286,7 +286,7 @@ bool Material::loadPass(Technique* technique, Properties* passProperties, PassCa
     technique->_passes.push_back(pass);
 
     return true;
-}
+}*/
 
 static bool isMaterialKeyword(const char* str)
 {
@@ -369,7 +369,7 @@ static Texture::Wrap parseTextureWrapMode(const char* str, Texture::Wrap default
     }
 }
 
-void Material::loadRenderState(RenderState* renderState, Properties* properties)
+/*void Material::loadRenderState(RenderState* renderState, Properties* properties)
 {
     GP_ASSERT(renderState);
     GP_ASSERT(properties);
@@ -490,6 +490,6 @@ void Material::loadRenderState(RenderState* renderState, Properties* properties)
             }
         }
     }
-}
+}*/
 
 }

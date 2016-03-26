@@ -78,11 +78,11 @@ Container* Container::create(const char* id, Theme::Style* style, Layout::Type l
     Container* container = new Container();
     container->_id = id ? id : "";
     container->_layout = createLayout(layout);
-    container->initialize("Container", style, NULL);
+    //container->initialize("Container", style, NULL);
     return container;
 }
 
-Control* Container::create(Theme::Style* style, Properties* properties)
+/*Control* Container::create(Theme::Style* style, Properties* properties)
 {
     Container* container = new Container();
     container->initialize("Container", style, properties);
@@ -176,7 +176,7 @@ void Container::addControls(Properties* properties)
 
     // Sort controls by Z-Order.
     sortControls();
-}
+}*/
 
 const char* Container::getTypeName() const
 {

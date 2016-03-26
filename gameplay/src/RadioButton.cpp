@@ -23,17 +23,17 @@ RadioButton* RadioButton::create(const char* id, Theme::Style* style)
 {
     RadioButton* rb = new RadioButton();
     rb->_id = id ? id : "";
-    rb->initialize("RadioButton", style, NULL);
+    //rb->initialize("RadioButton", style, NULL);
 
     __radioButtons.push_back(rb);
 
     return rb;
 }
 
-Control* RadioButton::create(Theme::Style* style, Properties* properties)
+/*Control* RadioButton::create(Theme::Style* style, Properties* properties)
 {
     RadioButton* rb = new RadioButton();
-    rb->initialize("RadioButton", style, properties);
+    //rb->initialize("RadioButton", style, properties);
 
     __radioButtons.push_back(rb);
 
@@ -58,7 +58,7 @@ void RadioButton::initialize(const char* typeName, Theme::Style* style, Properti
             _groupId = groupId;
         }
     }
-}
+}*/
 
 const char* RadioButton::getTypeName() const
 {

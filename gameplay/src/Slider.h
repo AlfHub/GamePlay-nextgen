@@ -3,7 +3,6 @@
 
 #include "Base.h"
 #include "Theme.h"
-#include "Properties.h"
 #include "Button.h"
 #include "Touch.h"
 
@@ -176,13 +175,13 @@ protected:
      * @param properties A properties object containing a definition of the slider (optional).
      *
      * @return The new slider.
-     */
-    static Control* create(Theme::Style* style, Properties* properties = NULL);
+     *
+    static Control* create(Theme::Style* style, Properties* properties = NULL);*/
 
     /**
      * @see Control::initialize
-     */
-    void initialize(const char* typeName, Theme::Style* style, Properties* properties);
+     *
+    void initialize(const char* typeName, Theme::Style* style, Properties* properties);*/
 
     /**
      * @see Control::KeyEvent

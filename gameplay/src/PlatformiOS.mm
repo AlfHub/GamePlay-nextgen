@@ -264,7 +264,8 @@ int getUnicode(int key);
     
     NSLog(@"width: %d, height: %d", framebufferWidth, framebufferHeight);
     
-    // If multisampling is enabled in config, create and setup a multisample buffer
+    int samples = 0;
+    /* If multisampling is enabled in config, create and setup a multisample buffer
     Properties* config = Game::getInstance()->getConfig()->getNamespace("window", true);
     int samples = config ? config->getInt("samples") : 0;
     if (samples < 0)
@@ -310,7 +311,7 @@ int getUnicode(int key);
             GL_ASSERT( glDeleteFramebuffers(1, &multisampleFramebuffer) );
             multisampleFramebuffer = multisampleRenderbuffer = multisampleDepthbuffer = 0;
         }
-    }
+    }*/
     
     // Create default depth buffer and attach to the frame buffer.
     // Note: If we are using multisample buffers, we can skip depth buffer creation here since we only

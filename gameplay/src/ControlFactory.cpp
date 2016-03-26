@@ -64,7 +64,7 @@ void ControlFactory::unregisterCustomControl(const char* typeName)
 	}
 }
 
-Control *ControlFactory::createControl(const char* typeName, Theme::Style* style, Properties* properties)
+/*Control *ControlFactory::createControl(const char* typeName, Theme::Style* style, Properties* properties)
 {
     std::string upper(typeName);
     std::transform(upper.begin(), upper.end(), upper.begin(), (int(*)(int))toupper);
@@ -74,11 +74,11 @@ Control *ControlFactory::createControl(const char* typeName, Theme::Style* style
 		return NULL;
 
     return (*it->second)(style, properties);
-}
+}*/
 
 void ControlFactory::registerStandardControls() 
 {
-    registerCustomControl("LABEL", &Label::create);
+    /*registerCustomControl("LABEL", &Label::create);
     registerCustomControl("BUTTON", &Button::create);
     registerCustomControl("CHECKBOX", &CheckBox::create);
     registerCustomControl("RADIOBUTTON", &RadioButton::create);
@@ -88,7 +88,7 @@ void ControlFactory::registerStandardControls()
     registerCustomControl("JOYSTICK", &JoystickControl::create); // convenience alias
     registerCustomControl("JOYSTICKCONTROL", &JoystickControl::create);
     registerCustomControl("IMAGE", &ImageControl::create);  // convenience alias
-    registerCustomControl("IMAGECONTROL", &ImageControl::create);
+    registerCustomControl("IMAGECONTROL", &ImageControl::create);*/
 }
 
 }

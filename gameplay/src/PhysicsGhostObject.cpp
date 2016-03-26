@@ -44,7 +44,7 @@ PhysicsGhostObject::~PhysicsGhostObject()
     SAFE_DELETE(_ghostObject);
 }
 
-PhysicsGhostObject* PhysicsGhostObject::create(Node* node, Properties* properties)
+/*PhysicsGhostObject* PhysicsGhostObject::create(Node* node, Properties* properties)
 {
     // Check if the properties is valid and has a valid namespace.
     if (!properties || !(strcmp(properties->getNamespace(), "collisionObject") == 0))
@@ -78,7 +78,7 @@ PhysicsGhostObject* PhysicsGhostObject::create(Node* node, Properties* propertie
     PhysicsGhostObject* ghost = new PhysicsGhostObject(node, shape);
 
     return ghost;
-}
+}*/
 
 PhysicsCollisionObject::Type PhysicsGhostObject::getType() const
 {

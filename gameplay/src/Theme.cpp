@@ -61,14 +61,14 @@ Theme* Theme::getDefault()
 {
 	if (!__defaultTheme)
 	{
-		// Check game.config for a default theme setting
+		/* Check game.config for a default theme setting
 		Properties* config = Game::getInstance()->getConfig()->getNamespace("ui", true);
 		if (config)
 		{
 			const char* defaultTheme = config->getString("theme");
 			if (defaultTheme && FileSystem::fileExists(defaultTheme))
 				__defaultTheme = Theme::create(defaultTheme);
-		}
+		}*/
 
         if (!__defaultTheme)
         {
@@ -99,7 +99,7 @@ Theme* Theme::create(const char* url)
 {
     GP_ASSERT(url);
 
-    // Search theme cache first.
+    /* Search theme cache first.
     for (size_t i = 0, count = __themeCache.size(); i < count; ++i)
     {
         Theme* t = __themeCache[i];
@@ -499,7 +499,8 @@ Theme* Theme::create(const char* url)
 
     SAFE_DELETE(properties);
 
-    return theme;
+    return theme;*/
+    return NULL;
 }
 
 Theme::Style* Theme::getStyle(const char* name) const
@@ -594,7 +595,7 @@ Theme::ThemeImage::~ThemeImage()
 {
 }
 
-Theme::ThemeImage* Theme::ThemeImage::create(float tw, float th, Properties* properties, const Vector4& defaultColor)
+/*Theme::ThemeImage* Theme::ThemeImage::create(float tw, float th, Properties* properties, const Vector4& defaultColor)
 {
     GP_ASSERT(properties);
 
@@ -620,7 +621,7 @@ Theme::ThemeImage* Theme::ThemeImage::create(float tw, float th, Properties* pro
     }
 
     return image;
-}
+}*/
 
 const char* Theme::ThemeImage::getId() const
 {
@@ -671,7 +672,7 @@ Theme::ImageList::~ImageList()
     }
 }
 
-Theme::ImageList* Theme::ImageList::create(float tw, float th, Properties* properties)
+/*Theme::ImageList* Theme::ImageList::create(float tw, float th, Properties* properties)
 {
     GP_ASSERT(properties);
 
@@ -699,7 +700,7 @@ Theme::ImageList* Theme::ImageList::create(float tw, float th, Properties* prope
     }
 
     return imageList;
-}
+}*/
 
 const char* Theme::ImageList::getId() const
 {
@@ -846,7 +847,7 @@ void Theme::generateUVs(float tw, float th, float x, float y, float width, float
     uvs->v2 = 1.0f - ((y + height) * th);
 }
 
-void Theme::lookUpSprites(const Properties* overlaySpace, ImageList** imageList, ThemeImage** cursor, Skin** skin)
+/*void Theme::lookUpSprites(const Properties* overlaySpace, ImageList** imageList, ThemeImage** cursor, Skin** skin)
 {
     GP_ASSERT(overlaySpace);
 
@@ -897,6 +898,6 @@ void Theme::lookUpSprites(const Properties* overlaySpace, ImageList** imageList,
             }
         }
     }
-}
+}*/
 
 }

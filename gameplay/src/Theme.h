@@ -6,7 +6,6 @@
 #include "Font.h"
 #include "Rectangle.h"
 #include "Texture.h"
-#include "Properties.h"
 
 namespace gameplay
 {
@@ -182,7 +181,7 @@ public:
 
         ~ThemeImage();
 
-        static ThemeImage* create(float tw, float th, Properties* properties, const Vector4& defaultColor);
+        /*static ThemeImage* create(float tw, float th, Properties* properties, const Vector4& defaultColor);*/
 
         std::string _id;
         UVs _uvs;
@@ -265,7 +264,7 @@ private:
          */
         ImageList& operator=(const ImageList&);
 
-        static ImageList* create(float tw, float th, Properties* properties);
+        /*static ImageList* create(float tw, float th, Properties* properties);*/
 
         std::string _id;
         std::vector<ThemeImage*> _images;
@@ -375,7 +374,7 @@ private:
 
     static void generateUVs(float tw, float th, float x, float y, float width, float height, UVs* uvs);
 
-    void lookUpSprites(const Properties* overlaySpace, ImageList** imageList, ThemeImage** mouseCursor, Skin** skin);
+    /*void lookUpSprites(const Properties* overlaySpace, ImageList** imageList, ThemeImage** mouseCursor, Skin** skin);*/
 
     std::string _url;
     Texture* _texture;

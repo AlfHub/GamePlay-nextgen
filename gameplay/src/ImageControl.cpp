@@ -19,11 +19,11 @@ ImageControl* ImageControl::create(const char* id, Theme::Style* style)
 {
     ImageControl* imageControl = new ImageControl();
     imageControl->_id = id ? id : "";
-    imageControl->initialize("Image", style, NULL);
+    //imageControl->initialize("Image", style, NULL);
     return imageControl;
 }
 
-Control* ImageControl::create(Theme::Style* style, Properties* properties)
+/*Control* ImageControl::create(Theme::Style* style, Properties* properties)
 {
     ImageControl* imageControl = new ImageControl();
     imageControl->initialize("Image", style, properties);
@@ -56,7 +56,7 @@ void ImageControl::initialize(const char* typeName, Theme::Style* style, Propert
 			setRegionDst(region.x, region.y, region.z, region.w);
 		}
 	}
-}
+}*/
 
 const char* ImageControl::getTypeName() const
 {

@@ -30,16 +30,16 @@ JoystickControl* JoystickControl::create(const char* id, Theme::Style* style)
 {
     JoystickControl* joystickControl = new JoystickControl();
     joystickControl->_id = id ? id : "";
-    joystickControl->initialize("Joystick", style, NULL);
+    //joystickControl->initialize("Joystick", style, NULL);
     return joystickControl;
 }
 
-Control* JoystickControl::create(Theme::Style* style, Properties* properties)
+/*Control* JoystickControl::create(Theme::Style* style, Properties* properties)
 {
     JoystickControl* joystickControl = new JoystickControl();
     joystickControl->initialize("Joystick", style, properties);
     return joystickControl;
-}
+}*/
 
 const char* JoystickControl::getTypeName() const
 {
@@ -159,7 +159,7 @@ bool JoystickControl::isRadiusPercentage() const
     return _boundsBits & BOUNDS_RADIUS_PERCENTAGE_BIT;
 }
 
-void JoystickControl::initialize(const char* typeName, Theme::Style* style, Properties* properties)
+/*void JoystickControl::initialize(const char* typeName, Theme::Style* style, Properties* properties)
 {
     Control::initialize(typeName, style, properties);
 
@@ -207,7 +207,7 @@ void JoystickControl::initialize(const char* typeName, Theme::Style* style, Prop
     }
 
     _index = properties->getInt("index");
-}
+}*/
 
 void JoystickControl::updateAbsoluteBounds(const Vector2& offset)
 {

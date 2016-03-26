@@ -54,7 +54,7 @@ Control::AutoSize Control::parseAutoSize(const char* str)
     return _autoSize;
 }
 
-void Control::initialize(const char* typeName, Theme::Style* style, Properties* properties)
+/*void Control::initialize(const char* typeName, Theme::Style* style, Properties* properties)
 {
     // Load our theme style
     if (properties)
@@ -237,7 +237,7 @@ void Control::initialize(const char* typeName, Theme::Style* style, Properties* 
 			innerSpace = properties->getNextNamespace();
 		}
 	}
-}
+}*/
 
 const char* Control::getTypeName() const
 {
@@ -1670,7 +1670,7 @@ void Control::overrideStyle()
     _styleOverridden = true;
 }
 
-void Control::overrideThemedProperties(Properties* properties, unsigned char states)
+/*void Control::overrideThemedProperties(Properties* properties, unsigned char states)
 {
     GP_ASSERT(properties);
     GP_ASSERT(_style);
@@ -1728,7 +1728,7 @@ void Control::overrideThemedProperties(Properties* properties, unsigned char sta
     {
         setOpacity(properties->getFloat("opacity"), states);
     }
-}
+}*/
 
 void Control::setImageList(Theme::ImageList* imageList, unsigned char states)
 {

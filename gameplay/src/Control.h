@@ -1276,8 +1276,8 @@ protected:
      * @param typeName The type name of the control being initalized.
      * @param style The style to apply to this control (optional).
      * @param properties The properties to set on this control (optional).
-     */
-    virtual void initialize(const char* typeName, Theme::Style* style, Properties* properties);
+     *
+    virtual void initialize(const char* typeName, Theme::Style* style, Properties* properties);*/
 
     /**
      * Get a Control::State enum from a matching string.
@@ -1492,7 +1492,7 @@ private:
 
     void overrideStyle();
 
-    void overrideThemedProperties(Properties* properties, unsigned char states);
+    /*void overrideThemedProperties(Properties* properties, unsigned char states);*/
 
     void setImageList(Theme::ImageList* imageList, unsigned char states = STATE_ALL);
 

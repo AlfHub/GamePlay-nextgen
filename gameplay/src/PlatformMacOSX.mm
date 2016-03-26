@@ -824,10 +824,12 @@ static CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink, const CVTime
 {
     _game = Game::getInstance();
     
-    Properties* config = _game->getConfig()->getNamespace("window", true);
+    int samples = 0;
+    /*Properties* config = _game->getConfig()->getNamespace("window", true);
     int samples = config ? config->getInt("samples") : 0;
     if (samples < 0)
         samples = 0;
+     */
     
     // Note: Keep multisampling attributes at the start of the attribute lists since code below
     // assumes they are array elements 0 through 4.
@@ -1673,7 +1675,7 @@ int Platform::enterMessagePump()
     NSString* path = [bundlePath stringByAppendingString:@"/Contents/Resources/"];
     FileSystem::setResourcePath([path cStringUsingEncoding:NSASCIIStringEncoding]);
     
-    // Read window settings from config.
+    /* Read window settings from config.
     if (_game->getConfig())
     {
         Properties* config = _game->getConfig()->getNamespace("window", true);
@@ -1702,7 +1704,7 @@ int Platform::enterMessagePump()
             // Read resizable state.
             __resizable = config->getBool("resizable");
         }
-    }
+    }*/
 
     NSAutoreleasePool* pool = [NSAutoreleasePool new];
     NSApplication* app = [NSApplication sharedApplication];

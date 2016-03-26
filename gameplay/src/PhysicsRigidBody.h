@@ -423,8 +423,8 @@ private:
      * @param properties The properties object defining the rigid body.
      * @param nspace The namespace expected (default is "RIGID_BODY").
      * @return The newly created rigid body, or <code>NULL</code> if the rigid body failed to load.
-     */
-    static PhysicsRigidBody* create(Node* node, Properties* properties, const char* nspace = "RIGID_BODY");
+     *
+    static PhysicsRigidBody* create(Node* node, Properties* properties, const char* nspace = "RIGID_BODY");*/
 
     // Adds a constraint to this rigid body.
     void addConstraint(PhysicsConstraint* constraint);

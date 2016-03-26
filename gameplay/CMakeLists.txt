@@ -165,8 +165,6 @@ set(GAMEPLAY_SRC
     src/PlatformAndroid.cpp
     src/PlatformLinux.cpp
     src/PlatformWindows.cpp
-    src/Properties.cpp
-    src/Properties.h
     src/Quaternion.cpp
     src/Quaternion.h
     src/Quaternion.inl

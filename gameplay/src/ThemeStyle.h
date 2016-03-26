@@ -6,7 +6,6 @@
 #include "Font.h"
 #include "Rectangle.h"
 #include "Texture.h"
-#include "Properties.h"
 #include "Theme.h"
 
 namespace gameplay

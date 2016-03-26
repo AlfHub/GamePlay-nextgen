@@ -13,9 +13,8 @@
 namespace gameplay
 {
 
-// Utility functions (shared with Properties).
-extern void calculateNamespacePath(const std::string& urlString, std::string& fileString, std::vector<std::string>& namespacePath);
-extern Properties* getPropertiesFromNamespacePath(Properties* properties, const std::vector<std::string>& namespacePath);
+/*extern void calculateNamespacePath(const std::string& urlString, std::string& fileString, std::vector<std::string>& namespacePath);
+extern Properties* getPropertiesFromNamespacePath(Properties* properties, const std::vector<std::string>& namespacePath);*/
 
 SceneLoader::SceneLoader() : _scene(NULL)
 {
@@ -23,11 +22,12 @@ SceneLoader::SceneLoader() : _scene(NULL)
 
 Scene* SceneLoader::load(const char* url)
 {
-    SceneLoader loader;
-    return loader.loadInternal(url);
+    /*SceneLoader loader;
+    return loader.loadInternal(url);*/
+    return NULL;
 }
 
-Scene* SceneLoader::loadInternal(const char* url)
+/*Scene* SceneLoader::loadInternal(const char* url)
 {
     // Get the file part of the url that we are loading the scene from.
     std::string urlStr = url ? url : "";
@@ -154,7 +154,7 @@ Scene* SceneLoader::loadInternal(const char* url)
     SAFE_DELETE(properties);
 
     return _scene;
-}
+}*/
 
 void SceneLoader::applyTags(SceneNode& sceneNode)
 {
@@ -174,7 +174,7 @@ void SceneLoader::applyTags(SceneNode& sceneNode)
 
 void SceneLoader::addSceneAnimation(const char* animationID, const char* targetID, const char* url)
 {
-    std::string urlStr = url ? url : "";
+    /*std::string urlStr = url ? url : "";
 
     // If there is a file that needs to be loaded later, add an 
     // empty entry to the properties table to signify it.
@@ -182,11 +182,12 @@ void SceneLoader::addSceneAnimation(const char* animationID, const char* targetI
         _properties[urlStr] = NULL;
 
     // Add the animation to the list of animations to be resolved later.
-    _animations.push_back(SceneAnimation(animationID, targetID, urlStr));
+    _animations.push_back(SceneAnimation(animationID, targetID, urlStr));*/
 }
 
 void SceneLoader::addSceneNodeProperty(SceneNode& sceneNode, SceneNodeProperty::Type type, const char* value, bool supportsUrl, int index)
 {
+    /*
     bool isUrl = false;
 
     std::string str = value ? value : "";
@@ -216,9 +217,10 @@ void SceneLoader::addSceneNodeProperty(SceneNode& sceneNode, SceneNodeProperty::
 
     // Add the node property to the list of node properties to be resolved later.
     sceneNode._properties.push_back(prop);
+     */
 }
 
-void SceneLoader::applyNodeProperties(const Properties* sceneProperties, unsigned int typeFlags)
+/*void SceneLoader::applyNodeProperties(const Properties* sceneProperties, unsigned int typeFlags)
 {
     for (size_t i = 0, count = _sceneNodes.size(); i < count; ++i)
     {
@@ -448,7 +450,7 @@ void SceneLoader::applyNodeProperty(SceneNode& sceneNode, Node* node, const Prop
             break;
         }
     }
-}
+}*/
 
 void SceneLoader::applyNodeUrls()
 {
@@ -620,7 +622,7 @@ void SceneLoader::applyNodeUrls(SceneNode& sceneNode, Node* parent)
     }
 }
 
-void SceneLoader::buildReferenceTables(Properties* sceneProperties)
+/*void SceneLoader::buildReferenceTables(Properties* sceneProperties)
 {
     // Go through the child namespaces of the scene.
     Properties* ns;
@@ -865,11 +867,11 @@ void SceneLoader::parseNode(Properties* ns, SceneNode* parent, const std::string
             GP_ERROR("Unsupported node property: %s = %s", name, ns->getString());
         }
     }
-}
+}*/
 
 void SceneLoader::createAnimations()
 {
-    // Create the scene animations.
+    /* Create the scene animations.
     for (size_t i = 0, count = _animations.size(); i < count; i++)
     {
         // If the target node doesn't exist in the scene, then we
@@ -890,10 +892,10 @@ void SceneLoader::createAnimations()
         }
 
         node->createAnimation(_animations[i]._animationID, p);
-    }
+    }*/
 }
 
-PhysicsConstraint* SceneLoader::loadGenericConstraint(const Properties* constraint, PhysicsRigidBody* rbA, PhysicsRigidBody* rbB)
+/*PhysicsConstraint* SceneLoader::loadGenericConstraint(const Properties* constraint, PhysicsRigidBody* rbA, PhysicsRigidBody* rbB)
 {
     GP_ASSERT(rbA);
     GP_ASSERT(constraint);
@@ -1128,11 +1130,11 @@ void SceneLoader::loadPhysics(Properties* physics)
             GP_ERROR("Unsupported 'physics' child namespace '%s'.", physics->getNamespace());
         }
     }
-}
+}*/
 
 void SceneLoader::loadReferencedFiles()
 {
-    // Load all referenced properties files.
+    /* Load all referenced properties files.
     std::map<std::string, Properties*>::iterator iter = _properties.begin();
     for (; iter != _properties.end(); ++iter)
     {
@@ -1170,10 +1172,10 @@ void SceneLoader::loadReferencedFiles()
             }
             iter->second = p;
         }
-    }
+    }*/
 }
 
-PhysicsConstraint* SceneLoader::loadSocketConstraint(const Properties* constraint, PhysicsRigidBody* rbA, PhysicsRigidBody* rbB)
+/*PhysicsConstraint* SceneLoader::loadSocketConstraint(const Properties* constraint, PhysicsRigidBody* rbA, PhysicsRigidBody* rbB)
 {
     GP_ASSERT(rbA);
     GP_ASSERT(constraint);
@@ -1273,7 +1275,7 @@ PhysicsConstraint* SceneLoader::loadSpringConstraint(const Properties* constrain
         physicsConstraint->setLinearStrengthZ(constraint->getFloat("linearStrengthZ"));
 
     return physicsConstraint;
-}
+}*/
 
 void splitURL(const std::string& url, std::string* file, std::string* id)
 {
@@ -1314,7 +1316,7 @@ void splitURL(const std::string& url, std::string* file, std::string* id)
 }
 
 SceneLoader::SceneNode::SceneNode()
-    : _nodeID(""), _exactMatch(true), _namespace(NULL)
+    : _nodeID(""), _exactMatch(true)//, _namespace(NULL)
 {
 }
 

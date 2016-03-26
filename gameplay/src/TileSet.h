@@ -3,7 +3,6 @@
 
 #include "Ref.h"
 #include "Drawable.h"
-#include "Properties.h"
 #include "Vector2.h"
 #include "Vector4.h"
 #include "SpriteBatch.h"
@@ -52,8 +51,8 @@ public:
      *
      * @param properties The properties object to load from.
      * @return The tile set created.
-     */
-    static TileSet* create(Properties* properties);
+     *
+    static TileSet* create(Properties* properties);*/
     
     /**
      * Sets the tile source location for the specified column and row.

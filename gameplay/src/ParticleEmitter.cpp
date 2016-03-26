@@ -4,7 +4,6 @@
 #include "Node.h"
 #include "Scene.h"
 #include "Quaternion.h"
-#include "Properties.h"
 
 #define PARTICLE_COUNT_MAX                       100
 #define PARTICLE_EMISSION_RATE                   10
@@ -71,7 +70,7 @@ ParticleEmitter* ParticleEmitter::create(Texture* texture, BlendMode blendMode, 
 
 ParticleEmitter* ParticleEmitter::create(const char* url)
 {
-    Properties* properties = Properties::create(url);
+    /*Properties* properties = Properties::create(url);
     if (!properties)
     {
         GP_ERROR("Failed to create particle emitter from file.");
@@ -81,10 +80,11 @@ ParticleEmitter* ParticleEmitter::create(const char* url)
     ParticleEmitter* particle = create((strlen(properties->getNamespace()) > 0) ? properties : properties->getNextNamespace());
     SAFE_DELETE(properties);
 
-    return particle;
+    return particle;*/
+    return NULL;
 }
 
-ParticleEmitter* ParticleEmitter::create(Properties* properties)
+/*ParticleEmitter* ParticleEmitter::create(Properties* properties)
 {
     if (!properties || strcmp(properties->getNamespace(), "particle") != 0)
     {
@@ -201,7 +201,7 @@ ParticleEmitter* ParticleEmitter::create(Properties* properties)
     emitter->setOrbit(orbitPosition, orbitVelocity, orbitAcceleration);
 
     return emitter;
-}
+}*/
 
 void ParticleEmitter::setTexture(const char* texturePath, BlendMode blendMode)
 {

@@ -18,11 +18,11 @@ CheckBox* CheckBox::create(const char* id, Theme::Style* style)
 {
     CheckBox* cb = new CheckBox();
     cb->_id = id ? id : "";
-    cb->initialize("CheckBox", style, NULL);
+    //cb->initialize("CheckBox", style, NULL);
     return cb;
 }
 
-Control* CheckBox::create(Theme::Style* style, Properties* properties)
+/*Control* CheckBox::create(Theme::Style* style, Properties* properties)
 {
     CheckBox* cb = new CheckBox();
     cb->initialize("CheckBox", style, properties);
@@ -37,7 +37,7 @@ void CheckBox::initialize(const char* typeName, Theme::Style* style, Properties*
     {
         _checked = properties->getBool("checked");
     }
-}
+}*/
 
 const char* CheckBox::getTypeName() const
 {

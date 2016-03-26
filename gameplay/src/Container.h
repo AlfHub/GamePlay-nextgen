@@ -323,13 +323,13 @@ protected:
      * @param properties A properties object containing a definition of the container and its nested controls (optional).
      *
      * @return The new container.
-     */
-    static Control* create(Theme::Style* style, Properties* properties = NULL);
+     *
+    static Control* create(Theme::Style* style, Properties* properties = NULL);*/
 
     /**
      * @see Control::initialize
-     */
-    void initialize(const char* typeName, Theme::Style* style, Properties* properties);
+     *
+    void initialize(const char* typeName, Theme::Style* style, Properties* properties);*/
 
     /**
      * @see Control::update
@@ -384,8 +384,8 @@ protected:
      * Adds controls nested within a properties object to this container.
      *
      * @param properties The properties to use.
-     */
-    void addControls(Properties* properties);
+     *
+    void addControls(Properties* properties);*/
 
     /**
      * @see Control::draw

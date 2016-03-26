@@ -97,7 +97,7 @@ PhysicsVehicle::PhysicsVehicle(Node* node, PhysicsRigidBody* rigidBody)
     initialize();
 }
 
-PhysicsVehicle* PhysicsVehicle::create(Node* node, Properties* properties)
+/*PhysicsVehicle* PhysicsVehicle::create(Node* node, Properties* properties)
 {
     // Note that the constructor for PhysicsRigidBody calls addCollisionObject and so
     // that is where the rigid body gets added to the dynamics world.
@@ -164,7 +164,7 @@ PhysicsVehicle* PhysicsVehicle::create(Node* node, Properties* properties)
     }
 
     return vehicle;
-}
+}*/
 
 void PhysicsVehicle::initialize()
 {

@@ -1106,7 +1106,7 @@ PhysicsCollisionObject* Node::setCollisionObject(PhysicsCollisionObject::Type ty
 
 PhysicsCollisionObject* Node::setCollisionObject(const char* url)
 {
-    // Load the collision object properties from file.
+    /* Load the collision object properties from file.
     Properties* properties = Properties::create(url);
     if (properties == NULL)
     {
@@ -1117,10 +1117,11 @@ PhysicsCollisionObject* Node::setCollisionObject(const char* url)
     PhysicsCollisionObject* collisionObject = setCollisionObject((strlen(properties->getNamespace()) > 0) ? properties : properties->getNextNamespace());
     SAFE_DELETE(properties);
 
-    return collisionObject;
+    return collisionObject;*/
+    return NULL;
 }
 
-PhysicsCollisionObject* Node::setCollisionObject(Properties* properties)
+/*PhysicsCollisionObject* Node::setCollisionObject(Properties* properties)
 {
     SAFE_DELETE(_collisionObject);
 
@@ -1175,7 +1176,7 @@ PhysicsCollisionObject* Node::setCollisionObject(Properties* properties)
     }
 
     return _collisionObject;
-}
+}*/
 
 AIAgent* Node::getAgent() const
 {

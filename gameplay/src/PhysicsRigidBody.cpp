@@ -158,7 +158,7 @@ void PhysicsRigidBody::applyTorqueImpulse(const Vector3& torque)
     }
 }
 
-PhysicsRigidBody* PhysicsRigidBody::create(Node* node, Properties* properties, const char* nspace)
+/*PhysicsRigidBody* PhysicsRigidBody::create(Node* node, Properties* properties, const char* nspace)
 {
     // Check if the properties is valid and has a valid namespace.
     if (!properties || !(strcmp(properties->getNamespace(), "collisionObject") == 0))
@@ -254,7 +254,7 @@ PhysicsRigidBody* PhysicsRigidBody::create(Node* node, Properties* properties, c
     }
 
     return body;
-}
+}*/
 
 void PhysicsRigidBody::setKinematic(bool kinematic)
 {

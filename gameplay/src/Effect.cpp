@@ -105,8 +105,9 @@ Effect* Effect::createFromSource(const char* vshSource, const char* fshSource, c
 
 static void replaceDefines(const char* defines, std::string& out)
 {
-    Properties* graphicsConfig = Game::getInstance()->getConfig()->getNamespace("graphics", true);
-    const char* globalDefines = graphicsConfig ? graphicsConfig->getString("shaderDefines") : NULL;
+    /*Properties* graphicsConfig = Game::getInstance()->getConfig()->getNamespace("graphics", true);
+    const char* globalDefines = graphicsConfig ? graphicsConfig->getString("shaderDefines") : NULL;*/
+    const char* globalDefines = NULL;
 
     // Build full semicolon delimited list of defines
 #ifdef OPENGL_ES

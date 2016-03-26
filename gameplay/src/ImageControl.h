@@ -118,11 +118,11 @@ protected:
      *
      * @return The new ImageControl.
      * @script{create}
-      * 
-      */
+     *
+     *
     static Control* create(Theme::Style* style, Properties* properties = NULL);
 
-    void initialize(const char* typeName, Theme::Style* style, Properties* properties);
+    void initialize(const char* typeName, Theme::Style* style, Properties* properties);*/
 
     /**
      * @see Control::drawImages

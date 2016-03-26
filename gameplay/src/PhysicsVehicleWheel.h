@@ -293,8 +293,8 @@ private:
      *      a model attached to it prior to creating a vehicle wheel for it.
      * @param properties The properties object defining the vehicle wheel (must have type equal to 'VEHICLE_WHEEL').
      * @return The newly created wheel, or <code>NULL</code> if the vehicle wheel failed to load.
-     */
-    static PhysicsVehicleWheel* create(Node* node, Properties* properties);
+     *
+    static PhysicsVehicleWheel* create(Node* node, Properties* properties);*/
 
     /**
      * Destructor.

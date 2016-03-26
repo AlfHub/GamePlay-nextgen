@@ -3,9 +3,6 @@
 namespace gameplay
 {
 
-/****************
- * Theme::Style *
- ****************/
 Theme::Style::Style(Theme* theme, const char* id, float tw, float th,
         const Theme::Margin& margin, const Theme::Padding& padding,
         Theme::Style::Overlay* normal, Theme::Style::Overlay* focus,

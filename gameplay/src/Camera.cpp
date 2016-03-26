@@ -50,7 +50,7 @@ Camera* Camera::createOrthographic(float zoomX, float zoomY, float aspectRatio, 
     return new Camera(zoomX, zoomY, aspectRatio, nearPlane, farPlane);
 }
 
-Camera* Camera::create(Properties* properties)
+/*Camera* Camera::create(Properties* properties)
 {
     GP_ASSERT(properties);
 
@@ -116,7 +116,7 @@ Camera* Camera::create(Properties* properties)
     }
 
     return camera;
-}
+}*/
 
 Camera::Type Camera::getCameraType() const
 {

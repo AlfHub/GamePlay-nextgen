@@ -8,7 +8,6 @@
 namespace gameplay
 {
     class Node;
-    class Properties;
 
 /**
  * Defines the physics collision shape class that all supported shapes derive from.
@@ -87,8 +86,8 @@ public:
          * @param node The node to create the PhysicsCollisionShape::Definition object for.
          * @param properties The properties object to create the PhysicsCollisionShape::Definition object from.
          * @return A PhysicsCollisionShape::Definition object.
-         */
-        static Definition create(Node* node, Properties* properties);
+         *
+        static Definition create(Node* node, Properties* properties);*/
 
         // Shape type.
         PhysicsCollisionShape::Type type;

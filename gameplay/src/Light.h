@@ -3,7 +3,6 @@
 
 #include "Ref.h"
 #include "Vector3.h"
-#include "Properties.h"
 
 namespace gameplay
 {
@@ -117,8 +116,8 @@ public:
      * @param properties The properties definition of the Light.
      *
      * @return The new Light.
-     */
-    static Light* create(Properties* properties);
+     *
+    static Light* create(Properties* properties);*/
 
     /**
      * Destructor.
