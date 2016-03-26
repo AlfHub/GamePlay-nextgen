@@ -107,6 +107,9 @@
     <ClCompile Include="src\Script.cpp" />
     <ClCompile Include="src\ScriptController.cpp" />
     <ClCompile Include="src\ScriptTarget.cpp" />
+    <ClCompile Include="src\Serializer.cpp" />
+    <ClCompile Include="src\SerializerBinary.cpp" />
+    <ClCompile Include="src\SerializerJson.cpp" />
     <ClCompile Include="src\Slider.cpp" />
     <ClCompile Include="src\Sprite.cpp" />
     <ClCompile Include="src\SpriteBatch.cpp" />
@@ -220,6 +223,10 @@
     <ClInclude Include="src\Script.h" />
     <ClInclude Include="src\ScriptController.h" />
     <ClInclude Include="src\ScriptTarget.h" />
+    <ClInclude Include="src\Serializable.h" />
+    <ClInclude Include="src\Serializer.h" />
+    <ClInclude Include="src\SerializerBinary.h" />
+    <ClInclude Include="src\SerializerJson.h" />
     <ClInclude Include="src\Slider.h" />
     <ClInclude Include="src\Sprite.h" />
     <ClInclude Include="src\SpriteBatch.h" />
@@ -292,6 +299,7 @@
     <ProjectGuid>{1032BA4B-57EB-4348-9E03-29DD63E80E4A}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>gameplay</RootNamespace>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
@@ -327,7 +335,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <OutDir>Debug</OutDir>
+    <OutDir>$(Configuration)\</OutDir>
     <IntDir>$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugMem|x64'">

@@ -351,6 +351,15 @@
     <ClCompile Include="src\Drawable.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\Serializer.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SerializerBinary.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SerializerJson.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Plane.h">
@@ -693,6 +702,18 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="src\Drawable.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Serializable.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Serializer.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SerializerBinary.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SerializerJson.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>

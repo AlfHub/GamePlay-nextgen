@@ -5,6 +5,8 @@
 #include "Transform.h"
 #include "Frustum.h"
 #include "Rectangle.h"
+#include "Vector2.h"
+#include "Vector3.h"
 
 namespace gameplay
 {
