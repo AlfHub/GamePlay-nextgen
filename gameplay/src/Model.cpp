@@ -385,6 +385,55 @@ unsigned int Model::draw(bool wireframe)
     return partCount;
 }
 
+const char* Model::getSerializedClassName() const
+{
+    return "gameplay::Model";
+}
+
+void Model::serialize(Serializer* serializer)
+{
+    serializer->writeObject("mesh", _mesh);
+    serializer->writeObject("skin", _skin);
+    if (_partMaterials)
+    {
+        serializer->writeObjectList("materials", _partCount);
+        for (unsigned int i = 0; i < _partCount; i++)
+        {
+            serializer->writeObject(NULL, _partMaterials[i]);
+        }
+    }
+    else
+    {
+        serializer->writeObjectList("materials", 1);
+        serializer->writeObject(NULL, _material);
+    }
+}
+
+void Model::deserialize(Serializer* serializer)
+{
+    _mesh = dynamic_cast<Mesh*>(serializer->readObject("mesh"));
+    setSkin(dynamic_cast<MeshSkin*>(serializer->readObject("skin")));
+    int materialCount = serializer->readObjectList("materials");
+    if (materialCount > 1)
+    {
+        _partCount = materialCount;
+        _partMaterials = new Material*[_partCount];
+        for (unsigned int i = 0; i < _partCount; i++)
+        {
+            setMaterial(dynamic_cast<Material*>(serializer->readObject(NULL)), i);
+        }
+    }
+    else
+    {
+        setMaterial(dynamic_cast<Material*>(serializer->readObject(NULL)));
+    }
+}
+
+Serializable* Model::createInstance()
+{
+    return static_cast<Serializable*>(new Model());
+}
+
 void Model::setMaterialNodeBinding(Material *material)
 {
     GP_ASSERT(material);

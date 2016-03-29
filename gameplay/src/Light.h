@@ -2,6 +2,7 @@
 #define LIGHT_H_
 
 #include "Ref.h"
+#include "Serializable.h"
 #include "Vector3.h"
 
 namespace gameplay
@@ -16,8 +17,9 @@ class NodeCloneContext;
  * There are 3 types of lights that can be created
  * directional, point and spot lights.
  */
-class Light : public Ref
+class Light : public Ref, public Serializable
 {
+    friend class Serializer::Activator;
     friend class Node;
 
 public:
@@ -134,7 +136,7 @@ public:
      * 
      * @return The light type.
      */
-    Type getLightType() const;
+    Type getType() const;
 
     /**
      * Gets the light color.
@@ -229,7 +231,37 @@ public:
      */
     float getOuterAngleCos() const;
 
+    /**
+     * @see Serializeable::getSerializedClassName
+     */
+    const char* getSerializedClassName() const;
+    
+    /**
+     * @see Serializeable::serialize
+     */
+    void serialize(Serializer* serializer);
+    
+    /**
+     * @see Serializeable::deserialize
+     */
+    void deserialize(Serializer* serializer);
+    
 private:
+    
+    /**
+     * @see Serializer::Activator::CreateInstanceCallback
+     */
+    static Serializable* createInstance();
+    
+    /**
+     * @see Serializer::Activator::EnumToStringCallback
+     */
+    static const char* enumToString(const char* enumName, int value);
+    
+    /**
+     * @see Serializer::Activator::EnumParseCallback
+     */
+    static int enumParse(const char* enumName, const char* str);
 
     /**
      * Directional light data.
@@ -273,6 +305,11 @@ private:
     };
 
     /**
+     * Constructor for serialization.
+     */
+    Light();
+
+    /**
      * Constructor for the directional light.
      */
     Light(Light::Type type, const Vector3& color);
@@ -303,7 +340,6 @@ private:
     Light* clone(NodeCloneContext& context);
 
     Light::Type _type;
-    
     union
     {
         /** @script{ignore} */

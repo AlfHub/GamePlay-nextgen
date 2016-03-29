@@ -5,8 +5,16 @@
 namespace gameplay
 {
 
+MaterialParameter::MaterialParameter() :
+    _type(MaterialParameter::NONE), _count(1), _dynamic(false), _name(""),
+    _uniform(NULL), _loggerDirtyBits(0)
+{
+    clearValue();
+}
+
 MaterialParameter::MaterialParameter(const char* name) :
-_type(MaterialParameter::NONE), _count(1), _dynamic(false), _name(name ? name : ""), _uniform(NULL), _loggerDirtyBits(0)
+    _type(MaterialParameter::NONE), _count(1), _dynamic(false), _name(name ? name : ""),
+    _uniform(NULL), _loggerDirtyBits(0)
 {
     clearValue();
 }
@@ -14,6 +22,11 @@ _type(MaterialParameter::NONE), _count(1), _dynamic(false), _name(name ? name : 
 MaterialParameter::~MaterialParameter()
 {
     clearValue();
+}
+
+MaterialParameter::Type MaterialParameter::getType() const
+{
+    return _type;
 }
 
 void MaterialParameter::clearValue()
@@ -229,7 +242,7 @@ void MaterialParameter::setValue(const Texture::Sampler* sampler)
     clearValue();
 
     const_cast<Texture::Sampler*>(sampler)->addRef();
-    _value.samplerValue = sampler;
+    _value.samplerValue = const_cast<Texture::Sampler*>(sampler);
     _type = MaterialParameter::SAMPLER;
 }
 
@@ -242,7 +255,7 @@ void MaterialParameter::setValue(const Texture::Sampler** samplers, unsigned int
     {
         const_cast<Texture::Sampler*>(samplers[i])->addRef();
     }
-    _value.samplerArrayValue = samplers;
+    _value.samplerArrayValue = const_cast<Texture::Sampler**>(samplers);
     _count = count;
     _type = MaterialParameter::SAMPLER_ARRAY;
 }
@@ -311,12 +324,12 @@ void MaterialParameter::setIntArray(const int* values, unsigned int count, bool 
     _type = MaterialParameter::INT_ARRAY;
 }
 
-void MaterialParameter::setVector2(const Vector2& value)
+void MaterialParameter::setVector(const Vector2& value)
 {
     setValue(value);
 }
 
-void MaterialParameter::setVector2Array(const Vector2* values, unsigned int count, bool copy)
+void MaterialParameter::setVectorArray(const Vector2* values, unsigned int count, bool copy)
 {
     GP_ASSERT(values);
     clearValue();
@@ -336,12 +349,12 @@ void MaterialParameter::setVector2Array(const Vector2* values, unsigned int coun
     _type = MaterialParameter::VECTOR2;
 }
 
-void MaterialParameter::setVector3(const Vector3& value)
+void MaterialParameter::setVector(const Vector3& value)
 {
     setValue(value);
 }
 
-void MaterialParameter::setVector3Array(const Vector3* values, unsigned int count, bool copy)
+void MaterialParameter::setVectorArray(const Vector3* values, unsigned int count, bool copy)
 {
     GP_ASSERT(values);
     clearValue();
@@ -361,12 +374,12 @@ void MaterialParameter::setVector3Array(const Vector3* values, unsigned int coun
     _type = MaterialParameter::VECTOR3;
 }
 
-void MaterialParameter::setVector4(const Vector4& value)
+void MaterialParameter::setVector(const Vector4& value)
 {
     setValue(value);
 }
 
-void MaterialParameter::setVector4Array(const Vector4* values, unsigned int count, bool copy)
+void MaterialParameter::setVectorArray(const Vector4* values, unsigned int count, bool copy)
 {
     GP_ASSERT(values);
     clearValue();
@@ -428,13 +441,13 @@ void MaterialParameter::setSamplerArray(const Texture::Sampler** values, unsigne
 
     if (copy)
     {
-        _value.samplerArrayValue = new const Texture::Sampler*[count];
+        _value.samplerArrayValue = new Texture::Sampler*[count];
         memcpy(_value.samplerArrayValue, values, sizeof(Texture::Sampler*) * count);
         _dynamic = true;
     }
     else
     {
-        _value.samplerArrayValue = values;
+        _value.samplerArrayValue = const_cast<Texture::Sampler**>(values);
     }
 
     for (unsigned int i = 0; i < count; ++i)
@@ -498,7 +511,7 @@ void MaterialParameter::bind(Effect* effect)
         effect->setValue(_uniform, _value.samplerValue);
         break;
     case MaterialParameter::SAMPLER_ARRAY:
-        effect->setValue(_uniform, _value.samplerArrayValue, _count);
+        effect->setValue(_uniform, (const Texture::Sampler**)_value.samplerArrayValue, _count);
         break;
     case MaterialParameter::METHOD:
         if (_value.method)
@@ -754,6 +767,179 @@ void MaterialParameter::applyAnimationValue(AnimationValue* value, float blendWe
         _value.floatPtrValue[i] = Curve::lerp(blendWeight, _value.floatPtrValue[i], value->getFloat(i));
 }
 
+const char* MaterialParameter::getSerializedClassName() const
+{
+    return "gameplay::MaterialParameter";
+}
+
+void MaterialParameter::serialize(Serializer* serializer)
+{
+    serializer->writeString("name", _name.c_str(), "");
+    serializer->writeEnum("type", "gameplay::MaterialParameter::Type", _type, NONE);
+    switch (_type)
+    {
+        case FLOAT:
+            serializer->writeFloat("value", _value.floatValue, 0.0f);
+            break;
+        case FLOAT_ARRAY:
+            serializer->writeFloatArray("value", _value.floatPtrValue, _count);
+            break;
+        case INT:
+            serializer->writeInt("value", _value.floatValue, 0.0f);
+            break;
+        case INT_ARRAY:
+            serializer->writeIntArray("value", _value.intPtrValue, _count);
+            break;
+        case VECTOR2:
+            serializer->writeFloatArray("value", _value.floatPtrValue, _count * 2);
+            break;
+        case VECTOR3:
+            serializer->writeFloatArray("value", _value.floatPtrValue, _count * 3);
+            break;
+        case VECTOR4:
+            serializer->writeFloatArray("value", _value.floatPtrValue, _count * 4);
+            break;
+        case MATRIX:
+            serializer->writeFloatArray("value", _value.floatPtrValue, _count * 16);
+            break;
+        case SAMPLER:
+            serializer->writeObject("value", _value.samplerValue);
+            break;
+        case SAMPLER_ARRAY:
+            serializer->writeObjectList("value", _count);
+            for (unsigned int i = 0; i < _count; i++)
+                serializer->writeObject(NULL, _value.samplerArrayValue[i]);
+            break;
+        case METHOD:
+            break;
+        default:
+            break;
+            
+    }
+}
+
+void MaterialParameter::deserialize(Serializer* serializer)
+{
+    serializer->readString("name", _name, "");
+    _type = static_cast<MaterialParameter::Type>(serializer->readEnum("type", "gameplay::MaterialParameter::Type", NONE));
+    switch (_type)
+    {
+        case FLOAT:
+            _value.floatValue = serializer->readFloat("value", 0.0f);
+            _count = 1;
+            break;
+        case FLOAT_ARRAY:
+            _count = serializer->readFloatArray("value", &_value.floatPtrValue);
+            break;
+        case INT:
+            _value.intValue = serializer->readInt("value", 0.0f);
+            _count = 1;
+            break;
+        case INT_ARRAY:
+            _count = serializer->readIntArray("value", &_value.intPtrValue);
+            break;
+        case VECTOR2:
+            _count = serializer->readFloatArray("value", &_value.floatPtrValue) / 2;
+            break;
+        case VECTOR3:
+            _count = serializer->readFloatArray("value", &_value.floatPtrValue) / 3;
+            break;
+        case VECTOR4:
+            _count = serializer->readFloatArray("value", &_value.floatPtrValue) / 4;
+            break;
+        case MATRIX:
+            _count = serializer->readFloatArray("value", &_value.floatPtrValue) / 16;
+            break;
+        case SAMPLER:
+            _value.samplerValue = dynamic_cast<Texture::Sampler*>(serializer->readObject("value"));
+            _count = 1;
+            break;
+        case SAMPLER_ARRAY:
+            _count = serializer->readObjectList("value");
+            for (unsigned int i = 0; i < _count; i++)
+                _value.samplerArrayValue[i] = dynamic_cast<Texture::Sampler*>(serializer->readObject(NULL));
+            break;
+        case METHOD:
+            //std::string parameterName = parameter->getName();
+            //std::string autoBinding = _autoBindings[parameterName];
+            //serializer->writeString("autoBinding", autoBinding.c_str(), "");
+            break;
+        default:
+            break;
+            
+    }
+}
+
+Serializable* MaterialParameter::createInstance()
+{
+    return static_cast<Serializable*>(new MaterialParameter());
+}
+
+const char* MaterialParameter::enumToString(const char* enumName, int value)
+{
+    if (std::strcmp("gameplay::MaterialParameter::Type", enumName) == 0)
+    {
+        switch (value)
+        {
+            case MaterialParameter::VECTOR2:
+                return "VECTOR2";
+            case MaterialParameter::VECTOR3:
+                return "VECTOR3";
+            case MaterialParameter::VECTOR4:
+                return "VECTOR4";
+            case MaterialParameter::MATRIX:
+                return "MATRIX";
+            case MaterialParameter::SAMPLER:
+                return "SAMPLER";
+            case MaterialParameter::SAMPLER_ARRAY:
+                return "SAMPLER_ARRAY";
+            case MaterialParameter::INT:
+                return "INT";
+            case MaterialParameter::INT_ARRAY:
+                return "INT_ARRAY";
+            case MaterialParameter::FLOAT:
+                return "FLOAT";
+            case MaterialParameter::FLOAT_ARRAY:
+                return "FLOAT_ARRAY";
+            case MaterialParameter::METHOD:
+                return "METHOD";
+            default:
+                return NULL;
+        }
+    }
+    return NULL;
+}
+
+int MaterialParameter::enumParse(const char* enumName, const char* str)
+{
+    if (std::strcmp("gameplay::MaterialParameter::Type", enumName) == 0)
+    {
+        if (std::strcmp("VECTOR2", str) == 0)
+            return MaterialParameter::VECTOR2;
+        else if (std::strcmp("VECTOR3", str) == 0)
+            return MaterialParameter::VECTOR3;
+        else if (std::strcmp("VECTOR4", str) == 0)
+            return MaterialParameter::VECTOR4;
+        else if (std::strcmp("MATRIX", str) == 0)
+            return MaterialParameter::MATRIX;
+        else if (std::strcmp("SAMPLER", str) == 0)
+            return MaterialParameter::SAMPLER;
+        else if (std::strcmp("SAMPLER_ARRAY", str) == 0)
+            return MaterialParameter::SAMPLER_ARRAY;
+        else if (std::strcmp("INT", str) == 0)
+            return MaterialParameter::INT;
+        else if (std::strcmp("INT_ARRAY", str) == 0)
+            return MaterialParameter::INT_ARRAY;
+        else if (std::strcmp("FLOAT", str) == 0)
+            return MaterialParameter::FLOAT;
+        else if (std::strcmp("FLOAT_ARRAY", str) == 0)
+            return MaterialParameter::FLOAT_ARRAY;
+        else if (std::strcmp("METHOD", str) == 0)
+            return MaterialParameter::METHOD;
+    }
+    return -1;
+}
+
 void MaterialParameter::cloneInto(MaterialParameter* materialParameter) const
 {
     GP_ASSERT(materialParameter);
@@ -837,7 +1023,7 @@ void MaterialParameter::cloneInto(MaterialParameter* materialParameter) const
         materialParameter->setValue(_value.samplerValue);
         break;
     case SAMPLER_ARRAY:
-        materialParameter->setValue(_value.samplerArrayValue, _count);
+        materialParameter->setValue((const Texture::Sampler**)_value.samplerArrayValue, _count);
         break;
     case METHOD:
         materialParameter->_value.method = _value.method;
@@ -848,7 +1034,7 @@ void MaterialParameter::cloneInto(MaterialParameter* materialParameter) const
         GP_ERROR("Unsupported material parameter type(%d).", _type);
         break;
     }
-    
+
     NodeCloneContext context;
     this->AnimationTarget::cloneInto(materialParameter, context);
 }

@@ -320,5 +320,21 @@ bool BoundingSphere::contains(const BoundingSphere& sphere, Vector3* points, uns
     }
     return true;
 }
+    
+const char* BoundingSphere::getSerializedClassName() const
+{
+    return "gameplay::BoundingSphere";
+}
 
+void BoundingSphere::serialize(Serializer* serializer)
+{
+    serializer->writeVector("center", center, Vector3::zero());
+    serializer->writeFloat("radius", radius, 0);
+}
+
+void BoundingSphere::deserialize(Serializer* serializer)
+{
+    center = serializer->readVector("center", Vector3::zero());
+    radius = serializer->readFloat("radius", 0);
+}
 }

@@ -170,7 +170,7 @@ void Form::clearFocus()
     setFocusControl(NULL);
 }
 
-const char* Form::getTypeName() const
+const char* Form::getScriptClassName() const
 {
     return "Form";
 }

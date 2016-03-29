@@ -23,7 +23,6 @@ Serializer::Activator::~Activator()
 void Serializer::Activator::initializeClasses()
 {
     // Register any Serializable classes that are used as pointers within the framework.
-    /*
     Serializer::getActivator()->registerClass("gameplay::Game::Config", &Game::Config::createInstance);
     Serializer::getActivator()->registerClass("gameplay::Scene", &Scene::createInstance);
     Serializer::getActivator()->registerClass("gameplay::Node", &Node::createInstance);
@@ -40,14 +39,12 @@ void Serializer::Activator::initializeClasses()
     Serializer::getActivator()->registerClass("gameplay::Joint", &Joint::createInstance);
     Serializer::getActivator()->registerClass("gameplay::Texture", &Texture::createInstance);
     Serializer::getActivator()->registerClass("gameplay::Texture::Sampler", &Texture::Sampler::createInstance);
-    */
     // TODO: All the other classes...
 }
 
 void Serializer::Activator::initializeEnums()
 {
     // Register enums used within serialized objects in the framework
-    /*
     Serializer::getActivator()->registerEnum("gameplay::Camera::Type", &Camera::enumToString, &Camera::enumParse);
     Serializer::getActivator()->registerEnum("gameplay::Light::Type", &Light::enumToString, &Light::enumParse);
     Serializer::getActivator()->registerEnum("gameplay::Mesh::IndexFormat", &Mesh::enumToString, &Mesh::enumParse);
@@ -66,7 +63,6 @@ void Serializer::Activator::initializeEnums()
     Serializer::getActivator()->registerEnum("gameplay::Texture::Wrap", &Texture::enumToString, &Texture::enumParse);
     Serializer::getActivator()->registerEnum("gameplay::Texture::Type", &Texture::enumToString, &Texture::enumParse);
     Serializer::getActivator()->registerEnum("gameplay::Texture::CubeFace", &Texture::enumToString, &Texture::enumParse);
-    */
     // TODO: All the other classes...
 }
     

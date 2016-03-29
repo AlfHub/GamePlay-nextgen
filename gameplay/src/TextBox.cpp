@@ -38,7 +38,7 @@ void TextBox::initialize(const char* typeName, Theme::Style* style, Properties* 
 	}
 }*/
 
-const char* TextBox::getTypeName() const
+const char* TextBox::getScriptClassName() const
 {
     return "TextBox";
 }

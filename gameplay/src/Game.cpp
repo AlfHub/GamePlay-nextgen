@@ -53,16 +53,16 @@ public:
         GP_REGISTER_SCRIPT_EVENTS();
     }
 
-    const char* getTypeName() const
+    const char* getScriptClassName() const
     {
         return "GameScriptTarget";
     }
 };
 
 Game::Game()
-    : _initialized(false), _state(UNINITIALIZED), _pausedCount(0),
+    : _config(NULL), _initialized(false), _state(UNINITIALIZED), _pausedCount(0),
       _frameLastFPS(0), _frameCount(0), _frameRate(0), _width(0), _height(0),
-      _clearDepth(1.0f), _clearStencil(0), //_properties(NULL),
+      _clearDepth(1.0f), _clearStencil(0),
       _animationController(NULL), _audioController(NULL),
       _physicsController(NULL), _aiController(NULL), _audioListener(NULL),
       _timeEvents(NULL), _scriptController(NULL), _scriptTarget(NULL)
@@ -75,6 +75,7 @@ Game::Game()
 
 Game::~Game()
 {
+    SAFE_DELETE(_config);
     SAFE_DELETE(_scriptTarget);
 	SAFE_DELETE(_scriptController);
 
@@ -140,8 +141,7 @@ int Game::run()
     if (_state != UNINITIALIZED)
         return -1;
 
-    //loadConfig();
-
+    _config = getConfig();
     _width = Platform::getDisplayWidth();
     _height = Platform::getDisplayHeight();
 
@@ -282,8 +282,6 @@ void Game::shutdown()
         FrameBuffer::finalize();
         RenderState::finalize();
 
-        //SAFE_DELETE(_properties);
-
 		_state = UNINITIALIZED;
     }
 }
@@ -303,7 +301,6 @@ void Game::pause()
         _physicsController->pause();
         _aiController->pause();
     }
-
     ++_pausedCount;
 }
 
@@ -744,6 +741,88 @@ void Game::fireTimeEvents(double frameTime)
     }
 }
 
+Game::Config* Game::getConfig()
+{
+    if (!_config)
+    {
+        Serializer* serializer = Serializer::createReader("game.config");
+        if (serializer)
+        {
+            _config = static_cast<Config*>(serializer->readObject(NULL));
+            serializer->close();
+            SAFE_DELETE(serializer);
+        }
+        if (!_config)
+        {
+            _config = new Game::Config();
+        }
+    }
+    return _config;
+}
+
+Game::Config::Config() :
+    title(""), fullscreen(false), resizable(true),
+    x(0), y(0), width(1920), height(1080), samples(4),
+    theme(""), gamepad("")
+{
+}
+
+Game::Config::~Config()
+{
+    
+}
+
+Serializable* Game::Config::createInstance()
+{
+    return static_cast<Serializable*>(new Game::Config());
+}
+
+const char* Game::Config::getSerializedClassName() const
+{
+    return "gameplay::Game::Config";
+}
+
+void Game::Config::serialize(Serializer* serializer)
+{
+    serializer->writeString("title", title.c_str(), "");
+    serializer->writeBool("fullscreen", fullscreen, false);
+    serializer->writeBool("resizable", resizable, true);
+    serializer->writeInt("x", x, 0);
+    serializer->writeInt("y", y, 0);
+    serializer->writeInt("width", width, 0);
+    serializer->writeInt("height", height, 0);
+    serializer->writeInt("samples", samples, 0);
+    serializer->writeString("theme", theme.c_str(), "");
+    serializer->writeString("gamepad", gamepad.c_str(), "");
+    
+    // FIXME: seant
+    /*
+     serializer->writeStringList("aliases", 2); //aliases.size());
+     for (unsigned int i = 0; i < aliases.size(); i++)
+     serializer->writeString(NULL, aliases[i], "");
+     */
+    
+    // Examples
+    //serializer->writeString(NULL, "gamepad->res/png/gamepad.png", "");
+    //serializer->writeString(NULL, "test->res/png/test.png", "");
+}
+
+void Game::Config::deserialize(Serializer* serializer)
+{
+    serializer->readString("title", title, "");
+    fullscreen = serializer->readBool("fullscreen", false);
+    resizable = serializer->readBool("resizable", true);
+    x = serializer->readInt("x", 0);
+    y = serializer->readInt("y", 0);
+    width = serializer->readInt("width", 0);
+    height = serializer->readInt("height", 0);
+    samples = serializer->readInt("samples", 0);
+    serializer->readString("theme", theme, "");
+    serializer->readString("gamepad", gamepad, "");
+    
+    // FIXME:
+    // aliases read the pairs
+}
 Game::TimeEvent::TimeEvent(double time, TimeListener* timeListener, void* cookie)
     : time(time), listener(timeListener), cookie(cookie)
 {
@@ -753,6 +832,11 @@ bool Game::TimeEvent::operator<(const TimeEvent& v) const
 {
     // The first element of std::priority_queue is the greatest.
     return time > v.time;
+}
+
+void Game::ShutdownListener::timeEvent(long timeDiff, void* cookie)
+{
+    Game::getInstance()->shutdown();
 }
 
 /*Properties* Game::getConfig() const
@@ -815,11 +899,6 @@ void Game::loadGamepads()
             inner = _properties->getNextNamespace();
         }
     }*/
-}
-
-void Game::ShutdownListener::timeEvent(long timeDiff, void* cookie)
-{
-	Game::getInstance()->shutdown();
 }
 
 }

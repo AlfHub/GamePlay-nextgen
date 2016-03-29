@@ -36,7 +36,6 @@ Vector4 Vector4::fromColor(unsigned int color)
     for (int i = 3; i >= 0; --i)
     {
         int component = (color >> i*8) & 0x000000ff;
-
         components[componentIndex++] = static_cast<float>(component) / 255.0f;
     }
 

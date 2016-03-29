@@ -205,8 +205,10 @@ extern int strcmpnocase(const char* s1, const char* s2);
 
 // Scripting
 
-// Physics
-
+// Windowing
+#define WINDOW_WIDTH            1920
+#define WINDOW_HEIGHT           1080
+#define WINDOW_ASPECT_RATIO     WINDOW_WIDTH / WINDOW_HEIGHT
 #define WINDOW_VSYNC        1
 
 // Graphics (OpenGL)

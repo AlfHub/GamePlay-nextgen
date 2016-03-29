@@ -169,7 +169,7 @@ Script* ScriptTarget::addScript(const char* path)
     if (sc->functionExists("attached", script))
     {
         char args[256];
-        sprintf(args, "<%s>", getTypeName());
+        sprintf(args, "<%s>", getScriptClassName());
         sc->executeFunction<void>(script, "attached", args, dynamic_cast<void*>(this));
     }
 

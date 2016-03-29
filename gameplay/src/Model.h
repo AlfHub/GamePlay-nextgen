@@ -1,6 +1,7 @@
 #ifndef MODEL_H_
 #define MODEL_H_
 
+#include "Serializable.h"
 #include "Mesh.h"
 #include "MeshSkin.h"
 #include "Material.h"
@@ -12,15 +13,15 @@ namespace gameplay
 class Bundle;
 class MeshSkin;
 
-
 /**
  * Defines a Model or mesh renderer which is an instance of a Mesh. 
  *
  * A model has a mesh that can be drawn with the specified materials for
  * each of the mesh parts within it.
  */
-class Model : public Ref, public Drawable
+class Model : public Ref, public Serializable, public Drawable
 {
+    friend class Serializer::Activator;
     friend class Node;
     friend class Scene;
     friend class Mesh;
@@ -141,6 +142,21 @@ public:
      */
     unsigned int draw(bool wireframe = false);
 
+    /**
+     * @see Serializeable::getSerializedClassName
+     */
+    const char* getSerializedClassName() const;
+
+    /**
+     * @see Serializeable::serialize
+     */
+    void serialize(Serializer* serializer);
+
+    /**
+     * @see Serializeable::deserialize
+     */
+    void deserialize(Serializer* serializer);
+
 private:
 
     /**
@@ -154,15 +170,20 @@ private:
     Model(Mesh* mesh);
 
     /**
-     * Destructor. Hidden use release() instead.
+     * Destructor.
      */
     ~Model();
 
     /**
-     * Hidden copy assignment operator.
+     * Copy assignment operator.
      */
     Model& operator=(const Model&);
-    
+
+    /**
+     * @see Serializer::Activator::CreateInstanceCallback
+     */
+    static Serializable* createInstance();
+
     /**
      * @see Drawable::setNode
      */

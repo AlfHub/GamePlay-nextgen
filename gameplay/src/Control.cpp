@@ -239,7 +239,7 @@ Control::AutoSize Control::parseAutoSize(const char* str)
 	}
 }*/
 
-const char* Control::getTypeName() const
+const char* Control::getScriptClassName() const
 {
     return "Control";
 }

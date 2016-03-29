@@ -13,8 +13,6 @@ namespace gameplay
  * Radio buttons can be toggled between two states.
  * A radio button can belong to a group, and only one radio button
  * from a group can be selected at one time.
- *
- * @see http://gameplay3d.github.io/GamePlay/docs/file-formats.html#wiki-UI_Forms
  */
 class RadioButton : public Button
 {
@@ -35,14 +33,14 @@ public:
     static RadioButton* create(const char* id, Theme::Style* style = NULL);
 
     /**
-     * Extends ScriptTarget::getTypeName() to return the type name of this class.
+     * Extends ScriptTarget::getScriptClassName() to return the type name of this class.
      *
      * Child controls should override this function to return the correct type name.
      *
      * @return The type name of this class: "RadioButton"
-     * @see ScriptTarget::getTypeName()
+     * @see ScriptTarget::getScriptClassName()
      */
-    const char* getTypeName() const;
+    const char* getScriptClassName() const;
 
     /**
      * Get whether this radio button is currently selected.

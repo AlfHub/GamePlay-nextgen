@@ -6,15 +6,19 @@
 namespace gameplay
 {
 
-Technique::Technique(const char* id, Material* material)
-    : _id(id ? id : ""), _material(material)
+Technique::Technique() :
+    _id(""), _material(NULL)
+{
+}
+
+Technique::Technique(const char* id, Material* material) :
+    _id(id ? id : ""), _material(material)
 {
     RenderState::_parent = material;
 }
 
 Technique::~Technique()
 {
-    // Destroy all the passes.
     for (size_t i = 0, count = _passes.size(); i < count; ++i)
     {
         SAFE_RELEASE(_passes[i]);
@@ -77,6 +81,41 @@ Technique* Technique::clone(Material* material, NodeCloneContext &context) const
     RenderState::cloneInto(technique, context);
     technique->_parent = material;
     return technique;
+}
+
+const char* Technique::getSerializedClassName() const
+{
+    return "gameplay::Technique";
+}
+
+void Technique::serialize(Serializer* serializer)
+{
+    serializer->writeString("id", _id.c_str(), "");
+    RenderState::serialize(serializer);
+    serializer->writeObjectList("passes", _passes.size());
+    for (unsigned int i = 0; i < _passes.size(); i++)
+    {
+        serializer->writeObject(NULL, _passes[i]);
+    }
+}
+
+void Technique::deserialize(Serializer* serializer)
+{
+    serializer->readString("id", _id, "");
+    RenderState::deserialize(serializer);
+    unsigned int passCount = serializer->readObjectList("passes");
+    for (unsigned int i = 0; i < passCount; i++)
+    {
+        Pass* pass = dynamic_cast<Pass*>(serializer->readObject(NULL));
+        pass->_technique = this;
+        pass->_parent = this;
+        _passes.push_back(pass);
+    }
+}
+
+Serializable* Technique::createInstance()
+{
+    return static_cast<Serializable*>(new Technique());
 }
 
 }

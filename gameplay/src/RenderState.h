@@ -2,6 +2,7 @@
 #define RENDERSTATE_H_
 
 #include "Ref.h"
+#include "Serializable.h"
 #include "Vector3.h"
 #include "Vector4.h"
 
@@ -16,8 +17,9 @@ class Pass;
 /**
  * Defines the rendering state of the graphics device.
  */
-class RenderState : public Ref
+class RenderState : public Ref, public Serializable
 {
+    friend class Serializer::Activator;
     friend class Game;
     friend class Material;
     friend class Technique;
@@ -163,9 +165,9 @@ public:
     };
 
     /**
-     * Defines blend constants supported by the blend function.
+     * Defines blend modes supported by the blend function.
      */
-    enum Blend
+    enum BlendMode
     {
         BLEND_ZERO = GL_ZERO,
         BLEND_ONE = GL_ONE,
@@ -191,7 +193,7 @@ public:
      *
      * The intial depth compare function is DEPTH_LESS.
      */
-    enum DepthFunction
+    enum DepthFunc
     {
         DEPTH_NEVER = GL_NEVER,
         DEPTH_LESS = GL_LESS,
@@ -232,7 +234,7 @@ public:
 	 * 
 	 * The initial stencil compare function is STENCIL_ALWAYS.
      */
-    enum StencilFunction
+    enum StencilFunc
     {
 		STENCIL_NEVER = GL_NEVER,
 		STENCIL_ALWAYS = GL_ALWAYS,
@@ -252,7 +254,7 @@ public:
 	 * 
 	 * The initial stencil operation is STENCIL_OP_KEEP.
      */
-    enum StencilOperation
+    enum StencilOp
     {
 		STENCIL_OP_KEEP = GL_KEEP,
 		STENCIL_OP_ZERO = GL_ZERO,
@@ -268,13 +270,13 @@ public:
      * Defines a block of fixed-function render states that can be applied to a
      * RenderState object.
      */
-    class StateBlock : public Ref
+    class StateBlock : public Ref, public Serializable
     {
         friend class RenderState;
         friend class Game;
 
     public:
-
+        
         /**
          * Creates a new StateBlock with default render state settings.
          * @script{create}
@@ -290,7 +292,7 @@ public:
         void bind();
 
         /**
-         * Toggles blending.
+         * Sets blending.
          *
           * @param enabled true to enable, false to disable.
          */
@@ -303,7 +305,7 @@ public:
          *
          * @param blend Specifies how the source blending factors are computed.
          */
-        void setBlendSrc(Blend blend);
+        void setBlendSrc(BlendMode blend);
 
         /**
          * Explicitly sets the source used in the blend function for this render state.
@@ -312,7 +314,7 @@ public:
          *
          * @param blend Specifies how the destination blending factors are computed.
          */
-        void setBlendDst(Blend blend);
+        void setBlendDst(BlendMode blend);
     
         /**
          * Explicitly enables or disables backface culling.
@@ -363,7 +365,7 @@ public:
          *
          * @param func The depth function.
          */
-        void setDepthFunction(DepthFunction func);
+        void setDepthFunc(DepthFunc func);
 
 		/**
          * Toggles stencil testing.
@@ -392,7 +394,7 @@ public:
 		 * @param ref The stencil reference value.
 		 * @param mask The stencil mask.
          */
-		void setStencilFunction(StencilFunction func, int ref, unsigned int mask);
+		void setStencilFunc(StencilFunc func, int ref, unsigned int mask);
 
 		/** 
          * Sets the stencil operation.
@@ -403,7 +405,7 @@ public:
 		 * @param dpfail The stencil operation if the stencil test passes, but the depth test fails.
 		 * @param dppass The stencil operation if both the stencil test and depth test pass.
          */
-		void setStencilOperation(StencilOperation sfail, StencilOperation dpfail, StencilOperation dppass);
+		void setStencilOp(StencilOp sfail, StencilOp dpfail, StencilOp dppass);
 
         /**
          * Sets a render state from the given name and value strings.
@@ -417,6 +419,21 @@ public:
          */
         void setState(const char* name, const char* value);
 
+        /**
+         * @see Serializeable::getSerializedClassName
+         */
+        const char* getSerializedClassName() const;
+
+        /**
+         * @see Serializeable::serialize
+         */
+        void serialize(Serializer* serializer);
+
+        /**
+         * @see Serializeable::deserialize
+         */
+        void deserialize(Serializer* serializer);
+
     private:
 
         /**
@@ -425,7 +442,7 @@ public:
         StateBlock();
 
         /**
-         * Copy constructor.
+         * Constructor.
          */
         StateBlock(const StateBlock& copy);
 
@@ -433,6 +450,11 @@ public:
          * Destructor.
          */
         ~StateBlock();
+        
+        /**
+         * @see Serializer::Activator::CreateInstanceCallback
+         */
+        static Serializable* createInstance();
 
         void bindNoRestore();
 
@@ -443,23 +465,23 @@ public:
         void cloneInto(StateBlock* state);
 
         // States
-        bool _cullFaceEnabled;
-        bool _depthTestEnabled;
-        bool _depthWriteEnabled;
-        DepthFunction _depthFunction;
         bool _blendEnabled;
-        Blend _blendSrc;
-        Blend _blendDst;
+        BlendMode _blendSrc;
+        BlendMode _blendDst;
+        bool _cullFaceEnabled;
         CullFaceSide _cullFaceSide;
         FrontFace _frontFace;
-		bool _stencilTestEnabled;
-		unsigned int _stencilWrite;
-		StencilFunction _stencilFunction;
-		int _stencilFunctionRef;
-		unsigned int _stencilFunctionMask;
-		StencilOperation _stencilOpSfail;
-		StencilOperation _stencilOpDpfail;
-		StencilOperation _stencilOpDppass;
+        bool _depthTestEnabled;
+        bool _depthWriteEnabled;
+        DepthFunc _depthFunc;
+        bool _stencilTestEnabled;
+        unsigned int _stencilWrite;
+        StencilFunc _stencilFunc;
+        int _stencilFuncRef;
+        unsigned int _stencilFuncMask;
+        StencilOp _stencilOpSfail;
+        StencilOp _stencilOpDpfail;
+        StencilOp _stencilOpDppass;
         long _bits;
 
         static StateBlock* _defaultState;
@@ -571,6 +593,21 @@ public:
      */
     virtual void setNodeBinding(Node* node);
 
+    /**
+     * @see Serializeable::getSerializedClassName
+     */
+    virtual const char* getSerializedClassName() const;
+
+    /**
+     * @see Serializeable::serialize
+     */
+    virtual void serialize(Serializer* serializer);
+
+    /**
+     * @see Serializeable::deserialize
+     */
+    virtual void deserialize(Serializer* serializer);
+
 protected:
 
     /**
@@ -623,14 +660,24 @@ protected:
 private:
 
     /**
-     * Hidden copy constructor.
+     * Constructor.
      */
     RenderState(const RenderState& copy);
 
     /**
-     * Hidden copy assignment operator.
+     * Copy assignment operator.
      */
     RenderState& operator=(const RenderState&);
+
+    /**
+     * @see Serializer::Activator::EnumToStringCallback
+     */
+    static const char* enumToString(const char* enumName, int value);
+    
+    /**
+     * @see Serializer::Activator::EnumParseCallback
+     */
+    static int enumParse(const char* enumName, const char* str);
 
     // Internal auto binding handler methods.
     const Matrix& autoBindingGetWorldMatrix() const;

@@ -178,7 +178,7 @@ void Container::addControls(Properties* properties)
     sortControls();
 }*/
 
-const char* Container::getTypeName() const
+const char* Container::getScriptClassName() const
 {
     return "Container";
 }

@@ -59,7 +59,7 @@ void Slider::initialize(const char* typeName, Theme::Style* style, Properties* p
     setValue(_value);
 }*/
 
-const char* Slider::getTypeName() const
+const char* Slider::getScriptClassName() const
 {
     return "Slider";
 }

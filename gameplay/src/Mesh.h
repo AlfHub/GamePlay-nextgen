@@ -2,6 +2,7 @@
 #define MESH_H_
 
 #include "Ref.h"
+#include "Serializable.h"
 #include "VertexFormat.h"
 #include "Vector3.h"
 #include "BoundingBox.h"
@@ -18,8 +19,9 @@ class Model;
  * Defines a mesh supporting various vertex formats and 1 or more
  * MeshPart(s) to define how the vertices are connected.
  */
-class Mesh : public Ref
+class Mesh : public Ref, public Serializable
 {
+    friend class Serializer::Activator;
     friend class Model;
     friend class Bundle;
 
@@ -328,11 +330,31 @@ public:
     void setBoundingSphere(const BoundingSphere& sphere);
 
     /**
+     * @see Serializeable::getSerializedClassName
+     */
+    const char* getSerializedClassName() const;
+    
+    /**
+     * @see Serializeable::serialize
+     */
+    void serialize(Serializer* serializer);
+    
+    /**
+     * @see Serializeable::deserialize
+     */
+    void deserialize(Serializer* serializer);
+
+    /**
      * Destructor.
      */
     virtual ~Mesh();
 
 private:
+
+    /**
+     * Construtor.
+     */
+    Mesh();
 
     /**
      * Constructor.
@@ -345,15 +367,30 @@ private:
     Mesh(const Mesh& copy);
 
     /**
-     * Hidden copy assignment operator.
+     * Copy assignment operator.
      */
     Mesh& operator=(const Mesh&);
 
+    /**
+     * @see Serializer::Activator::CreateInstanceCallback
+     */
+    static Serializable* createInstance();
+
+    /**
+     * @see Serializer::Activator::EnumToStringCallback
+     */
+    static const char* enumToString(const char* enumName, int value);
+
+    /**
+     * @see Serializer::Activator::EnumParseCallback
+     */
+    static int enumParse(const char* enumName, const char* str);
+
     std::string _url;
-    const VertexFormat _vertexFormat;
+    PrimitiveType _primitiveType;
+    VertexFormat _vertexFormat;
     unsigned int _vertexCount;
     VertexBufferHandle _vertexBuffer;
-    PrimitiveType _primitiveType;
     unsigned int _partCount;
     MeshPart** _parts;
     bool _dynamic;

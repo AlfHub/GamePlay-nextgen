@@ -8,9 +8,17 @@
 namespace gameplay
 {
 
-Mesh::Mesh(const VertexFormat& vertexFormat) 
-    : _vertexFormat(vertexFormat), _vertexCount(0), _vertexBuffer(0), _primitiveType(TRIANGLES), 
-      _partCount(0), _parts(NULL), _dynamic(false)
+Mesh::Mesh() :
+    _primitiveType(TRIANGLES),
+    _vertexCount(0), _vertexBuffer(0),
+    _partCount(0), _parts(NULL), _dynamic(false)
+{
+}
+
+Mesh::Mesh(const VertexFormat& vertexFormat) :
+    _primitiveType(TRIANGLES), _vertexFormat(vertexFormat),
+    _vertexCount(0), _vertexBuffer(0),
+    _partCount(0), _parts(NULL), _dynamic(false)
 {
 }
 
@@ -53,7 +61,7 @@ Mesh* Mesh::createQuad(float x, float y, float width, float height, float s1, fl
     float x2 = x + width;
     float y2 = y + height;
 
-    float vertices[] =
+    float vertexData[] =
     {
         x, y2, 0,   0, 0, 1,    s1, t2,
         x, y, 0,    0, 0, 1,    s1, t1,
@@ -75,7 +83,7 @@ Mesh* Mesh::createQuad(float x, float y, float width, float height, float s1, fl
     }
 
     mesh->_primitiveType = TRIANGLE_STRIP;
-    mesh->setVertexData(vertices, 0, 4);
+    mesh->setVertexData(vertexData, 0, 4);
 
     return mesh;
 }
@@ -87,7 +95,7 @@ Mesh* Mesh::createQuadFullscreen()
     float x2 = 1.0f;
     float y2 = 1.0f;
 
-    float vertices[] =
+    float vertexData[] =
     {
         x, y2,   0, 1,
         x, y,    0, 0,
@@ -108,7 +116,7 @@ Mesh* Mesh::createQuadFullscreen()
     }
 
     mesh->_primitiveType = TRIANGLE_STRIP;
-    mesh->setVertexData(vertices, 0, 4);
+    mesh->setVertexData(vertexData, 0, 4);
 
     return mesh;
 }
@@ -122,7 +130,7 @@ Mesh* Mesh::createQuad(const Vector3& p1, const Vector3& p2, const Vector3& p3, 
     Vector3::cross(v1, v2, &n);
     n.normalize();
 
-    float vertices[] =
+    float vertexData[] =
     {
         p1.x, p1.y, p1.z, n.x, n.y, n.z, 0, 1,
         p2.x, p2.y, p2.z, n.x, n.y, n.z, 0, 0,
@@ -145,7 +153,7 @@ Mesh* Mesh::createQuad(const Vector3& p1, const Vector3& p2, const Vector3& p3, 
     }
 
     mesh->_primitiveType = TRIANGLE_STRIP;
-    mesh->setVertexData(vertices, 0, 4);
+    mesh->setVertexData(vertexData, 0, 4);
 
     return mesh;
 }
@@ -155,8 +163,8 @@ Mesh* Mesh::createLines(Vector3* points, unsigned int pointCount)
     GP_ASSERT(points);
     GP_ASSERT(pointCount);
 
-    float* vertices = new float[pointCount*3];
-    memcpy(vertices, points, pointCount*3*sizeof(float));
+    float* vertexData = new float[pointCount*3];
+    memcpy(vertexData, points, pointCount*3*sizeof(float));
 
     VertexFormat::Element elements[] =
     {
@@ -166,14 +174,14 @@ Mesh* Mesh::createLines(Vector3* points, unsigned int pointCount)
     if (mesh == NULL)
     {
         GP_ERROR("Failed to create mesh.");
-        SAFE_DELETE_ARRAY(vertices);
+        SAFE_DELETE_ARRAY(vertexData);
         return NULL;
     }
 
     mesh->_primitiveType = LINE_STRIP;
-    mesh->setVertexData(vertices, 0, pointCount);
+    mesh->setVertexData(vertexData, 0, pointCount);
 
-    SAFE_DELETE_ARRAY(vertices);
+    SAFE_DELETE_ARRAY(vertexData);
     return mesh;
 }
 
@@ -182,7 +190,7 @@ Mesh* Mesh::createBoundingBox(const BoundingBox& box)
     Vector3 corners[8];
     box.getCorners(corners);
 
-    float vertices[] =
+    float vertexData[] =
     {
         corners[7].x, corners[7].y, corners[7].z,
         corners[6].x, corners[6].y, corners[6].z,
@@ -216,7 +224,7 @@ Mesh* Mesh::createBoundingBox(const BoundingBox& box)
     }
 
     mesh->_primitiveType = LINE_STRIP;
-    mesh->setVertexData(vertices, 0, 18);
+    mesh->setVertexData(vertexData, 0, 18);
 
     return mesh;
 }
@@ -344,6 +352,132 @@ const BoundingSphere& Mesh::getBoundingSphere() const
 void Mesh::setBoundingSphere(const BoundingSphere& sphere)
 {
     _boundingSphere = sphere;
+}
+
+const char* Mesh::getSerializedClassName() const
+{
+    return "gameplay::Mesh";
+}
+
+void Mesh::serialize(Serializer* serializer)
+{
+    serializer->writeString("url", _url.c_str(), "");
+    serializer->writeEnum("primitiveType", "gameplay::Mesh::PrimitiveType", _primitiveType, Mesh::TRIANGLES);
+    serializer->writeObject("vertexFormat", &_vertexFormat);
+    serializer->writeInt("vertexCount", _vertexCount, 0);
+    do
+    {
+        void* vertexData = mapVertexBuffer();
+        serializer->writeByteArray("vertexData", (unsigned char*)vertexData, _vertexFormat.getVertexSize() * _vertexCount);
+    } while(!unmapVertexBuffer());
+    serializer->writeBool("dynamic", _dynamic, true);
+    serializer->writeObjectList("parts", _partCount);
+    for (unsigned int i = 0; i < _partCount; i++)
+    {
+        serializer->writeObject(NULL, _parts[i]);
+    }
+    serializer->writeObject("boundingBox", _boundingBox.isEmpty() ? NULL : &_boundingBox);
+    serializer->writeObject("boundingSphere", _boundingSphere.isEmpty() ? NULL : &_boundingSphere);
+}
+
+void Mesh::deserialize(Serializer* serializer)
+{
+    serializer->readString("url", _url, "");
+    _primitiveType = static_cast<Mesh::PrimitiveType>(serializer->readEnum("primitiveType", "gameplay::Mesh::PrimitiveType", Mesh::TRIANGLES));
+    serializer->readObject("vertexFormat", &_vertexFormat);
+    _vertexCount = serializer->readInt("vertexCount", 0);
+    unsigned char* vertexData = new unsigned char[_vertexFormat.getVertexSize() * _vertexCount];
+    serializer->readByteArray("vertexData", &vertexData);
+    _dynamic = serializer->readBool("dynamic", true);
+    
+    GLuint vbo;
+    GL_ASSERT(glGenBuffers(1, &vbo));
+    GL_ASSERT(glBindBuffer(GL_ARRAY_BUFFER, vbo));
+    GL_ASSERT(glBufferData(GL_ARRAY_BUFFER, _vertexFormat.getVertexSize() * _vertexCount, NULL, _dynamic ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW));
+    
+    _vertexBuffer = vbo;
+    setVertexData((void*)vertexData, 0, _vertexCount);
+    SAFE_DELETE_ARRAY(vertexData);
+    
+    _partCount = serializer->readObjectList("parts");
+    _parts = new MeshPart*[_partCount];
+    for (unsigned int i = 0; i < _partCount; i++)
+    {
+        _parts[i] = dynamic_cast<MeshPart*>(serializer->readObject(NULL));
+        _parts[i]->_mesh = this;
+        _parts[i]->_meshIndex = i;
+    }
+    serializer->readObject("boundingBox", &_boundingBox);
+    serializer->readObject("boundingSphere", &_boundingSphere);
+}
+
+Serializable* Mesh::createInstance()
+{
+    return static_cast<Serializable*>(new Mesh());
+}
+
+const char* Mesh::enumToString(const char* enumName, int value)
+{
+    if (std::strcmp("gameplay::Mesh::PrimitiveType", enumName) == 0)
+    {
+        switch (value)
+        {
+            case Mesh::TRIANGLES:
+                return "TRIANGLES";
+            case Mesh::TRIANGLE_STRIP:
+                return "TRIANGLE_STRIP";
+            case Mesh::LINES:
+                return "LINES";
+            case Mesh::LINE_STRIP:
+                return "LINE_STRIP";
+            case Mesh::POINTS:
+                return "POINTS";
+            default:
+                return NULL;
+        }
+    }
+    else if (std::strcmp("gameplay::Mesh::IndexFormat", enumName) == 0)
+    {
+        switch (value)
+        {
+            case Mesh::INDEX8:
+                return "INDEX8";
+            case Mesh::INDEX16:
+                return "INDEX16";
+            case Mesh::INDEX32:
+                return "INDEX32";
+            default:
+                return NULL;
+        }
+    }
+    return NULL;
+}
+
+int Mesh::enumParse(const char* enumName, const char* str)
+{
+    if (std::strcmp("gameplay::Mesh::PrimitiveType", enumName) == 0)
+    {
+        if (std::strcmp("TRIANGLES", str) == 0)
+            return Mesh::TRIANGLES;
+        else if (std::strcmp("TRIANGLE_STRIP", str) == 0)
+            return Mesh::TRIANGLE_STRIP;
+        else if (std::strcmp("LINES", str) == 0)
+            return Mesh::LINES;
+        else if (std::strcmp("LINE_STRIP", str) == 0)
+            return Mesh::LINE_STRIP;
+        else if (std::strcmp("POINTS", str) == 0)
+            return Mesh::POINTS;
+    }
+    else if (std::strcmp("gameplay::Mesh::IndexFormat", enumName) == 0)
+    {
+        if (std::strcmp("INDEX8", str) == 0)
+            return Mesh::INDEX8;
+        else if (std::strcmp("INDEX16", str) == 0)
+            return Mesh::INDEX16;
+        else if (std::strcmp("INDEX32", str) == 0)
+            return Mesh::INDEX32;
+    }
+    return -1;
 }
 
 }

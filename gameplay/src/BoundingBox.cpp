@@ -346,4 +346,20 @@ void BoundingBox::transform(const Matrix& matrix)
     this->max.z = newMax.z;
 }
 
+const char* BoundingBox::getSerializedClassName() const
+{
+    return "gameplay::BoundingBox";
+}
+
+void BoundingBox::serialize(Serializer* serializer)
+{
+    serializer->writeVector("min", min, Vector3::zero());
+    serializer->writeVector("max", max, Vector3::zero());
+}
+
+void BoundingBox::deserialize(Serializer* serializer)
+{
+    min = serializer->readVector("min", Vector3::zero());
+    max = serializer->readVector("max", Vector3::zero());
+}
 }

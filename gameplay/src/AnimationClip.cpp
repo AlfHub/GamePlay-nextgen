@@ -68,7 +68,7 @@ AnimationClip::ListenerEvent::~ListenerEvent()
 {
 }
 
-const char* AnimationClip::getTypeName() const
+const char* AnimationClip::getScriptClassName() const
 {
     return "AnimationClip";
 }

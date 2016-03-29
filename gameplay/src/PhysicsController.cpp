@@ -47,7 +47,7 @@ PhysicsController::~PhysicsController()
     SAFE_DELETE(_listeners);
 }
 
-const char* PhysicsController::getTypeName() const
+const char* PhysicsController::getScriptClassName() const
 {
     return "PhysicsController";
 }
@@ -1362,7 +1362,7 @@ PhysicsController::DebugDrawer::DebugDrawer()
     Material* material = Material::create(effect);
     GP_ASSERT(material && material->getStateBlock());
     material->getStateBlock()->setDepthTest(true);
-    material->getStateBlock()->setDepthFunction(RenderState::DEPTH_LEQUAL);
+    material->getStateBlock()->setDepthFunc(RenderState::DEPTH_LEQUAL);
 
     VertexFormat::Element elements[] =
     {

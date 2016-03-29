@@ -366,7 +366,7 @@ void Font::drawText(const char* text, int x, int y, const Vector4& color, unsign
                         if (_cutoffParam == NULL)
                             _cutoffParam = _batch->getMaterial()->getParameter("u_cutoff");
                         // TODO: Fix me so that smaller font are much smoother
-                        _cutoffParam->setVector2(Vector2(1.0, 1.0));
+                        _cutoffParam->setVector(Vector2(1.0, 1.0));
                     }
                     _batch->draw(xPos + (int)(g.bearingX * scale), yPos, g.width * scale, size, g.uvs[0], g.uvs[1], g.uvs[2], g.uvs[3], color);
                     xPos += floor(g.advance * scale + spacing);
@@ -530,7 +530,7 @@ void Font::drawText(const char* text, const Rectangle& area, const Vector4& colo
                             if (_cutoffParam == NULL)
                                 _cutoffParam = _batch->getMaterial()->getParameter("u_cutoff");
                             // TODO: Fix me so that smaller font are much smoother
-                            _cutoffParam->setVector2(Vector2(1.0, 1.0));
+                            _cutoffParam->setVector(Vector2(1.0, 1.0));
                         }
                         if (clip != Rectangle(0, 0, 0, 0))
                         {

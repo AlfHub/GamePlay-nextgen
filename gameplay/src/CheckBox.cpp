@@ -39,7 +39,7 @@ void CheckBox::initialize(const char* typeName, Theme::Style* style, Properties*
     }
 }*/
 
-const char* CheckBox::getTypeName() const
+const char* CheckBox::getScriptClassName() const
 {
     return "CheckBox";
 }

@@ -195,7 +195,7 @@ Bundle* Bundle::create(const char* path)
 
     // Read the GPB header info.
     char sig[9];
-    if (stream->read(sig, 1, 9) != 9 || memcmp(sig, "\xABGPB\xBB\r\n\x1A\n", 9) != 0)
+    if (stream->read(sig, 1, 9) != 9 || memcmp(sig, GP_FILE_IDENTIFIER, 9) != 0)
     {
         SAFE_DELETE(stream);
         GP_WARN("Invalid GPB header for bundle '%s'.", path);
@@ -467,7 +467,7 @@ Scene* Bundle::loadScene(const char* id)
         SAFE_RELEASE(scene);
         return NULL;
     }
-    scene->setAmbientColor(red, green, blue);
+    scene->setAmbientColor(Vector3(red, green, blue));
 
     // Parse animations.
     GP_ASSERT(_references);
@@ -722,10 +722,10 @@ Node* Bundle::readNode(Scene* sceneContext, Node* nodeContext)
     Node* node = NULL;
     switch (nodeType)
     {
-    case Node::NODE:
+    case 1:
         node = Node::create(id);
         break;
-    case Node::JOINT:
+    case 2:
         node = Joint::create(id);
         break;
     default:
@@ -1124,7 +1124,8 @@ void Bundle::resolveJointReferences(Scene* sceneContext, Node* nodeContext)
                 jointId = jointId.substr(1, jointId.length() - 1);
 
                 Node* n = loadNode(jointId.c_str(), sceneContext, nodeContext);
-                if (n && n->getType() == Node::JOINT)
+                Joint* joint = dynamic_cast<Joint*>(n);
+                if (joint)
                 {
                     Joint* joint = static_cast<Joint*>(n);
                     joint->setInverseBindPose(skinData->inverseBindPoseMatrices[j]);
@@ -1152,7 +1153,6 @@ void Bundle::resolveJointReferences(Scene* sceneContext, Node* nodeContext)
                         // Parent is a joint in the MeshSkin, so treat it as the new root.
                         rootJoint = static_cast<Joint*>(parent);
                     }
-
                     node = parent;
                     parent = node->getParent();
                 }

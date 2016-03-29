@@ -58,6 +58,7 @@ inline ScriptController* Game::getScriptController() const
 {
     return _scriptController;
 }
+
 inline AIController* Game::getAIController() const
 {
     return _aiController;

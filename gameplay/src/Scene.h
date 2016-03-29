@@ -1,6 +1,7 @@
 #ifndef SCENE_H_
 #define SCENE_H_
 
+#include "Serializable.h"
 #include "Node.h"
 #include "MeshBatch.h"
 #include "ScriptController.h"
@@ -12,11 +13,11 @@ namespace gameplay
 
 /**
  * Defines the root container for a hierarchy of Node objects.
- *
- * @see http://gameplay3d.github.io/GamePlay/docs/file-formats.html#wiki-Scene
  */
-class Scene : public Ref
+class Scene : public Ref, public Serializable
 {
+    friend class Serializer::Activator;
+    
 public:
 
     /**
@@ -169,13 +170,10 @@ public:
     /**
      * Sets the ambient color of the scene.
      *
-     * @param red The red channel between 0.0 and 1.0.
-     * @param green The green channel between 0.0 and 1.0.
-     * @param blue The blue channel between 0.0 and 1.0.
-     *
+     * @param color The ambient color of the scene.
      * @see getAmbientColor()
      */
-    void setAmbientColor(float red, float green, float blue);
+    void setAmbientColor(const Vector3& color);
 
     /**
      * Updates all active nodes in the scene.
@@ -256,6 +254,21 @@ public:
      */
     void reset();
 
+    /**
+     * @see Serializeable::getSerializedClassName
+     */
+    const char* getSerializedClassName() const;
+    
+    /**
+     * @see Serializeable::serialize
+     */
+    void serialize(Serializer* serializer);
+    
+    /**
+     * @see Serializeable::deserialize
+     */
+    void deserialize(Serializer* serializer);
+
 private:
 
     /**
@@ -279,6 +292,11 @@ private:
     Scene& operator=(const Scene&);
 
     /**
+     * @see Serializer::Activator::CreateInstanceCallback
+     */
+    static Serializable* createInstance();
+
+    /**
      * Visits the given node and all of its children recursively.
      */
     template <class T>
@@ -300,12 +318,12 @@ private:
     bool isNodeVisible(Node* node);
 
     std::string _id;
+    Vector3 _ambientColor;
     Camera* _activeCamera;
+    bool _bindAudioListenerToCamera;
     Node* _firstNode;
     Node* _lastNode;
     unsigned int _nodeCount;
-    Vector3 _ambientColor;
-    bool _bindAudioListenerToCamera;
     Node* _nextItr;
     bool _nextReset;
 };

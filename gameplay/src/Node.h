@@ -1,6 +1,7 @@
 #ifndef NODE_H_
 #define NODE_H_
 
+#include "Serializable.h"
 #include "Transform.h"
 #include "ScriptTarget.h"
 #include "Model.h"
@@ -31,11 +32,10 @@ class Drawable;
  *
  * This object allow you to attach components to a scene such as:
  * Drawable's(Model, Camera, Light, PhysicsCollisionObject, AudioSource, etc.
- *
- * @see http://gameplay3d.github.io/GamePlay/docs/file-formats.html#wiki-Node
  */
-class Node : public Transform, public Ref
+class Node : public Transform, public Ref, public Serializable
 {
+    friend class Serializer::Activator;
     friend class Scene;
     friend class SceneLoader;
     friend class Bundle;
@@ -53,15 +53,6 @@ class Node : public Transform, public Ref
 public:
 
     /**
-     * Defines the types of nodes.
-     */
-    enum Type
-    {
-        NODE = 1,
-        JOINT
-    };
-
-    /**
      * Creates a new node with the specified ID.
      *
      * @param id The ID for the new node.
@@ -70,12 +61,12 @@ public:
     static Node* create(const char* id = NULL);
 
     /**
-     * Extends ScriptTarget::getTypeName() to return the type name of this class.
+     * Extends ScriptTarget::getScriptClassName() to return the type name of this class.
      *
      * @return The type name of this class: "Node"
-     * @see ScriptTarget::getTypeName()
+     * @see ScriptTarget::getScriptClassName()
      */
-    const char* getTypeName() const;
+    const char* getScriptClassName() const;
 
     /**
      * Gets the identifier for the node.
@@ -90,11 +81,6 @@ public:
      * @param id The identifier to set for the node.
      */
     void setId(const char* id);
-
-    /**
-     * Returns the type of the node.
-     */
-    virtual Node::Type getType() const;
 
     /**
      * Adds a child node.
@@ -607,7 +593,27 @@ public:
      */
     Node* clone() const;
 
+    /**
+     * @see Serializeable::getSerializedClassName
+     */
+    const char* getSerializedClassName() const;
+
+    /**
+     * @see Serializeable::serialize
+     */
+    void serialize(Serializer* serializer);
+
+    /**
+     * @see Serializeable::deserialize
+     */
+    void deserialize(Serializer* serializer);
+
 protected:
+
+    /**
+     * Constructor.
+     */
+    Node();
 
     /**
      * Constructor.
@@ -706,9 +712,14 @@ private:
     Node(const Node& copy);
 
     /**
-     * Hidden copy assignment operator.
+     * Copy assignment operator.
      */
     Node& operator=(const Node&);
+
+    /**
+     * @see Serializer::Activator::CreateInstanceCallback
+     */
+    static Serializable* createInstance();
 
     /*PhysicsCollisionObject* setCollisionObject(Properties* properties);*/
 
@@ -738,10 +749,10 @@ protected:
     Camera* _camera;
     /** The light component attached to this node. */
     Light* _light;
-    /** The audio source component attached to this node. */
-    AudioSource* _audioSource;
     /** The collision object component attached to this node. */
     PhysicsCollisionObject* _collisionObject;
+    /** The audio source component attached to this node. */
+    AudioSource* _audioSource;
     /** The AI agent component attached to this node. */
     mutable AIAgent* _agent;
     /** The user object component attached to this node. */

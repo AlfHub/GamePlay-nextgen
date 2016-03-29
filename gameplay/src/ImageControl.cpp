@@ -58,7 +58,7 @@ void ImageControl::initialize(const char* typeName, Theme::Style* style, Propert
 	}
 }*/
 
-const char* ImageControl::getTypeName() const
+const char* ImageControl::getScriptClassName() const
 {
     return "ImageControl";
 }

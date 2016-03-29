@@ -1,6 +1,7 @@
 #ifndef MESHPART_H_
 #define MESHPART_H_
 
+#include "Serializable.h"
 #include "Mesh.h"
 
 namespace gameplay
@@ -10,8 +11,9 @@ namespace gameplay
  * Defines a part of a mesh describing the way the
  * mesh's vertices are connected together.
  */
-class MeshPart
+class MeshPart : public Serializable
 {
+    friend class Serializer::Activator;
     friend class Mesh;
     friend class Model;
 
@@ -51,11 +53,25 @@ public:
     Mesh::IndexFormat getIndexFormat() const;
 
     /**
-     * Returns a handle to the index buffer for the mesh part.
+     * Gets the size of a single index in the part based on the index format.
+     *
+     * @return The size of 1 index in the part based on the index format.
+     */
+    unsigned int getIndexSize() const;
+
+    /**
+     * Gets a handle to the index buffer for the mesh part.
      *
      * @return The index buffer object handle.
      */
     IndexBufferHandle getIndexBuffer() const;
+
+    /**
+     * Determines if the indices are dynamic.
+     *
+     * @return true if the part is dynamic; false otherwise.
+     */
+    bool isDynamic() const;
 
     /**
      * Maps the index buffer for the specified access.
@@ -93,18 +109,26 @@ public:
      * Sets the specified index data into the mapped index buffer.
      *
      * @param indexData The index data to be set.
-     * @param indexStart The index to start from.
+     * @param indexOffset The index offset to start from.
      * @param indexCount The number of indices to be set.
      * @script{ignore}
      */
-    void setIndexData(const void* indexData, unsigned int indexStart, unsigned int indexCount);
+    void setIndexData(const void* indexData, unsigned int indexOffset, unsigned int indexCount);
 
     /**
-     * Determines if the indices are dynamic.
-     *
-     * @return true if the part is dynamic; false otherwise.
+     * @see Serializeable::getSerializedClassName
      */
-    bool isDynamic() const;
+    const char* getSerializedClassName() const;
+
+    /**
+     * @see Serializeable::serialize
+     */
+    void serialize(Serializer* serializer);
+
+    /**
+     * @see Serializeable::deserialize
+     */
+    void deserialize(Serializer* serializer);
 
 private:
 
@@ -119,6 +143,11 @@ private:
     MeshPart(const MeshPart& copy);
 
     /**
+     * @see Serializer::Activator::CreateInstanceCallback
+     */
+    static Serializable* createInstance();
+
+    /**
      * Creates a mesh part for the specified mesh.
      *
      * @param mesh The mesh that this is part of.
@@ -128,7 +157,8 @@ private:
      * @param indexCount The number of indices.
      * @param dynamic true if the part if dynamic; false otherwise.
      */
-    static MeshPart* create(Mesh* mesh, unsigned int meshIndex, Mesh::PrimitiveType primitiveType, Mesh::IndexFormat indexFormat, unsigned int indexCount, bool dynamic = false);
+    static MeshPart* create(Mesh* mesh, unsigned int meshIndex, Mesh::PrimitiveType primitiveType,
+                            Mesh::IndexFormat indexFormat, unsigned int indexCount, bool dynamic = false);
 
     Mesh* _mesh;
     unsigned int _meshIndex;

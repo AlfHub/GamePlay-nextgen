@@ -59,9 +59,9 @@ static bool endsWith(const char* str, const char* suffix, bool ignoreCase)
 }
 
 
-Scene::Scene()
-    : _id(""), _activeCamera(NULL), _firstNode(NULL), _lastNode(NULL), _nodeCount(0), _bindAudioListenerToCamera(true), 
-      _nextItr(NULL), _nextReset(true)
+Scene::Scene() :
+    _id(""), _ambientColor(Vector3::zero()), _activeCamera(NULL), _bindAudioListenerToCamera(true),
+    _firstNode(NULL), _lastNode(NULL), _nodeCount(0), _nextItr(NULL), _nextReset(true)
 {
     __sceneList.push_back(this);
 }
@@ -380,9 +380,9 @@ const Vector3& Scene::getAmbientColor() const
     return _ambientColor;
 }
 
-void Scene::setAmbientColor(float red, float green, float blue)
+void Scene::setAmbientColor(const Vector3& color)
 {
-    _ambientColor.set(red, green, blue);
+    _ambientColor = color;
 }
 
 void Scene::update(float elapsedTime)
@@ -457,4 +457,39 @@ bool Scene::isNodeVisible(Node* node)
     }
 }
 
+Serializable* Scene::createInstance()
+{
+    return static_cast<Serializable*>(Scene::create());
+}
+
+const char* Scene::getSerializedClassName() const
+{
+    return "gameplay::Scene";
+}
+
+void Scene::serialize(Serializer* serializer)
+{
+    serializer->writeObjectList("nodes", _nodeCount);
+    for (Node* node = getFirstNode(); node != NULL; node = node->getNextSibling())
+    {
+        serializer->writeObject(NULL, node);
+    }
+    serializer->writeObject("activeCamera", _activeCamera);
+    serializer->writeColor("ambientColor", _ambientColor, Vector3::zero());
+}
+
+void Scene::deserialize(Serializer* serializer)
+{
+    unsigned int count = serializer->readObjectList("nodes");
+    for (unsigned int i = 0; i < count; i++)
+    {
+        Node* node = dynamic_cast<Node*>(serializer->readObject(NULL));
+        if (node)
+        {
+            addNode(node);
+        }
+    }
+    _activeCamera = dynamic_cast<Camera*>(serializer->readObject("activeCamera"));
+    _ambientColor = serializer->readColor("ambientColor", Vector3::zero());
+}
 }

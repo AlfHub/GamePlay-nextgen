@@ -13,16 +13,28 @@
 #define CAMERA_DIRTY_INV_VIEW_PROJ 16
 #define CAMERA_DIRTY_BOUNDS 32
 #define CAMERA_DIRTY_ALL (CAMERA_DIRTY_VIEW | CAMERA_DIRTY_PROJ | CAMERA_DIRTY_VIEW_PROJ | CAMERA_DIRTY_INV_VIEW | CAMERA_DIRTY_INV_VIEW_PROJ | CAMERA_DIRTY_BOUNDS)
-
-// Other misc camera bits
 #define CAMERA_CUSTOM_PROJECTION 64
+#define CAMERA_FIELD_OF_VIEW 60.0f
+#define CAMERA_ZOOM_X WINDOW_WIDTH
+#define CAMERA_ZOOM_Y WINDOW_HEIGHT
+#define CAMERA_ASPECT_RATIO WINDOW_ASPECT_RATIO
+#define CAMERA_NEAR_PLANE 0.2f
+#define CAMERA_FAR_PLANE 100.f
 
 namespace gameplay
 {
 
+Camera::Camera()
+    : _type(PERSPECTIVE), _fieldOfView(0), _aspectRatio(0),
+      _nearPlane(0), _farPlane(0),
+      _bits(CAMERA_DIRTY_ALL), _node(NULL), _listeners(NULL)
+{
+}
+    
 Camera::Camera(float fieldOfView, float aspectRatio, float nearPlane, float farPlane)
-    : _type(PERSPECTIVE), _fieldOfView(fieldOfView), _aspectRatio(aspectRatio), _nearPlane(nearPlane), _farPlane(farPlane),
-    _bits(CAMERA_DIRTY_ALL), _node(NULL), _listeners(NULL)
+    : _type(PERSPECTIVE), _fieldOfView(fieldOfView), _aspectRatio(aspectRatio),
+      _nearPlane(nearPlane), _farPlane(farPlane),
+      _bits(CAMERA_DIRTY_ALL), _node(NULL), _listeners(NULL)
 {
 }
 
@@ -31,8 +43,8 @@ Camera::Camera(float zoomX, float zoomY, float aspectRatio, float nearPlane, flo
 	_bits(CAMERA_DIRTY_ALL), _node(NULL), _listeners(NULL)
 {
     // Orthographic camera.
-    _zoom[0] = zoomX;
-    _zoom[1] = zoomY;
+    _zoom.x = zoomX;
+    _zoom.y = zoomY;
 }
 
 Camera::~Camera()
@@ -118,7 +130,7 @@ Camera* Camera::createOrthographic(float zoomX, float zoomY, float aspectRatio, 
     return camera;
 }*/
 
-Camera::Type Camera::getCameraType() const
+Camera::Type Camera::getType() const
 {
     return _type;
 }
@@ -143,14 +155,14 @@ float Camera::getZoomX() const
 {
     GP_ASSERT(_type == Camera::ORTHOGRAPHIC);
 
-    return _zoom[0];
+    return _zoom.x;
 }
 
 void Camera::setZoomX(float zoomX)
 {
     GP_ASSERT(_type == Camera::ORTHOGRAPHIC);
 
-    _zoom[0] = zoomX;
+    _zoom.x = zoomX;
     _bits |= CAMERA_DIRTY_PROJ | CAMERA_DIRTY_VIEW_PROJ | CAMERA_DIRTY_INV_VIEW_PROJ | CAMERA_DIRTY_BOUNDS;
     cameraChanged();
 }
@@ -159,14 +171,14 @@ float Camera::getZoomY() const
 {
     GP_ASSERT(_type == Camera::ORTHOGRAPHIC);
 
-    return _zoom[1];
+    return _zoom.y;
 }
 
 void Camera::setZoomY(float zoomY)
 {
     GP_ASSERT(_type == Camera::ORTHOGRAPHIC);
 
-    _zoom[1] = zoomY;
+    _zoom.y = zoomY;
     _bits |= CAMERA_DIRTY_PROJ | CAMERA_DIRTY_VIEW_PROJ | CAMERA_DIRTY_INV_VIEW_PROJ | CAMERA_DIRTY_BOUNDS;
     cameraChanged();
 }
@@ -277,7 +289,7 @@ const Matrix& Camera::getProjectionMatrix() const
         else
         {
             // Create an ortho projection with the origin at the bottom left of the viewport, +X to the right and +Y up.
-            Matrix::createOrthographic(_zoom[0], _zoom[1], _nearPlane, _farPlane, &_projection);
+            Matrix::createOrthographic(_zoom.x, _zoom.y, _nearPlane, _farPlane, &_projection);
         }
 
         _bits &= ~CAMERA_DIRTY_PROJ;
@@ -406,7 +418,6 @@ void Camera::unproject(const Rectangle& viewport, float x, float y, float depth,
         screen.y /= screen.w;
         screen.z /= screen.w;
     }
-
     dst->set(screen.x, screen.y, screen.z);
 }
 
@@ -433,11 +444,11 @@ void Camera::pickRay(const Rectangle& viewport, float x, float y, Ray* dst) cons
 Camera* Camera::clone(NodeCloneContext& context)
 {
     Camera* cameraClone = NULL;
-    if (getCameraType() == PERSPECTIVE)
+    if (_type == PERSPECTIVE)
     {
         cameraClone = createPerspective(_fieldOfView, _aspectRatio, _nearPlane, _farPlane);
     }
-    else if (getCameraType() == ORTHOGRAPHIC)
+    else if (_type == ORTHOGRAPHIC)
     {
         cameraClone = createOrthographic(getZoomX(), getZoomY(), getAspectRatio(), _nearPlane, _farPlane);
     }
@@ -494,6 +505,80 @@ void Camera::removeListener(Camera::Listener* listener)
             }
         }
     }
+}
+
+const char* Camera::getSerializedClassName() const
+{
+    return "gameplay::Camera";
+}
+
+void Camera::serialize(Serializer* serializer)
+{
+    serializer->writeEnum("type", "gameplay::Camera::Type", _type, -1);
+    if (_type == Camera::PERSPECTIVE)
+    {
+        serializer->writeFloat("fieldOfView", _fieldOfView, CAMERA_FIELD_OF_VIEW);
+    }
+    else
+    {
+        // TODO use Game::getInstance() getWidth and getHeight if game is running instead.
+        serializer->writeVector("zoom", _zoom, Vector2(CAMERA_ZOOM_X, CAMERA_ZOOM_X));
+    }
+    // TODO use Game::getInstance() getWidth / getHeight if game is running instead.
+    serializer->writeFloat("aspectRatio", _aspectRatio, CAMERA_ASPECT_RATIO);
+    serializer->writeFloat("nearPlane", _nearPlane, CAMERA_NEAR_PLANE);
+    serializer->writeFloat("farPlane", _farPlane, CAMERA_FAR_PLANE);
+}
+
+void Camera::deserialize(Serializer* serializer)
+{
+    _type = static_cast<Camera::Type>(serializer->readEnum("type", "gameplay::Camera::Type", -1));
+    if (_type == Camera::PERSPECTIVE)
+    {
+        _fieldOfView = serializer->readFloat("fieldOfView", CAMERA_FIELD_OF_VIEW);
+    }
+    else
+    {
+        // TODO use Game::getInstance() getWidth and getHeight if game is running instead.
+        _zoom = serializer->readVector("zoom", Vector2(CAMERA_ZOOM_X, CAMERA_ZOOM_X));
+    }
+    _aspectRatio = serializer->readFloat("aspectRatio", CAMERA_ASPECT_RATIO);
+    _nearPlane = serializer->readFloat("nearPlane", CAMERA_NEAR_PLANE);
+    _farPlane = serializer->readFloat("farPlane", CAMERA_FAR_PLANE);
+}
+
+Serializable* Camera::createInstance()
+{
+    return static_cast<Serializable*>(new Camera());
+}
+
+const char* Camera::enumToString(const char* enumName, int value)
+{
+    if (std::strcmp("gameplay::Camera::Type", enumName) == 0)
+    {
+        switch (value)
+        {
+            case Camera::PERSPECTIVE:
+                return "PERSPECTIVE";
+            case Camera::ORTHOGRAPHIC:
+                return "ORTHOGRAPHIC";
+            default:
+                return NULL;
+        }
+    }
+    return NULL;
+}
+
+int Camera::enumParse(const char* enumName, const char* str)
+{
+    if (std::strcmp("gameplay::Camera::Type", enumName) == 0)
+    {
+        if (std::strcmp("PERSPECTIVE", str) == 0)
+            return Camera::PERSPECTIVE;
+        else if (std::strcmp("ORTHOGRAPHIC", str) == 0)
+            return Camera::ORTHOGRAPHIC;
+    }
+    return -1;
 }
 
 }

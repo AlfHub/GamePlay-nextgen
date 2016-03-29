@@ -9,6 +9,7 @@
 #include "ScriptController.h"
 #include <unistd.h>
 #include <IOKit/hid/IOHIDLib.h>
+#import <Foundation/Foundation.h>
 #import <Cocoa/Cocoa.h>
 #import <QuartzCore/CVDisplayLink.h>
 #import <OpenGL/OpenGL.h>

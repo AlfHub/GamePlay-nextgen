@@ -25,6 +25,8 @@ class Uniform;
  */
 class Effect: public Ref
 {
+    friend class Pass;
+
 public:
 
     /**
@@ -225,17 +227,17 @@ public:
 private:
 
     /**
-     * Hidden constructor (use createEffect instead).
+     * Constructor.
      */
     Effect();
 
     /**
-     * Hidden destructor (use destroyEffect instead).
+     * Destructor
      */
     ~Effect();
 
     /**
-     * Hidden copy assignment operator.
+     * Copy assignment operator.
      */
     Effect& operator=(const Effect&);
 
@@ -243,6 +245,9 @@ private:
 
     GLuint _program;
     std::string _id;
+    std::string _vshPath;
+    std::string _fshPath;
+    std::string _defines;
     std::map<std::string, VertexAttribute> _vertexAttributes;
     mutable std::map<std::string, Uniform*> _uniforms;
     static Uniform _emptyUniform;

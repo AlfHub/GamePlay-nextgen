@@ -18,16 +18,12 @@ class Bundle;
  */
 class Joint : public Node
 {
+    friend class Serializer::Activator;
     friend class Node;
     friend class MeshSkin;
     friend class Bundle;
 
 public:
-
-    /**
-     * @see Node::getType()
-     */
-    Node::Type getType() const;
 
     /**
      * @see Node::getScene()
@@ -46,13 +42,18 @@ protected:
     /**
      * Constructor.
      */
+    Joint();
+    
+    /**
+     * Constructor.
+     */
     Joint(const char* id);
-
+    
     /**
      * Destructor.
      */
     virtual ~Joint();
-
+    
     /**
      * Creates a new joint with the given id.
      * 
@@ -92,17 +93,33 @@ protected:
      */
     void transformChanged();
 
+    /**
+     * @see Serializeable::getSerializedClassName
+     */
+    const char* getSerializedClassName() const;
+    
+    /**
+     * @see Serializeable::serialize
+     */
+    void serialize(Serializer* serializer);
+    
+    /**
+     * @see Serializeable::deserialize
+     */
+    void deserialize(Serializer* serializer);
+
 private:
 
     /**
-     * Internal structure to track mesh skins referencing a joint.
+     * Track mesh skins referencing a joint.
      */
     struct SkinReference
     {
         MeshSkin* skin;
         SkinReference* next;
-
+        
         SkinReference();
+        
         ~SkinReference();
     };
 
@@ -112,28 +129,28 @@ private:
     Joint(const Joint& copy);
 
     /**
-     * Hidden copy assignment operator.
+     * Copy assignment operator.
      */
     Joint& operator=(const Joint&);
 
+    /**
+     * @see Serializer::Activator::CreateInstanceCallback
+     */
+    static Serializable* createInstance();
+
+    /**
+     * Adds a skin to the joint.
+     */
     void addSkin(MeshSkin* skin);
 
+    /**
+     * Removes a skin to the joint.
+     */
     void removeSkin(MeshSkin* skin);
 
-    /** 
-     * The Matrix representation of the Joint's bind pose.
-     */
-    Matrix _bindPose;
-
-    /**
-     * Flag used to mark if the Joint's matrix is dirty.
-     */
-    bool _jointMatrixDirty;
-
-    /**
-     * Linked list of mesh skins that are referenced by this joint.
-     */
-    SkinReference _skin;
+    Matrix _bindPose;       // The Matrix representation of the Joint's bind pose.
+    bool _jointMatrixDirty; // Flag used to mark if the Joint's matrix is dirty.
+    SkinReference _skin;    //Linked list of mesh skins that are referenced by this joint.
 };
 
 }

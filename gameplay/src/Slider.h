@@ -13,8 +13,6 @@ namespace gameplay
  * Defines a slider control.
  *
  * A slider consists of a marker (grabber) that can slide along a track between two end-caps.
- * 
- * @see http://gameplay3d.github.io/GamePlay/docs/file-formats.html#wiki-UI_Forms
  */
 class Slider : public Label
 {
@@ -35,14 +33,14 @@ public:
     static Slider* create(const char* id, Theme::Style* style = NULL);
 
     /**
-     * Extends ScriptTarget::getTypeName() to return the type name of this class.
+     * Extends ScriptTarget::getScriptClassName() to return the type name of this class.
      *
      * Child controls should override this function to return the correct type name.
      *
      * @return The type name of this class: "Slider"
-     * @see ScriptTarget::getTypeName()
+     * @see ScriptTarget::getScriptClassName()
      */
-    const char* getTypeName() const;
+    const char* getScriptClassName() const;
 
     /**
      * Set the minimum value that can be set on this slider.
@@ -297,13 +295,8 @@ private:
 
     void updateValue(int x, int y);
 
-    /**
-     * The text displayed by this slider if set to display its value.
-     */
     std::string _valueText;
-
     float _trackHeight;
-
     float _gamepadValue;
 };
 

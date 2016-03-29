@@ -6,11 +6,20 @@
 namespace gameplay
 {
 
-Joint::Joint(const char* id)
-    : Node(id), _jointMatrixDirty(true)
+Joint::Joint() : Node(),
+    _jointMatrixDirty(true)
 {
 }
 
+Joint::Joint(const char* id) : Node(id),
+    _jointMatrixDirty(true)
+{
+}
+
+Joint::Joint(const Joint& copy) : Node()
+{
+}
+    
 Joint::~Joint()
 {
 }
@@ -28,11 +37,6 @@ Node* Joint::cloneSingleNode(NodeCloneContext &context) const
     copy->_bindPose = _bindPose;
     Node::cloneInto(copy, context);
     return copy;
-}
-
-Node::Type Joint::getType() const
-{
-    return Node::JOINT;
 }
 
 Scene* Joint::getScene() const
@@ -148,6 +152,28 @@ void Joint::removeSkin(MeshSkin* skin)
             ref = tmp;
         }
     }
+}
+
+const char* Joint::getSerializedClassName() const
+{
+    return "gameplay::Joint";
+}
+
+void Joint::serialize(Serializer* serializer)
+{
+    Node::serialize(serializer);
+    serializer->writeMatrix("bindPose", _bindPose, Matrix::identity());
+}
+
+void Joint::deserialize(Serializer* serializer)
+{
+    Node::deserialize(serializer);
+    _bindPose = serializer->readMatrix("bindPose", Matrix::identity());
+}
+
+Serializable* Joint::createInstance()
+{
+    return static_cast<Serializable*>(new Joint());
 }
 
 Joint::SkinReference::SkinReference()

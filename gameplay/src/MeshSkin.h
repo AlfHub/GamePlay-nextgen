@@ -1,6 +1,7 @@
 #ifndef MESHSKIN_H_
 #define MESHSKIN_H_
 
+#include "Serializable.h"
 #include "Matrix.h"
 #include "Transform.h"
 
@@ -20,8 +21,9 @@ class Joint;
  * a skeleton on joints that will influence the vertex position
  * and which the joints can be animated.
  */
-class MeshSkin : public Transform::Listener
+class MeshSkin : public Serializable, public Transform::Listener
 {
+    friend class Serializer::Activator;
     friend class Bundle;
     friend class Model;
     friend class Joint;
@@ -116,6 +118,21 @@ public:
      */
     void transformChanged(Transform* transform, long cookie);
 
+    /**
+     * @see Serializeable::getSerializedClassName
+     */
+    const char* getSerializedClassName() const;
+
+    /**
+     * @see Serializeable::serialize
+     */
+    void serialize(Serializer* serializer);
+
+    /**
+     * @see Serializeable::deserialize
+     */
+    void deserialize(Serializer* serializer);
+
 private:
 
     /**
@@ -134,9 +151,14 @@ private:
     ~MeshSkin();
     
     /**
-     * Hidden copy assignment operator.
+     * Copy assignment operator.
      */
     MeshSkin& operator=(const MeshSkin&);
+
+    /**
+     * @see Serializer::Activator::CreateInstanceCallback
+     */
+    static Serializable* createInstance();
 
     /**
      * Clones the MeshSkin and the joints that it references.

@@ -1,6 +1,7 @@
 #ifndef MATERIALPARAMETER_H_
 #define MATERIALPARAMETER_H_
 
+#include "Serializable.h"
 #include "AnimationTarget.h"
 #include "Vector2.h"
 #include "Vector3.h"
@@ -34,8 +35,9 @@ namespace gameplay
  * you pass in are valid for the lifetime of the MaterialParameter
  * object.
  */
-class MaterialParameter : public AnimationTarget, public Ref
+class MaterialParameter :  public AnimationTarget, public Ref, public Serializable
 {
+    friend class Serializer::Activator;
     friend class RenderState;
 
 public:
@@ -45,10 +47,34 @@ public:
      */
     static const int ANIMATE_UNIFORM = 1;
 
+    
+    enum Type
+    {
+        NONE,
+        VECTOR2,
+        VECTOR3,
+        VECTOR4,
+        MATRIX,
+        SAMPLER,
+        SAMPLER_ARRAY,
+        INT,
+        INT_ARRAY,
+        FLOAT,
+        FLOAT_ARRAY,
+        METHOD
+    };
+
     /**
      * Returns the name of this material parameter.
      */
     const char* getName() const;
+
+    /**
+     * Gets the type of value stored for this material parameter.
+     *
+     * @return The type of value stored for this material parameter.
+     */
+    Type getType() const;
 
     /**
      * Returns the texture sampler or NULL if this MaterialParameter is not a sampler type.
@@ -177,7 +203,7 @@ public:
      *
      * @param value The value to set.
      */
-    void setVector2(const Vector2& value);
+    void setVector(const Vector2& value);
 
     /**
      * Stores an array of Vector2 values in this parameter.
@@ -188,26 +214,26 @@ public:
      *      to point to the passed in array/pointer (which must be valid for the lifetime
      *      of the MaterialParameter).
      */
-    void setVector2Array(const Vector2* values, unsigned int count, bool copy = false);
+    void setVectorArray(const Vector2* values, unsigned int count, bool copy = false);
 
     /**
      * Stores a Vector3 value in this parameter.
      *
      * @param value The value to set.
      */
-    void setVector3(const Vector3& value);
+    void setVector(const Vector3& value);
 
     /**
      * Stores an array of Vector3 values in this parameter.
      */
-    void setVector3Array(const Vector3* values, unsigned int count, bool copy = false);
+    void setVectorArray(const Vector3* values, unsigned int count, bool copy = false);
 
     /**
      * Stores a Vector4 value in this parameter.
      *
      * @param value The value to set.
      */
-    void setVector4(const Vector4& value);
+    void setVector(const Vector4& value);
 
     /**
      * Stores an array of Vector4 values in this parameter.
@@ -218,7 +244,7 @@ public:
      *      to point to the passed in array/pointer (which must be valid for the lifetime
      *      of the MaterialParameter).
      */
-    void setVector4Array(const Vector4* values, unsigned int count, bool copy = false);
+    void setVectorArray(const Vector4* values, unsigned int count, bool copy = false);
 
     /**
      * Stores a Matrix value in this parameter.
@@ -346,7 +372,27 @@ public:
      */
     void setAnimationPropertyValue(int propertyId, AnimationValue* value, float blendWeight = 1.0f);
 
+    /**
+     * @see Serializeable::getSerializedClassName
+     */
+    const char* getSerializedClassName() const;
+    
+    /**
+     * @see Serializeable::serialize
+     */
+    void serialize(Serializer* serializer);
+    
+    /**
+     * @see Serializeable::deserialize
+     */
+    void deserialize(Serializer* serializer);
+    
 private:
+    
+    /**
+     * Constructor.
+     */
+    MaterialParameter();
    
     /**
      * Constructor.
@@ -359,10 +405,25 @@ private:
     ~MaterialParameter();
 
     /**
-     * Hidden copy assignment operator.
+     * Copy assignment operator.
      */
     MaterialParameter& operator=(const MaterialParameter&);
+
+    /**
+     * @see Serializer::Activator::CreateInstanceCallback
+     */
+    static Serializable* createInstance();
     
+    /**
+     * @see Serializer::Activator::EnumToStringCallback
+     */
+    static const char* enumToString(const char* enumName, int value);
+    
+    /**
+     * @see Serializer::Activator::EnumParseCallback
+     */
+    static int enumParse(const char* enumName, const char* str);
+
     /**
      * Interface implemented by templated method bindings for simple storage and iteration.
      */
@@ -441,7 +502,7 @@ private:
         UNIFORM_NOT_FOUND = 0x01,
         PARAMETER_VALUE_NOT_SET = 0x02
     };
-    
+
     union
     {
         /** @script{ignore} */
@@ -453,29 +514,13 @@ private:
         /** @script{ignore} */
         int* intPtrValue;
         /** @script{ignore} */
-        const Texture::Sampler* samplerValue;
+        Texture::Sampler* samplerValue;
         /** @script{ignore} */
-        const Texture::Sampler** samplerArrayValue;
+        Texture::Sampler** samplerArrayValue;
         /** @script{ignore} */
         MethodBinding* method;
     } _value;
-    
-    enum
-    {
-        NONE,
-        FLOAT,
-        FLOAT_ARRAY,
-        INT,
-        INT_ARRAY,
-        VECTOR2,
-        VECTOR3,
-        VECTOR4,
-        MATRIX,
-        SAMPLER,
-        SAMPLER_ARRAY,
-        METHOD
-    } _type;
-    
+    Type _type;
     unsigned int _count;
     bool _dynamic;
     std::string _name;

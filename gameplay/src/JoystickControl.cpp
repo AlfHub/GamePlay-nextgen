@@ -4,12 +4,10 @@
 namespace gameplay
 {
 
-JoystickControl::JoystickControl()
-    : _radiusCoord(1.0f),
-    _innerRegionCoord(NULL), _outerRegionCoord(NULL),
+JoystickControl::JoystickControl() :
+    _radiusCoord(1.0f), _innerRegionCoord(NULL), _outerRegionCoord(NULL),
     _innerRegionCoordBoundsBits(0), _outerRegionCoordBoundsBits(0),
-    _radiusPixels(1.0f),
-    _innerSizePixels(NULL), _outerSizePixels(NULL),
+    _radiusPixels(1.0f), _innerSizePixels(NULL), _outerSizePixels(NULL),
     _relative(true), _index(0)
 {
 }
@@ -41,7 +39,7 @@ JoystickControl* JoystickControl::create(const char* id, Theme::Style* style)
     return joystickControl;
 }*/
 
-const char* JoystickControl::getTypeName() const
+const char* JoystickControl::getScriptClassName() const
 {
     return "JoystickControl";
 }

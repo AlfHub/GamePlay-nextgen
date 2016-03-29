@@ -142,32 +142,22 @@ public:
     };
 
     /**
-     * Constructs the identity transform.
+     * Constructor.
      */
     Transform();
 
     /**
-     * Constructs a new transform from the specified values.
-     *
-     * @param scale The scale vector.
-     * @param rotation The rotation quaternion.
-     * @param translation The translation vector.
+     * Constructor.
      */
     Transform(const Vector3& scale, const Quaternion& rotation, const Vector3& translation);
 
     /**
-     * Constructs a new transform from the specified values.
-     *
-     * @param scale The scale vector.
-     * @param rotation The rotation matrix.
-     * @param translation The translation vector.
+     * Constructor.
      */
     Transform(const Vector3& scale, const Matrix& rotation, const Vector3& translation);
 
     /**
-     * Constructs a new transform from the given transform.
-     *
-     * @param copy The transform to copy.
+     * Constructor.
      */
     Transform(const Transform& copy);
 
@@ -177,12 +167,12 @@ public:
     virtual ~Transform();
 
     /**
-     * Extends ScriptTarget::getTypeName() to return the type name of this class.
+     * Extends ScriptTarget::getScriptClassName() to return the type name of this class.
      *
      * @return The type name of this class: "Transform"
-     * @see ScriptTarget::getTypeName()
+     * @see ScriptTarget::getScriptClassName()
      */
-    const char* getTypeName() const;
+    const char* getScriptClassName() const;
 
     /**
      * Gets the matrix corresponding to this transform.

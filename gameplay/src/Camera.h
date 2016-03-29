@@ -2,6 +2,7 @@
 #define CAMERA_H_
 
 #include "Ref.h"
+#include "Serializable.h"
 #include "Transform.h"
 #include "Frustum.h"
 #include "Rectangle.h"
@@ -17,8 +18,9 @@ class NodeCloneContext;
 /**
  * Defines a camera which acts as a view of a scene to be rendered.
  */
-class Camera : public Ref, public Transform::Listener
+class Camera : public Ref, public Serializable, public Transform::Listener
 {
+    friend class Serializer::Activator;
     friend class Node;
 
 public:
@@ -92,7 +94,7 @@ public:
      *
      * @return The camera type.
      */
-    Camera::Type getCameraType() const;
+    Camera::Type getType() const;
 
     /**
      * Gets the field of view for a perspective camera.
@@ -319,8 +321,28 @@ public:
      */
     void removeListener(Camera::Listener* listener);
 
+    /**
+     * @see Serializeable::getSerializedClassName
+     */
+    const char* getSerializedClassName() const;
+    
+    /**
+     * @see Serializeable::serialize
+     */
+    void serialize(Serializer* serializer);
+    
+    /**
+     * @see Serializeable::deserialize
+     */
+    void deserialize(Serializer* serializer);
+
 private:
 
+    /**
+     * Constructor.
+     */
+    Camera();
+    
     /**
      * Constructor.
      */
@@ -337,9 +359,24 @@ private:
     virtual ~Camera();
 
     /**
-     * Hidden copy assignment operator.
+     * Copy assignment operator.
      */
     Camera& operator=(const Camera&);
+
+    /**
+     * @see Serializer::Activator::CreateInstanceCallback
+     */
+    static Serializable* createInstance();
+
+    /**
+     * @see Serializer::Activator::EnumToStringCallback
+     */
+    static const char* enumToString(const char* enumName, int value);
+    
+    /**
+     * @see Serializer::Activator::EnumParseCallback
+     */
+    static int enumParse(const char* enumName, const char* str);
 
     /**
      * Clones the camera and returns a new camera.
@@ -363,7 +400,7 @@ private:
 
     Camera::Type _type;
     float _fieldOfView;
-    float _zoom[2];
+    Vector2 _zoom;
     float _aspectRatio;
     float _nearPlane;
     float _farPlane;

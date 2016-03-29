@@ -25,9 +25,9 @@ using gameplay::print;
 #define DEFAULT_DEPTH_BUFFER_SIZE 24
 #define DEFAULT_STENCIL_BUFFER_SIZE 8
 
-static double __timeTicksPerMillis;
-static double __timeStart;
-static double __timeAbsolute;
+static double __timeTicksPerMillis = 0;;
+static double __timeStart = 0;
+static double __timeAbsolute = 0;
 static bool __vsync = WINDOW_VSYNC;
 static HINSTANCE __hinstance = 0;
 static HWND __hwnd = 0;
@@ -814,56 +814,50 @@ Platform* Platform::create(Game* game)
     params.rect.right = 0;
     params.rect.bottom = 0;
     params.samples = 0;
-    /*if (game->getConfig())
+
+    Game::Config* config = Game::getInstance()->getConfig();
+    const char* title = config->title.c_str();
+    if (title)
     {
-        Properties* config = game->getConfig()->getNamespace("window", true);
-        if (config)
-        {
-            // Read window title.
-            const char* title = config->getString("title");
-            if (title)
-            {
-                int len = MultiByteToWideChar(CP_ACP, 0, title, -1, NULL, 0);
-                wchar_t* wtitle = new wchar_t[len];
-                MultiByteToWideChar(CP_ACP, 0, title, -1, wtitle, len);
-                params.windowName = wtitle;
-                SAFE_DELETE_ARRAY(wtitle);
-            }
-
-            // Read fullscreen state.
-            params.fullscreen = config->getBool("fullscreen");
-            // Read resizable state.
-            params.resizable = config->getBool("resizable");
-            // Read multisampling state.
-            params.samples = config->getInt("samples");
-
-            // Read window rect.
-            int x = config->getInt("x");
-            if (x != 0)
-                params.rect.left = x;
-            int y = config->getInt("y");
-            if (y != 0)
-                params.rect.top = y;
-            int width = config->getInt("width");
-            int height = config->getInt("height");
-
-            if (width == 0 && height == 0 && params.fullscreen)
-                getDesktopResolution(width, height);
-
-            if (width != 0)
-                params.rect.right = params.rect.left + width;
-            if (height != 0)
-                params.rect.bottom = params.rect.top + height;
-        }
-    }*/
-
+        int len = MultiByteToWideChar(CP_ACP, 0, title, -1, NULL, 0);
+        wchar_t* wtitle = new wchar_t[len];
+        MultiByteToWideChar(CP_ACP, 0, title, -1, wtitle, len);
+        params.windowName = wtitle;
+        SAFE_DELETE_ARRAY(wtitle);
+    }
+    
+    // Read fullscreen state.
+    params.fullscreen = config->fullscreen;
+    // Read resizable state.
+    params.resizable = config->resizable;
+    // Read multisampling state.
+    params.samples = config->samples;
+    
+    // Read window rect.
+    int x = config->x;
+    if (x != 0)
+        params.rect.left = x;
+    int y = config->y;
+    if (y != 0)
+        params.rect.top = y;
+    int width = config->width;
+    int height = config->height;
+    
+    if (width == 0 && height == 0 && params.fullscreen)
+        getDesktopResolution(width, height);
+    
+    if (width != 0)
+        params.rect.right = params.rect.left + width;
+    if (height != 0)
+        params.rect.bottom = params.rect.top + height;
+    
     // If window size was not specified, set it to a default value
     if (params.rect.right == 0)
         params.rect.right = params.rect.left + DEFAULT_RESOLUTION_X;
     if (params.rect.bottom == 0)
         params.rect.bottom = params.rect.top + DEFAULT_RESOLUTION_Y;
-    int width = params.rect.right - params.rect.left;
-    int height = params.rect.bottom - params.rect.top;
+    width = params.rect.right - params.rect.left;
+    height = params.rect.bottom - params.rect.top;
 
     if (params.fullscreen)
     {
@@ -895,7 +889,6 @@ Platform* Platform::create(Game* game)
             params.rect.bottom = params.rect.top + height;
         }
     }
-
 
     // Register our window class.
     WNDCLASSEX wc;
@@ -977,7 +970,6 @@ int Platform::enterMessagePump()
     __timeTicksPerMillis = (double)(tps.QuadPart / 1000L);
     LARGE_INTEGER queryTime;
     QueryPerformanceCounter(&queryTime);
-    GP_ASSERT(__timeTicksPerMillis);
     __timeStart = queryTime.QuadPart / __timeTicksPerMillis;
 
     SwapBuffers(__hdc);
@@ -1057,9 +1049,17 @@ unsigned int Platform::getDisplayHeight()
 
 double Platform::getAbsoluteTime()
 {
+    if (!__timeTicksPerMillis)
+    {
+        LARGE_INTEGER tps;
+        QueryPerformanceFrequency(&tps);
+        __timeTicksPerMillis = (double)(tps.QuadPart / 1000L);
+        LARGE_INTEGER queryTime;
+        QueryPerformanceCounter(&queryTime);
+        __timeStart = queryTime.QuadPart / __timeTicksPerMillis;
+    }
     LARGE_INTEGER queryTime;
     QueryPerformanceCounter(&queryTime);
-    GP_ASSERT(__timeTicksPerMillis);
     __timeAbsolute = queryTime.QuadPart / __timeTicksPerMillis;
 
     return __timeAbsolute - __timeStart;

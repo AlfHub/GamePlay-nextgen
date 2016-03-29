@@ -12,7 +12,7 @@ namespace gameplay
 static std::map<std::string, Effect*> __effectCache;
 static Effect* __currentEffect = NULL;
 
-Effect::Effect() : _program(0)
+Effect::Effect() : _program(0), _vshPath(""), _fshPath(""), _defines("")
 {
 }
 
@@ -95,6 +95,11 @@ Effect* Effect::createFromFile(const char* vshPath, const char* fshPath, const c
         __effectCache[uniqueId] = effect;
     }
 
+    effect->_vshPath = vshPath;
+    effect->_fshPath = fshPath;
+    if (defines)
+        effect->_defines = defines;
+    
     return effect;
 }
 

@@ -5,7 +5,7 @@ namespace gameplay
 {
 
 MeshPart::MeshPart() :
-    _mesh(NULL), _meshIndex(0), _primitiveType(Mesh::TRIANGLES), _indexCount(0), _indexBuffer(0), _dynamic(false)
+    _mesh(NULL), _meshIndex(0), _primitiveType(Mesh::TRIANGLES), _indexFormat(Mesh::INDEX32), _indexCount(0), _indexBuffer(0), _dynamic(false)
 {
 }
 
@@ -77,6 +77,24 @@ Mesh::IndexFormat MeshPart::getIndexFormat() const
     return _indexFormat;
 }
 
+unsigned int MeshPart::getIndexSize() const
+{
+    unsigned int indexSize = 0;
+    switch (_indexFormat)
+    {
+        case Mesh::INDEX8:
+            indexSize = 1;
+            break;
+        case Mesh::INDEX16:
+            indexSize = 2;
+            break;
+        case Mesh::INDEX32:
+            indexSize = 4;
+            break;
+    }
+    return indexSize;
+}
+
 IndexBufferHandle MeshPart::getIndexBuffer() const
 {
     return _indexBuffer;
@@ -98,22 +116,7 @@ void MeshPart::setIndexData(const void* indexData, unsigned int indexStart, unsi
 {
     GL_ASSERT( glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indexBuffer) );
 
-    unsigned int indexSize = 0;
-    switch (_indexFormat)
-    {
-    case Mesh::INDEX8:
-        indexSize = 1;
-        break;
-    case Mesh::INDEX16:
-        indexSize = 2;
-        break;
-    case Mesh::INDEX32:
-        indexSize = 4;
-        break;
-    default:
-        GP_ERROR("Unsupported index format (%d).", _indexFormat);
-        return;
-    }
+    unsigned int indexSize = getIndexSize();
 
     if (indexStart == 0 && indexCount == 0)
     {
@@ -133,6 +136,51 @@ void MeshPart::setIndexData(const void* indexData, unsigned int indexStart, unsi
 bool MeshPart::isDynamic() const
 {
     return _dynamic;
+}
+
+const char* MeshPart::getSerializedClassName() const
+{
+    return "gameplay::MeshPart";
+}
+
+void MeshPart::serialize(Serializer* serializer)
+{
+    serializer->writeEnum("primitiveType", "gameplay::Mesh::PrimitiveType", _primitiveType, Mesh::TRIANGLES);
+    serializer->writeEnum("indexFormat", "gameplay::Mesh::IndexFormat", _indexFormat, Mesh::INDEX32);
+    serializer->writeInt("indexCount", _indexCount, 0);
+    do
+    {
+        void* indexData = mapIndexBuffer();
+        serializer->writeByteArray("indexData", (unsigned char*)indexData, getIndexSize() * _indexCount);
+    } while(!unmapIndexBuffer());
+    serializer->writeBool("dynamic", _dynamic, true);
+}
+
+void MeshPart::deserialize(Serializer* serializer)
+{
+    _primitiveType = static_cast<Mesh::PrimitiveType>(serializer->readEnum("primitiveType", "gameplay::Mesh::PrimitiveType", Mesh::TRIANGLES));
+    _indexFormat = static_cast<Mesh::IndexFormat>(serializer->readEnum("indexFormat", "gameplay::Mesh::IndexFormat", Mesh::INDEX32));
+    _indexCount = serializer->readInt("indexCount", 0);
+    unsigned char* indexData = new unsigned char[getIndexSize() * _indexCount];
+    serializer->readByteArray("indexData", &indexData);
+    _dynamic = serializer->readBool("dynamic", true);
+
+    GLuint vbo;
+    GL_ASSERT(glGenBuffers(1, &vbo));
+    GL_ASSERT(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vbo));
+
+    unsigned int indexSize = getIndexSize();
+
+    GL_ASSERT(glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexSize * _indexCount, NULL,
+                           _dynamic ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW));
+    _indexBuffer = vbo;
+    setIndexData((void*)indexData, 0, _indexCount);
+    SAFE_DELETE_ARRAY(indexData);    
+}
+
+Serializable* MeshPart::createInstance()
+{
+    return static_cast<Serializable*>(new MeshPart());
 }
 
 }

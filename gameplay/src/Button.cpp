@@ -45,7 +45,7 @@ void Button::initialize(const char* typeName, Theme::Style* style, Properties* p
     }
 }*/
 
-const char* Button::getTypeName() const
+const char* Button::getScriptClassName() const
 {
     return "Button";
 }

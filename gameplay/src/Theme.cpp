@@ -61,14 +61,11 @@ Theme* Theme::getDefault()
 {
 	if (!__defaultTheme)
 	{
-		/* Check game.config for a default theme setting
-		Properties* config = Game::getInstance()->getConfig()->getNamespace("ui", true);
-		if (config)
-		{
-			const char* defaultTheme = config->getString("theme");
-			if (defaultTheme && FileSystem::fileExists(defaultTheme))
-				__defaultTheme = Theme::create(defaultTheme);
-		}*/
+        // Check game.config for a theme setting
+        Game::Config* config = Game::getInstance()->getConfig();
+        
+        if (FileSystem::fileExists(config->theme.c_str()))
+            __defaultTheme = Theme::create(config->theme.c_str());
 
         if (!__defaultTheme)
         {

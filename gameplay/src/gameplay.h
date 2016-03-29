@@ -11,6 +11,10 @@
 #include "Bundle.h"
 #include "MathUtil.h"
 #include "Logger.h"
+#include "Serializable.h"
+#include "Serializer.h"
+#include "SerializerJson.h"
+#include "SerializerBinary.h"
 
 // Math
 #include "Rectangle.h"

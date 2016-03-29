@@ -7,6 +7,11 @@
 namespace gameplay
 {
 
+Pass::Pass() :
+    _id(""), _technique(NULL), _effect(NULL), _vaBinding(NULL)
+{
+}
+
 Pass::Pass(const char* id, Technique* technique) :
     _id(id ? id : ""), _technique(technique), _effect(NULL), _vaBinding(NULL)
 {
@@ -101,6 +106,38 @@ Pass* Pass::clone(Technique* technique, NodeCloneContext &context) const
     RenderState::cloneInto(pass, context);
     pass->_parent = technique;
     return pass;
+}
+
+const char* Pass::getSerializedClassName() const
+{
+    return "gameplay::Pass";
+}
+
+void Pass::serialize(Serializer* serializer)
+{
+    serializer->writeString("id", _id.c_str(), "");
+    serializer->writeString("vertexShader", _effect->_vshPath.c_str(), "");
+    serializer->writeString("fragmentShader", _effect->_fshPath.c_str(), "");
+    serializer->writeString("defines", _effect->_defines.c_str(), "");
+    RenderState::serialize(serializer);
+}
+
+void Pass::deserialize(Serializer* serializer)
+{
+    serializer->readString("id", _id, "");
+    std::string vshPath;
+    serializer->readString("vertexShader", vshPath, "");
+    std::string fshPath;
+    serializer->readString("fragmentShader", fshPath, "");
+    std::string defines;
+    serializer->readString("defines", defines, "");
+    _effect = Effect::createFromFile(vshPath.c_str(), fshPath.c_str(), defines.c_str());
+    RenderState::deserialize(serializer);
+}
+
+Serializable* Pass::createInstance()
+{
+    return static_cast<Serializable*>(new Pass());
 }
 
 }

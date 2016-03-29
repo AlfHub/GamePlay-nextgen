@@ -34,14 +34,14 @@ public:
     static CheckBox* create(const char* id, Theme::Style* style = NULL);
 
     /**
-     * Extends ScriptTarget::getTypeName() to return the type name of this class.
+     * Extends ScriptTarget::getScriptClassName() to return the type name of this class.
      *
      * Child controls should override this function to return the correct type name.
      *
      * @return The type name of this class: "CheckBox"
-     * @see ScriptTarget::getTypeName()
+     * @see ScriptTarget::getScriptClassName()
      */
-    const char* getTypeName() const;
+    const char* getScriptClassName() const;
 
     /**
      * Gets whether this checkbox is checked.

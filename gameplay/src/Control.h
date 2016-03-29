@@ -241,14 +241,14 @@ public:
     static const int ANIMATE_OPACITY = 7;
 
     /**
-     * Extends ScriptTarget::getTypeName() to return the type name of this class.
+     * Extends ScriptTarget::getScriptClassName() to return the type name of this class.
      *
      * Child controls should override this function to return the correct type name.
      *
      * @return The type name of this class: "Control"
-     * @see ScriptTarget::getTypeName()
+     * @see ScriptTarget::getScriptClassName()
      */
-    const char* getTypeName() const;
+    const char* getScriptClassName() const;
 
     /**
      * Get this control's ID string.

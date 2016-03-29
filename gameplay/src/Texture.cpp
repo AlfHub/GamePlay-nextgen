@@ -51,8 +51,11 @@ static std::vector<Texture*> __textureCache;
 static TextureHandle __currentTextureId = 0;
 static Texture::Type __currentTextureType = Texture::TEXTURE_2D;
 
-Texture::Texture() : _handle(0), _format(UNKNOWN), _type((Texture::Type)0), _width(0), _height(0), _mipmapped(false), _cached(false), _compressed(false),
-    _wrapS(Texture::REPEAT), _wrapT(Texture::REPEAT), _wrapR(Texture::REPEAT), _minFilter(Texture::NEAREST_MIPMAP_LINEAR), _magFilter(Texture::LINEAR)
+Texture::Texture() : _handle(0), _path(""), _width(0), _height(0), _format(Texture::UNKNOWN),
+_mipmapped(false), _type((Texture::Type)TEXTURE_2D),
+_compressed(false), _cached(false),
+_wrapS(Texture::REPEAT), _wrapT(Texture::REPEAT), _wrapR(Texture::REPEAT),
+_filterMin(Texture::NEAREST_MIPMAP_LINEAR), _filterMag(Texture::LINEAR)
 {
 }
 
@@ -63,8 +66,6 @@ Texture::~Texture()
         GL_ASSERT( glDeleteTextures(1, &_handle) );
         _handle = 0;
     }
-
-    // Remove ourself from the texture cache.
     if (_cached)
     {
         std::vector<Texture*>::iterator itr = std::find(__textureCache.begin(), __textureCache.end(), this);
@@ -92,7 +93,6 @@ Texture* Texture::create(const char* path, bool generateMipmaps)
             {
                 t->generateMipmaps();
             }
-
             // Found a match.
             t->addRef();
 
@@ -280,10 +280,10 @@ Texture* Texture::create(Format format, unsigned int width, unsigned int height,
     }
 
     // Set initial minification filter based on whether or not mipmaping was enabled.
-    Filter minFilter;
+    Filter filterMin;
     if (format == Texture::DEPTH)
     {
-    	minFilter = NEAREST;
+    	filterMin = NEAREST;
     	GL_ASSERT( glTexParameteri(target, GL_TEXTURE_MAG_FILTER, GL_NEAREST) );
     	GL_ASSERT( glTexParameteri(target, GL_TEXTURE_MIN_FILTER, GL_NEAREST) );
     	GL_ASSERT( glTexParameteri(target, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE) );
@@ -294,8 +294,8 @@ Texture* Texture::create(Format format, unsigned int width, unsigned int height,
     }
     else
     {
-    	minFilter = generateMipmaps ? NEAREST_MIPMAP_LINEAR : LINEAR;
-    	GL_ASSERT( glTexParameteri(target, GL_TEXTURE_MIN_FILTER, minFilter) );
+    	filterMin = generateMipmaps ? NEAREST_MIPMAP_LINEAR : LINEAR;
+    	GL_ASSERT( glTexParameteri(target, GL_TEXTURE_MIN_FILTER, filterMin) );
     }
 
     Texture* texture = new Texture();
@@ -304,7 +304,7 @@ Texture* Texture::create(Format format, unsigned int width, unsigned int height,
     texture->_type = type;
     texture->_width = width;
     texture->_height = height;
-    texture->_minFilter = minFilter;
+    texture->_filterMin = filterMin;
     texture->_internalFormat = internalFormat;
     texture->_texelType = texelType;
     texture->_bpp = bpp;
@@ -467,8 +467,8 @@ Texture* Texture::createCompressedPVRTC(const char* path)
     GL_ASSERT( glGenTextures(1, &textureId) );
     GL_ASSERT( glBindTexture(target, textureId) );
 
-    Filter minFilter = mipMapCount > 1 ? NEAREST_MIPMAP_LINEAR : LINEAR;
-    GL_ASSERT( glTexParameteri(target, GL_TEXTURE_MIN_FILTER, minFilter) );
+    Filter filterMin = mipMapCount > 1 ? NEAREST_MIPMAP_LINEAR : LINEAR;
+    GL_ASSERT( glTexParameteri(target, GL_TEXTURE_MIN_FILTER, filterMin) );
 
     Texture* texture = new Texture();
     texture->_handle = textureId;
@@ -477,7 +477,7 @@ Texture* Texture::createCompressedPVRTC(const char* path)
     texture->_height = height;
     texture->_mipmapped = mipMapCount > 1;
     texture->_compressed = true;
-    texture->_minFilter = minFilter;
+    texture->_filterMin = filterMin;
 
     // Load the data for each level.
     GLubyte* ptr = data;
@@ -1109,8 +1109,8 @@ Texture* Texture::createCompressedDDS(const char* path)
     GL_ASSERT( glGenTextures(1, &textureId) );
     GL_ASSERT( glBindTexture(target, textureId) );
 
-    Filter minFilter = header.dwMipMapCount > 1 ? NEAREST_MIPMAP_LINEAR : LINEAR;
-    GL_ASSERT( glTexParameteri(target, GL_TEXTURE_MIN_FILTER, minFilter ) );
+    Filter filterMin = header.dwMipMapCount > 1 ? NEAREST_MIPMAP_LINEAR : LINEAR;
+    GL_ASSERT( glTexParameteri(target, GL_TEXTURE_MIN_FILTER, filterMin ) );
 
     // Create gameplay texture.
     texture = new Texture();
@@ -1120,7 +1120,7 @@ Texture* Texture::createCompressedDDS(const char* path)
     texture->_height = header.dwHeight;
     texture->_compressed = compressed;
     texture->_mipmapped = header.dwMipMapCount > 1;
-    texture->_minFilter = minFilter;
+    texture->_filterMin = filterMin;
 
     // Load texture data.
     for (unsigned int face = 0; face < facecount; ++face)
@@ -1209,12 +1209,187 @@ bool Texture::isCompressed() const
     return _compressed;
 }
 
+const char* Texture::getSerializedClassName() const
+{
+    return "gameplay::Texture";
+}
+
+void Texture::serialize(Serializer* serializer)
+{
+    serializer->writeString("path", _path.c_str(), "");
+    serializer->writeInt("width", _width, 0);
+    serializer->writeInt("height", _height, 0);
+    serializer->writeBool("minmapped", _mipmapped, false);
+    serializer->writeEnum("format", "gameplay::Texture::Format", _format, Texture::UNKNOWN);
+    
+}
+
+void Texture::deserialize(Serializer* serializer)
+{
+    serializer->readString("path", _path, "");
+    _width = serializer->readInt("width", _width);
+    _height = serializer->readInt("height", _height);
+    _mipmapped = serializer->readBool("minmapped", false);
+    _format = static_cast<Texture::Format>(serializer->readEnum("format", "gameplay::Texture::Format", Texture::UNKNOWN));
+}
+
+Serializable* Texture::createInstance()
+{
+    return static_cast<Serializable*>(new Texture());
+}
+
+const char* Texture::enumToString(const char* enumName, int value)
+{
+    if (std::strcmp("gameplay::Texture::Format", enumName) == 0)
+    {
+        switch (value)
+        {
+            case Texture::RGB:
+                return "RGB";
+            case Texture::RGBA:
+                return "RGBA";
+            case Texture::ALPHA:
+                return "ALPHA";
+            default:
+                return NULL;
+        }
+    }
+    else if (std::strcmp("gameplay::Texture::Filter", enumName) == 0)
+    {
+        switch (value)
+        {
+            case Texture::NEAREST:
+                return "NEAREST";
+            case Texture::LINEAR:
+                return "LINEAR";
+            case Texture::NEAREST_MIPMAP_NEAREST:
+                return "NEAREST_MIPMAP_NEAREST";
+            case Texture::LINEAR_MIPMAP_NEAREST:
+                return "LINEAR_MIPMAP_NEAREST";
+            case Texture::NEAREST_MIPMAP_LINEAR:
+                return "NEAREST_MIPMAP_LINEAR";
+            case Texture::LINEAR_MIPMAP_LINEAR:
+                return "LINEAR_MIPMAP_LINEAR";
+            default:
+                return NULL;
+        }
+    }
+    else if (std::strcmp("gameplay::Texture::Wrap", enumName) == 0)
+    {
+        switch (value)
+        {
+            case Texture::REPEAT:
+                return "REPEAT";
+            case Texture::CLAMP:
+                return "CLAMP";
+            default:
+                return NULL;
+        }
+    }
+    else if (std::strcmp("gameplay::Texture::Type", enumName) == 0)
+    {
+        switch (value)
+        {
+            case Texture::TEXTURE_2D:
+                return "TEXTURE_2D";
+            case Texture::TEXTURE_CUBE:
+                return "TEXTURE_CUBE";
+            default:
+                return NULL;
+        }
+    }
+    else if (std::strcmp("gameplay::Texture::CubeFace", enumName) == 0)
+    {
+        switch (value)
+        {
+            case Texture::POSITIVE_X:
+                return "POSITIVE_X";
+            case Texture::NEGATIVE_X:
+                return "NEGATIVE_X";
+            case Texture::POSITIVE_Y:
+                return "POSITIVE_Y";
+            case Texture::NEGATIVE_Y:
+                return "NEGATIVE_Y";
+            case Texture::POSITIVE_Z:
+                return "POSITIVE_Z";
+            case Texture::NEGATIVE_Z:
+                return "NEGATIVE_Z";
+            default:
+                return NULL;
+        }
+    }
+    return NULL;
+}
+
+int Texture::enumParse(const char* enumName, const char* str)
+{
+    if (std::strcmp("gameplay::Texture::Format", enumName) == 0)
+    {
+        if (std::strcmp("RGB", str) == 0)
+            return Texture::RGB;
+        else if (std::strcmp("RGBA", str) == 0)
+            return Texture::RGBA;
+        else if (std::strcmp("ALPHA", str) == 0)
+            return Texture::ALPHA;
+    }
+    else if (std::strcmp("gameplay::Texture::Filter", enumName) == 0)
+    {
+        if (std::strcmp("NEAEST", str) == 0)
+            return Texture::NEAREST;
+        else if (std::strcmp("LINEAR", str) == 0)
+            return Texture::LINEAR;
+        else if (std::strcmp("NEAREST_MIPMAP_NEAREST", str) == 0)
+            return Texture::NEAREST_MIPMAP_NEAREST;
+        else if (std::strcmp("LINEAR_MIPMAP_NEAREST", str) == 0)
+            return Texture::LINEAR_MIPMAP_NEAREST;
+        else if (std::strcmp("NEAREST_MIPMAP_LINEAR", str) == 0)
+            return Texture::NEAREST_MIPMAP_LINEAR;
+        else if (std::strcmp("LINEAR_MIPMAP_LINEAR", str) == 0)
+            return Texture::LINEAR_MIPMAP_LINEAR;
+    }
+    else if (std::strcmp("gameplay::Texture::Wrap", enumName) == 0)
+    {
+        if (std::strcmp("REPEAT", str) == 0)
+            return Texture::REPEAT;
+        else if (std::strcmp("CLAMP", str) == 0)
+            return Texture::CLAMP;
+    }
+    else if (std::strcmp("gameplay::Texture::Type", enumName) == 0)
+    {
+        if (std::strcmp("TEXTURE_2D", str) == 0)
+            return Texture::TEXTURE_2D;
+        else if (std::strcmp("TEXTURE_CUBE", str) == 0)
+            return Texture::TEXTURE_CUBE;
+    }
+    else if (std::strcmp("gameplay::Texture::CubeFace", enumName) == 0)
+    {
+        if (std::strcmp("POSITIVE_X", str) == 0)
+            return Texture::POSITIVE_X;
+        else if (std::strcmp("NEGATIVE_X", str) == 0)
+            return Texture::NEGATIVE_X;
+        else if (std::strcmp("POSITIVE_Y", str) == 0)
+            return Texture::POSITIVE_Y;
+        else if (std::strcmp("NEGATIVE_Y", str) == 0)
+            return Texture::NEGATIVE_Y;
+        else if (std::strcmp("POSITIVE_Z", str) == 0)
+            return Texture::POSITIVE_Z;
+        else if (std::strcmp("NEGATIVE_Z", str) == 0)
+            return Texture::NEGATIVE_Z;
+    }
+    return -1;
+}
+
+Texture::Sampler::Sampler()
+: _texture(NULL), _wrapS(Texture::REPEAT), _wrapT(Texture::REPEAT), _wrapR(Texture::REPEAT)
+{
+}
+
 Texture::Sampler::Sampler(Texture* texture)
     : _texture(texture), _wrapS(Texture::REPEAT), _wrapT(Texture::REPEAT), _wrapR(Texture::REPEAT)
 {
     GP_ASSERT( texture );
-    _minFilter = texture->_minFilter;
-    _magFilter = texture->_magFilter;
+    _filterMin = texture->_filterMin;
+    _filterMag = texture->_filterMag;
 }
 
 Texture::Sampler::~Sampler()
@@ -1243,10 +1418,10 @@ void Texture::Sampler::setWrapMode(Wrap wrapS, Wrap wrapT, Wrap wrapR)
     _wrapR = wrapR;
 }
 
-void Texture::Sampler::setFilterMode(Filter minificationFilter, Filter magnificationFilter)
+void Texture::Sampler::setFilterMode(Filter filterMin, Filter filterMag)
 {
-    _minFilter = minificationFilter;
-    _magFilter = magnificationFilter;
+    _filterMin = filterMin;
+    _filterMag = filterMag;
 }
 
 Texture* Texture::Sampler::getTexture() const
@@ -1266,16 +1441,16 @@ void Texture::Sampler::bind()
         __currentTextureType = _texture->_type;
     }
 
-    if (_texture->_minFilter != _minFilter)
+    if (_texture->_filterMin != _filterMin)
     {
-        _texture->_minFilter = _minFilter;
-        GL_ASSERT( glTexParameteri(target, GL_TEXTURE_MIN_FILTER, (GLenum)_minFilter) );
+        _texture->_filterMin = _filterMin;
+        GL_ASSERT( glTexParameteri(target, GL_TEXTURE_MIN_FILTER, (GLenum)_filterMin) );
     }
 
-    if (_texture->_magFilter != _magFilter)
+    if (_texture->_filterMag != _filterMag)
     {
-        _texture->_magFilter = _magFilter;
-        GL_ASSERT( glTexParameteri(target, GL_TEXTURE_MAG_FILTER, (GLenum)_magFilter) );
+        _texture->_filterMag = _filterMag;
+        GL_ASSERT( glTexParameteri(target, GL_TEXTURE_MAG_FILTER, (GLenum)_filterMag) );
     }
 
     if (_texture->_wrapS != _wrapS)
@@ -1298,6 +1473,37 @@ void Texture::Sampler::bind()
             GL_ASSERT( glTexParameteri(target, GL_TEXTURE_WRAP_R, (GLenum)_wrapR) );
     }
 #endif
+}
+
+const char* Texture::Sampler::getSerializedClassName() const
+{
+    return "gameplay::Texture::Sampler";
+}
+
+void Texture::Sampler::serialize(Serializer* serializer)
+{
+    serializer->writeObject("texture", _texture);
+    serializer->writeEnum("wrapS", "gameplay::Texture::Wrap", _wrapS, Texture::REPEAT);
+    serializer->writeEnum("wrapT", "gameplay::Texture::Wrap", _wrapT, Texture::REPEAT);
+    serializer->writeEnum("wrapR", "gameplay::Texture::Wrap", _wrapR, Texture::REPEAT);
+    serializer->writeEnum("filterMin", "gameplay::Texture::Filter", _filterMin,
+                          _texture->_mipmapped ? Texture::LINEAR_MIPMAP_LINEAR : Texture::LINEAR);
+    serializer->writeEnum("filterMag", "gameplay::Texture::Filter", _filterMag, Texture::LINEAR);
+}
+
+void Texture::Sampler::deserialize(Serializer* serializer)
+{
+    _texture = dynamic_cast<Texture*>(serializer->readObject("texture"));
+    _wrapS = static_cast<gameplay::Texture::Wrap>(serializer->readEnum("wrapS", "gameplay::Texture::Wrap", Texture::REPEAT));
+    _wrapT = static_cast<gameplay::Texture::Wrap>(serializer->readEnum("wrapT", "gameplay::Texture::Wrap", Texture::REPEAT));
+    _wrapR = static_cast<gameplay::Texture::Wrap>(serializer->readEnum("wrapR", "gameplay::Texture::Wrap", Texture::REPEAT));
+    serializer->writeEnum("filterMin", "gameplay::Texture::Filter", _filterMin, _texture->_mipmapped ? Texture::LINEAR_MIPMAP_LINEAR : Texture::LINEAR);
+    serializer->writeEnum("filterMag", "gameplay::Texture::Filter", _filterMag, Texture::LINEAR);
+}
+
+Serializable* Texture::Sampler::createInstance()
+{
+    return static_cast<Serializable*>(new Texture::Sampler());
 }
 
 }

@@ -162,7 +162,6 @@ Technique* Material::getTechnique(const char* id) const
             return t;
         }
     }
-
     return NULL;
 }
 
@@ -273,7 +272,6 @@ bool Material::loadPass(Technique* technique, Properties* passProperties, PassCa
             allDefines += customDefines;
         }
     }
-
     // Initialize/compile the effect with the full set of defines
     if (!pass->initialize(vertexShaderPath, fragmentShaderPath, allDefines.c_str()))
     {
@@ -281,7 +279,6 @@ bool Material::loadPass(Technique* technique, Properties* passProperties, PassCa
         SAFE_RELEASE(pass);
         return false;
     }
-
     // Add the new pass to the technique.
     technique->_passes.push_back(pass);
 
@@ -491,5 +488,41 @@ static Texture::Wrap parseTextureWrapMode(const char* str, Texture::Wrap default
         }
     }
 }*/
+
+const char* Material::getSerializedClassName() const
+{
+    return "gameplay::Material";
+}
+
+void Material::serialize(Serializer* serializer)
+{
+    RenderState::serialize(serializer);
+    
+    serializer->writeObjectList("techniques", _techniques.size());
+    for (unsigned int i = 0; i < _techniques.size(); i++)
+    {
+        serializer->writeObject(NULL, _techniques[i]);
+    }
+}
+
+void Material::deserialize(Serializer* serializer)
+{
+    RenderState::deserialize(serializer);
+    
+    unsigned int techniqueCount = serializer->readObjectList("techniques");
+    for (unsigned int i = 0; i < techniqueCount; i++)
+    {
+        Technique* technique = dynamic_cast<Technique*>(serializer->readObject(NULL));
+        technique->_material = this;
+        technique->_parent = this;
+        _techniques.push_back(technique);
+    }
+    _currentTechnique = _techniques[0];
+}
+
+Serializable* Material::createInstance()
+{
+    return static_cast<Serializable*>(new Material());
+}
 
 }

@@ -41,7 +41,7 @@ void Label::initialize(const char* typeName, Theme::Style* style, Properties* pr
 	}
 }*/
 
-const char* Label::getTypeName() const
+const char* Label::getScriptClassName() const
 {
     return "Label";
 }

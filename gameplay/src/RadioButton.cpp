@@ -60,7 +60,7 @@ void RadioButton::initialize(const char* typeName, Theme::Style* style, Properti
     }
 }*/
 
-const char* RadioButton::getTypeName() const
+const char* RadioButton::getScriptClassName() const
 {
     return "RadioButton";
 }

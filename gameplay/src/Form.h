@@ -95,14 +95,14 @@ public:
     static void clearFocus();
 
     /**
-     * Extends ScriptTarget::getTypeName() to return the type name of this class.
+     * Extends ScriptTarget::getScriptClassName() to return the type name of this class.
      *
      * Child controls should override this function to return the correct type name.
      *
      * @return The type name of this class: "Form"
-     * @see ScriptTarget::getTypeName
+     * @see ScriptTarget::getScriptClassName
      */
-    const char* getTypeName() const;
+    const char* getScriptClassName() const;
 
     /**
      * @see Container#isForm()

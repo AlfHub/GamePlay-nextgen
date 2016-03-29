@@ -1,6 +1,8 @@
 #ifndef VERTEXFORMAT_H_
 #define VERTEXFORMAT_H_
 
+#include "Serializable.h"
+
 namespace gameplay
 {
 
@@ -9,8 +11,11 @@ namespace gameplay
  *
  * A VertexFormat is immutable and cannot be changed once created.
  */
-class VertexFormat
+class VertexFormat : public Serializable
 {
+    friend class Serializer::Activator;
+    friend class Mesh;
+
 public:
 
     /**
@@ -43,9 +48,10 @@ public:
      * by the size attribute. Additionally, vertex elements are assumed
      * to be tightly packed.
      */
-    class Element
+    class Element : public Serializable
     {
     public:
+
         /**
          * The vertex element usage semantic.
          */
@@ -86,6 +92,21 @@ public:
          * @return true if this element does not match the specified one, false otherwise.
          */
         bool operator != (const Element& e) const;
+
+        /**
+         * @see Serializeable::getSerializedClassName
+         */
+        const char* getSerializedClassName() const;
+
+        /**
+         * @see Serializeable::serialize
+         */
+        void serialize(Serializer* serializer);
+
+        /**
+         * @see Serializeable::deserialize
+         */
+        void deserialize(Serializer* serializer);
     };
 
     /**
@@ -139,13 +160,38 @@ public:
      * @return true if the elements in this VertexFormat are not equal to the specified one, false otherwise.
      */
     bool operator != (const VertexFormat& f) const;
-
+    
     /**
-     * Returns a string representation of a Usage enumeration value.
+     * @see Serializeable::getSerializedClassName
      */
-    static const char* toString(Usage usage);
+    const char* getSerializedClassName() const;
+    
+    /**
+     * @see Serializeable::serialize
+     */
+    void serialize(Serializer* serializer);
+    
+    /**
+     * @see Serializeable::deserialize
+     */
+    void deserialize(Serializer* serializer);
 
 private:
+
+    /**
+     * Constructor.
+     */
+    VertexFormat();
+
+    /**
+     * @see Serializer::Activator::EnumToStringCallback
+     */
+    static const char* enumToString(const char* enumName, int value);
+
+    /**
+     * @see Serializer::Activator::EnumParseCallback
+     */
+    static int enumParse(const char* enumName, const char* str);
 
     std::vector<Element> _elements;
     unsigned int _vertexSize;

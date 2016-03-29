@@ -272,4 +272,24 @@ void MeshSkin::clearJoints()
     _joints.clear();
 }
 
+const char* MeshSkin::getSerializedClassName() const
+{
+    return "gameplay::MeshSkin";
+}
+
+void MeshSkin::serialize(Serializer* serializer)
+{
+    serializer->writeMatrix("bindShape", _bindShape, Matrix::identity());
+}
+
+void MeshSkin::deserialize(Serializer* serializer)
+{
+    _bindShape = serializer->readMatrix("bindShape", Matrix::identity());
+}
+
+Serializable* MeshSkin::createInstance()
+{
+    return static_cast<Serializable*>(new MeshSkin());
+}
+
 }

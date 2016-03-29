@@ -2,6 +2,7 @@
 #define TEXTURE_H_
 
 #include "Ref.h"
+#include "Serializable.h"
 #include "Stream.h"
 
 namespace gameplay
@@ -12,8 +13,9 @@ class Image;
 /**
  * Defines a standard texture.
  */
-class Texture : public Ref
+class Texture : public Ref, public Serializable
 {
+    friend class Serializer::Activator;
     friend class Sampler;
 
 public:
@@ -87,8 +89,9 @@ public:
      * itself, a sampler stores per-instance texture state information, such
      * as wrap and filter modes.
      */
-    class Sampler : public Ref
+    class Sampler : public Ref, public Serializable
     {
+        friend class Serializer::Activator;
         friend class Texture;
 
     public:
@@ -131,10 +134,10 @@ public:
         /**
          * Sets the texture filter modes for this sampler.
          *
-         * @param minificationFilter The texture minification filter.
-         * @param magnificationFilter The texture magnification filter.
+         * @param filterMin The texture minification filter.
+         * @param filterMag The texture magnification filter.
          */
-        void setFilterMode(Filter minificationFilter, Filter magnificationFilter);
+        void setFilterMode(Filter filterMin, Filter filterMag);
 
         /**
          * Gets the texture for this sampler.
@@ -148,7 +151,27 @@ public:
          */
         void bind();
 
+        /**
+         * @see Serializeable::getSerializedClassName
+         */
+        const char* getSerializedClassName() const;
+
+        /**
+         * @see Serializeable::serialize
+         */
+        void serialize(Serializer* serializer);
+
+        /**
+         * @see Serializeable::deserialize
+         */
+        void deserialize(Serializer* serializer);
+
     private:
+
+        /**
+         * Constructor.
+         */
+        Sampler();
 
         /**
          * Constructor.
@@ -156,16 +179,21 @@ public:
         Sampler(Texture* texture);
 
         /**
-         * Hidden copy assignment operator.
+         * Copy assignment operator.
          */
         Sampler& operator=(const Sampler&);
+
+        /**
+         * @see Serializer::Activator::CreateInstanceCallback
+         */
+        static Serializable* createInstance();
 
         Texture* _texture;
         Wrap _wrapS;
         Wrap _wrapT;
         Wrap _wrapR;
-        Filter _minFilter;
-        Filter _magFilter;
+        Filter _filterMin;
+        Filter _filterMag;
     };
 
     /**
@@ -300,6 +328,21 @@ public:
      */
     TextureHandle getHandle() const;
 
+    /**
+     * @see Serializeable::getSerializedClassName
+     */
+    const char* getSerializedClassName() const;
+    
+    /**
+     * @see Serializeable::serialize
+     */
+    void serialize(Serializer* serializer);
+    
+    /**
+     * @see Serializeable::deserialize
+     */
+    void deserialize(Serializer* serializer);
+
 private:
 
     /**
@@ -308,7 +351,7 @@ private:
     Texture();
 
     /**
-     * Copy constructor.
+     * Constructor.
      */
     Texture(const Texture& copy);
 
@@ -318,17 +361,36 @@ private:
     virtual ~Texture();
 
     /**
-     * Hidden copy assignment operator.
+     * Copy assignment operator.
      */
     Texture& operator=(const Texture&);
+
+    /**
+     * @see Serializer::Activator::CreateInstanceCallback
+     */
+    static Serializable* createInstance();
+
+    /**
+     * @see Serializer::Activator::EnumToStringCallback
+     */
+    static const char* enumToString(const char* enumName, int value);
+
+    /**
+     * @see Serializer::Activator::EnumParseCallback
+     */
+    static int enumParse(const char* enumName, const char* str);
 
     static Texture* createCompressedPVRTC(const char* path);
 
     static Texture* createCompressedDDS(const char* path);
 
-    static GLubyte* readCompressedPVRTC(const char* path, Stream* stream, GLsizei* width, GLsizei* height, GLenum* format, unsigned int* mipMapCount, unsigned int* faceCount, GLenum faces[6]);
+    static GLubyte* readCompressedPVRTC(const char* path, Stream* stream, GLsizei* width, GLsizei* height,
+                                        GLenum* format, unsigned int* mipMapCount, unsigned int* faceCount,
+                                        GLenum faces[6]);
 
-    static GLubyte* readCompressedPVRTCLegacy(const char* path, Stream* stream, GLsizei* width, GLsizei* height, GLenum* format, unsigned int* mipMapCount, unsigned int* faceCount, GLenum faces[6]);
+    static GLubyte* readCompressedPVRTCLegacy(const char* path, Stream* stream, GLsizei* width, GLsizei* height,
+                                              GLenum* format, unsigned int* mipMapCount, unsigned int* faceCount,
+                                              GLenum faces[6]);
 
     static int getMaskByteIndex(unsigned int mask);
     static GLint getFormatInternal(Format format);
@@ -347,9 +409,8 @@ private:
     Wrap _wrapS;
     Wrap _wrapT;
     Wrap _wrapR;
-    Filter _minFilter;
-    Filter _magFilter;
-
+    Filter _filterMin;
+    Filter _filterMag;
     GLint _internalFormat;
     GLenum _texelType;
     size_t _bpp;

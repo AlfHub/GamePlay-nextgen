@@ -120,40 +120,28 @@ const char* autoBindingToString(RenderState::AutoBinding autoBinding)
     {
     case RenderState::NONE:
         return NULL;
-
     case RenderState::VIEW_MATRIX:
         return "VIEW_MATRIX";
-
     case RenderState::PROJECTION_MATRIX:
         return "PROJECTION_MATRIX";
-
     case RenderState::WORLD_VIEW_MATRIX:
         return "WORLD_VIEW_MATRIX";
-
     case RenderState::VIEW_PROJECTION_MATRIX:
         return "VIEW_PROJECTION_MATRIX";
-
     case RenderState::WORLD_VIEW_PROJECTION_MATRIX:
         return "WORLD_VIEW_PROJECTION_MATRIX";
-
     case RenderState::INVERSE_TRANSPOSE_WORLD_MATRIX:
         return "INVERSE_TRANSPOSE_WORLD_MATRIX";
-
     case RenderState::INVERSE_TRANSPOSE_WORLD_VIEW_MATRIX:
         return "INVERSE_TRANSPOSE_WORLD_VIEW_MATRIX";
-
     case RenderState::CAMERA_WORLD_POSITION:
         return "CAMERA_WORLD_POSITION";
-
     case RenderState::CAMERA_VIEW_POSITION:
         return "CAMERA_VIEW_POSITION";
-
     case RenderState::MATRIX_PALETTE:
         return "MATRIX_PALETTE";
-
     case RenderState::SCENE_AMBIENT_COLOR:
         return "SCENE_AMBIENT_COLOR";
-
     default:
         return "";
     }
@@ -252,7 +240,6 @@ void RenderState::applyAutoBinding(const char* uniformName, const char* autoBind
             break;
         }
     }
-
     // Perform built-in resolution
     if (!bound)
     {
@@ -312,7 +299,6 @@ void RenderState::applyAutoBinding(const char* uniformName, const char* autoBind
             GP_WARN("Unsupported auto binding type (%s).", autoBinding);
         }
     }
-
     if (bound)
     {
         // Mark parameter as an auto binding
@@ -496,19 +482,21 @@ void RenderState::cloneInto(RenderState* renderState, NodeCloneContext& context)
     // 2. _parent should not be set here, since it's set in the constructor of Technique and Pass.
 }
 
-RenderState::StateBlock::StateBlock()
-    : _cullFaceEnabled(false), _depthTestEnabled(false), _depthWriteEnabled(true), _depthFunction(RenderState::DEPTH_LESS),
-      _blendEnabled(false), _blendSrc(RenderState::BLEND_ONE), _blendDst(RenderState::BLEND_ZERO),
-      _cullFaceSide(CULL_FACE_SIDE_BACK), _frontFace(FRONT_FACE_CCW), _stencilTestEnabled(false), _stencilWrite(RS_ALL_ONES),
-	  _stencilFunction(RenderState::STENCIL_ALWAYS), _stencilFunctionRef(0), _stencilFunctionMask(RS_ALL_ONES),
-	  _stencilOpSfail(RenderState::STENCIL_OP_KEEP), _stencilOpDpfail(RenderState::STENCIL_OP_KEEP), _stencilOpDppass(RenderState::STENCIL_OP_KEEP),
-      _bits(0L)
+RenderState::StateBlock::StateBlock() :
+    _blendEnabled(false), _blendSrc(RenderState::BLEND_ONE), _blendDst(RenderState::BLEND_ZERO),
+    _cullFaceEnabled(false), _cullFaceSide(CULL_FACE_SIDE_BACK), _frontFace(FRONT_FACE_CCW),
+    _depthTestEnabled(false), _depthWriteEnabled(true), _depthFunc(RenderState::DEPTH_LESS),
+    _stencilTestEnabled(false), _stencilWrite(RS_ALL_ONES),
+    _stencilFunc(RenderState::STENCIL_ALWAYS), _stencilFuncRef(0), _stencilFuncMask(RS_ALL_ONES),
+    _stencilOpSfail(RenderState::STENCIL_OP_KEEP),
+    _stencilOpDpfail(RenderState::STENCIL_OP_KEEP),
+    _stencilOpDppass(RenderState::STENCIL_OP_KEEP),
+    _bits(0L)
 {
 }
 
 RenderState::StateBlock::StateBlock(const StateBlock& copy)
 {
-    // Hidden
 }
 
 RenderState::StateBlock::~StateBlock()
@@ -535,7 +523,7 @@ void RenderState::StateBlock::bind()
 void RenderState::StateBlock::bindNoRestore()
 {
     GP_ASSERT(_defaultState);
-
+    
     // Update any state that differs from _defaultState and flip _defaultState bits
     if ((_bits & RS_BLEND) && (_blendEnabled != _defaultState->_blendEnabled))
     {
@@ -582,43 +570,42 @@ void RenderState::StateBlock::bindNoRestore()
         GL_ASSERT( glDepthMask(_depthWriteEnabled ? GL_TRUE : GL_FALSE) );
         _defaultState->_depthWriteEnabled = _depthWriteEnabled;
     }
-    if ((_bits & RS_DEPTH_FUNC) && (_depthFunction != _defaultState->_depthFunction))
+    if ((_bits & RS_DEPTH_FUNC) && (_depthFunc != _defaultState->_depthFunc))
     {
-        GL_ASSERT( glDepthFunc((GLenum)_depthFunction) );
-        _defaultState->_depthFunction = _depthFunction;
+        GL_ASSERT( glDepthFunc((GLenum)_depthFunc) );
+        _defaultState->_depthFunc = _depthFunc;
     }
-	if ((_bits & RS_STENCIL_TEST) && (_stencilTestEnabled != _defaultState->_stencilTestEnabled))
+    if ((_bits & RS_STENCIL_TEST) && (_stencilTestEnabled != _defaultState->_stencilTestEnabled))
     {
         if (_stencilTestEnabled)
-			GL_ASSERT( glEnable(GL_STENCIL_TEST) );
+            GL_ASSERT( glEnable(GL_STENCIL_TEST) );
         else
             GL_ASSERT( glDisable(GL_STENCIL_TEST) );
         _defaultState->_stencilTestEnabled = _stencilTestEnabled;
     }
-	if ((_bits & RS_STENCIL_WRITE) && (_stencilWrite != _defaultState->_stencilWrite))
+    if ((_bits & RS_STENCIL_WRITE) && (_stencilWrite != _defaultState->_stencilWrite))
     {
-		GL_ASSERT( glStencilMask(_stencilWrite) );
+        GL_ASSERT( glStencilMask(_stencilWrite) );
         _defaultState->_stencilWrite = _stencilWrite;
     }
-	if ((_bits & RS_STENCIL_FUNC) && (_stencilFunction != _defaultState->_stencilFunction ||
-										_stencilFunctionRef != _defaultState->_stencilFunctionRef ||
-										_stencilFunctionMask != _defaultState->_stencilFunctionMask))
+    if ((_bits & RS_STENCIL_FUNC) && (_stencilFunc != _defaultState->_stencilFunc ||
+                                      _stencilFuncRef != _defaultState->_stencilFuncRef ||
+                                      _stencilFuncMask != _defaultState->_stencilFuncMask))
     {
-		GL_ASSERT( glStencilFunc((GLenum)_stencilFunction, _stencilFunctionRef, _stencilFunctionMask) );
-        _defaultState->_stencilFunction = _stencilFunction;
-		_defaultState->_stencilFunctionRef = _stencilFunctionRef;
-		_defaultState->_stencilFunctionMask = _stencilFunctionMask;
+        GL_ASSERT( glStencilFunc((GLenum)_stencilFunc, _stencilFuncRef, _stencilFuncMask) );
+        _defaultState->_stencilFunc = _stencilFunc;
+        _defaultState->_stencilFuncRef = _stencilFuncRef;
+        _defaultState->_stencilFuncMask = _stencilFuncMask;
     }
-	if ((_bits & RS_STENCIL_OP) && (_stencilOpSfail != _defaultState->_stencilOpSfail ||
-									_stencilOpDpfail != _defaultState->_stencilOpDpfail ||
-									_stencilOpDppass != _defaultState->_stencilOpDppass))
+    if ((_bits & RS_STENCIL_OP) && (_stencilOpSfail != _defaultState->_stencilOpSfail ||
+                                    _stencilOpDpfail != _defaultState->_stencilOpDpfail ||
+                                    _stencilOpDppass != _defaultState->_stencilOpDppass))
     {
-		GL_ASSERT( glStencilOp((GLenum)_stencilOpSfail, (GLenum)_stencilOpDpfail, (GLenum)_stencilOpDppass) );
+        GL_ASSERT( glStencilOp((GLenum)_stencilOpSfail, (GLenum)_stencilOpDpfail, (GLenum)_stencilOpDppass) );
         _defaultState->_stencilOpSfail = _stencilOpSfail;
-		_defaultState->_stencilOpDpfail = _stencilOpDpfail;
-		_defaultState->_stencilOpDppass = _stencilOpDppass;
+        _defaultState->_stencilOpDpfail = _stencilOpDpfail;
+        _defaultState->_stencilOpDppass = _stencilOpDppass;
     }
-
     _defaultState->_bits |= _bits;
 }
 
@@ -628,10 +615,8 @@ void RenderState::StateBlock::restore(long stateOverrideBits)
 
     // If there is no state to restore (i.e. no non-default state), do nothing.
     if (_defaultState->_bits == 0)
-    {
         return;
-    }
-
+    
     // Restore any state that is not overridden and is not default
     if (!(stateOverrideBits & RS_BLEND) && (_defaultState->_bits & RS_BLEND))
     {
@@ -680,7 +665,7 @@ void RenderState::StateBlock::restore(long stateOverrideBits)
     {
         GL_ASSERT( glDepthFunc((GLenum)GL_LESS) );
         _defaultState->_bits &= ~RS_DEPTH_FUNC;
-        _defaultState->_depthFunction = RenderState::DEPTH_LESS;
+        _defaultState->_depthFunc = RenderState::DEPTH_LESS;
     }
 	if (!(stateOverrideBits & RS_STENCIL_TEST) && (_defaultState->_bits & RS_STENCIL_TEST))
     {
@@ -698,9 +683,9 @@ void RenderState::StateBlock::restore(long stateOverrideBits)
     {
 		GL_ASSERT( glStencilFunc((GLenum)RenderState::STENCIL_ALWAYS, 0, RS_ALL_ONES) );
         _defaultState->_bits &= ~RS_STENCIL_FUNC;
-        _defaultState->_stencilFunction = RenderState::STENCIL_ALWAYS;
-		_defaultState->_stencilFunctionRef = 0;
-		_defaultState->_stencilFunctionMask = RS_ALL_ONES;
+        _defaultState->_stencilFunc = RenderState::STENCIL_ALWAYS;
+		_defaultState->_stencilFuncRef = 0;
+		_defaultState->_stencilFuncMask = RS_ALL_ONES;
     }
 	if (!(stateOverrideBits & RS_STENCIL_OP) && (_defaultState->_bits & RS_STENCIL_OP))
     {
@@ -731,27 +716,27 @@ void RenderState::StateBlock::cloneInto(StateBlock* state)
 {
     GP_ASSERT(state);
 
-    state->_cullFaceEnabled = _cullFaceEnabled;
-    state->_depthTestEnabled = _depthTestEnabled;
-    state->_depthWriteEnabled = _depthWriteEnabled;
-    state->_depthFunction = _depthFunction;
     state->_blendEnabled = _blendEnabled;
     state->_blendSrc = _blendSrc;
     state->_blendDst = _blendDst;
+    state->_cullFaceEnabled = _cullFaceEnabled;
     state->_cullFaceSide = _cullFaceSide;
     state->_frontFace = _frontFace;
-	state->_stencilTestEnabled = _stencilTestEnabled;
-	state->_stencilWrite = _stencilWrite;
-	state->_stencilFunction = _stencilFunction;
-	state->_stencilFunctionRef = _stencilFunctionRef;
-	state->_stencilFunctionMask = _stencilFunctionMask;
-	state->_stencilOpSfail = _stencilOpSfail;
-	state->_stencilOpDpfail = _stencilOpDpfail;
-	state->_stencilOpDppass = _stencilOpDppass;
+    state->_depthTestEnabled = _depthTestEnabled;
+    state->_depthWriteEnabled = _depthWriteEnabled;
+    state->_depthFunc = _depthFunc;
+    state->_stencilTestEnabled = _stencilTestEnabled;
+    state->_stencilWrite = _stencilWrite;
+    state->_stencilFunc = _stencilFunc;
+    state->_stencilFuncRef = _stencilFuncRef;
+    state->_stencilFuncMask = _stencilFuncMask;
+    state->_stencilOpSfail = _stencilOpSfail;
+    state->_stencilOpDpfail = _stencilOpDpfail;
+    state->_stencilOpDppass = _stencilOpDppass;
     state->_bits = _bits;
 }
 
-static bool parseBoolean(const char* value)
+static bool parseBool(const char* value)
 {
     GP_ASSERT(value);
 
@@ -795,7 +780,7 @@ static unsigned int parseUInt(const char* value)
     return rValue;
 }
 
-static RenderState::Blend parseBlend(const char* value)
+static RenderState::BlendMode parseBlendMode(const char* value)
 {
     GP_ASSERT(value);
 
@@ -835,7 +820,7 @@ static RenderState::Blend parseBlend(const char* value)
     }
 }
 
-static RenderState::DepthFunction parseDepthFunc(const char* value)
+static RenderState::DepthFunc parseDepthFunc(const char* value)
 {
     GP_ASSERT(value);
 
@@ -903,7 +888,7 @@ static RenderState::FrontFace parseFrontFace(const char* value)
     }
 }
 
-static RenderState::StencilFunction parseStencilFunc(const char* value)
+static RenderState::StencilFunc parseStencilFunc(const char* value)
 {
     GP_ASSERT(value);
 
@@ -933,7 +918,7 @@ static RenderState::StencilFunction parseStencilFunc(const char* value)
     }
 }
 
-static RenderState::StencilOperation parseStencilOp(const char* value)
+static RenderState::StencilOp parseStencilOp(const char* value)
 {
     GP_ASSERT(value);
 
@@ -963,25 +948,346 @@ static RenderState::StencilOperation parseStencilOp(const char* value)
     }
 }
 
+const char* RenderState::getSerializedClassName() const
+{
+    return "gameplay::RenderState";
+}
+
+void RenderState::serialize(Serializer* serializer)
+{
+    // MaterialParameters
+    serializer->writeObjectList("parameters", _parameters.size());
+    for (size_t i = 0, count = _parameters.size(); i < count; ++i)
+    {
+        serializer->writeObject(NULL, _parameters[i]);
+    }
+    // RenderState::StateBlock
+}
+
+void RenderState::deserialize(Serializer* serializer)
+{
+}
+
+const char* RenderState::enumToString(const char* enumName, int value)
+{
+    if (std::strcmp("gameplay::RenderState::AutoBinding", enumName) == 0)
+    {
+        switch (value)
+        {
+            case RenderState::NONE:
+                return "NONE";
+            case RenderState::WORLD_MATRIX:
+                return "WORLD_MATRIX";
+            case RenderState::VIEW_MATRIX:
+                return "VIEW_MATRIX";
+            case RenderState::PROJECTION_MATRIX:
+                return "PROJECTION_MATRIX";
+            case RenderState::WORLD_VIEW_MATRIX:
+                return "WORLD_VIEW_MATRIX";
+            case RenderState::VIEW_PROJECTION_MATRIX:
+                return "VIEW_PROJECTION_MATRIX";
+            case RenderState::WORLD_VIEW_PROJECTION_MATRIX:
+                return "WORLD_VIEW_PROJECTION_MATRIX";
+            case RenderState::INVERSE_TRANSPOSE_WORLD_MATRIX:
+                return "INVERSE_TRANSPOSE_WORLD_MATRIX";
+            case RenderState::INVERSE_TRANSPOSE_WORLD_VIEW_MATRIX:
+                return "INVERSE_TRANSPOSE_WORLD_VIEW_MATRIX";
+            case RenderState::CAMERA_WORLD_POSITION:
+                return "CAMERA_WORLD_POSITION";
+            case RenderState::CAMERA_VIEW_POSITION:
+                return "CAMERA_VIEW_POSITION";
+            case RenderState::MATRIX_PALETTE:
+                return "MATRIX_PALETTE";
+            case RenderState::SCENE_AMBIENT_COLOR:
+                return "SCENE_AMBIENT_COLOR";
+            default:
+                return NULL;
+        }
+    }
+    else if (std::strcmp("gameplay::RenderState::BlendMode", enumName) == 0)
+    {
+        switch (value)
+        {
+            case RenderState::BLEND_ZERO:
+                return "BLEND_ZERO";
+            case RenderState::BLEND_ONE:
+                return "BLEND_ONE";
+            case RenderState::BLEND_SRC_COLOR:
+                return "BLEND_SRC_COLOR";
+            case RenderState::BLEND_ONE_MINUS_SRC_COLOR:
+                return "BLEND_ONE_MINUS_SRC_COLOR";
+            case RenderState::BLEND_DST_COLOR:
+                return "BLEND_DST_COLOR";
+            case RenderState::BLEND_ONE_MINUS_DST_COLOR:
+                return "BLEND_ONE_MINUS_DST_COLOR";
+            case RenderState::BLEND_SRC_ALPHA:
+                return "BLEND_SRC_ALPHA";
+            case RenderState::BLEND_ONE_MINUS_SRC_ALPHA:
+                return "BLEND_ONE_MINUS_SRC_ALPHA";
+            case RenderState::BLEND_DST_ALPHA:
+                return "BLEND_DST_ALPHA";
+            case RenderState::BLEND_ONE_MINUS_DST_ALPHA:
+                return "BLEND_ONE_MINUS_DST_ALPHA";
+            case RenderState::BLEND_CONSTANT_ALPHA:
+                return "BLEND_CONSTANT_ALPHA";
+            case RenderState::BLEND_ONE_MINUS_CONSTANT_ALPHA:
+                return "BLEND_ONE_MINUS_CONSTANT_ALPHA";
+            case RenderState::BLEND_SRC_ALPHA_SATURATE:
+                return "BLEND_SRC_ALPHA_SATURATE";
+            default:
+                return NULL;
+        }
+    }
+    else if (std::strcmp("gameplay::RenderState::DepthFunc", enumName) == 0)
+    {
+        switch (value)
+        {
+            case RenderState::DEPTH_NEVER:
+                return "DEPTH_NEVER";
+            case RenderState::DEPTH_LESS:
+                return "DEPTH_LESS";
+            case RenderState::DEPTH_EQUAL:
+                return "DEPTH_EQUAL";
+            case RenderState::DEPTH_LEQUAL:
+                return "DEPTH_LEQUAL";
+            case RenderState::DEPTH_GREATER:
+                return "DEPTH_GREATER";
+            case RenderState::DEPTH_NOTEQUAL:
+                return "DEPTH_NOTEQUAL";
+            case RenderState::DEPTH_GEQUAL:
+                return "DEPTH_GEQUAL";
+            case RenderState::DEPTH_ALWAYS:
+                return "DEPTH_ALWAYS";
+        }
+    }
+    else if (std::strcmp("gameplay::RenderState::CullFaceSide", enumName) == 0)
+    {
+        switch (value)
+        {
+            case RenderState::CULL_FACE_SIDE_BACK:
+                return "CULL_FACE_SIDE_BACK";
+            case RenderState::CULL_FACE_SIDE_FRONT:
+                return "CULL_FACE_SIDE_FRONT";
+            case RenderState::CULL_FACE_SIDE_FRONT_AND_BACK:
+                return "CULL_FACE_SIDE_FRONT_AND_BACK";
+        }
+    }
+    
+    else if (std::strcmp("gameplay::RenderState::FrontFace", enumName) == 0)
+    {
+        switch (value)
+        {
+            case RenderState::FRONT_FACE_CW:
+                return "FRONT_FACE_CW";
+            case RenderState::FRONT_FACE_CCW:
+                return "FRONT_FACE_CCW";
+        }
+    }
+    else if (std::strcmp("gameplay::RenderState::StencilFunc", enumName) == 0)
+    {
+        switch (value)
+        {
+            case RenderState::STENCIL_NEVER:
+                return "STENCIL_NEVER";
+            case RenderState::STENCIL_ALWAYS:
+                return "STENCIL_ALWAYS";
+            case RenderState::STENCIL_LESS:
+                return "STENCIL_LESS";
+            case RenderState::STENCIL_LEQUAL:
+                return "STENCIL_LEQUAL";
+            case RenderState::STENCIL_EQUAL:
+                return "STENCIL_EQUAL";
+            case RenderState::STENCIL_GREATER:
+                return "STENCIL_GREATER";
+            case RenderState::STENCIL_GEQUAL:
+                return "STENCIL_GEQUAL";
+            case RenderState::STENCIL_NOTEQUAL:
+                return "STENCIL_NOTEQUAL";
+        }
+    }
+    else if (std::strcmp("gameplay::RenderState::StencilOp", enumName) == 0)
+    {
+        switch (value)
+        {
+            case RenderState::STENCIL_OP_KEEP:
+                return "STENCIL_OP_KEEP";
+            case RenderState::STENCIL_OP_ZERO:
+                return "STENCIL_OP_ZERO";
+            case RenderState::STENCIL_OP_REPLACE:
+                return "STENCIL_OP_REPLACE";
+            case RenderState::STENCIL_OP_INCR:
+                return "STENCIL_OP_INCR";
+            case RenderState::STENCIL_OP_DECR:
+                return "STENCIL_OP_DECR";
+            case RenderState::STENCIL_OP_INVERT:
+                return "STENCIL_OP_INVERT";
+            case RenderState::STENCIL_OP_INCR_WRAP:
+                return "STENCIL_OP_INCR_WRAP";
+            case RenderState::STENCIL_OP_DECR_WRAP:
+                return "STENCIL_OP_DECR_WRAP";
+        }
+    }
+    
+    return NULL;
+}
+
+int RenderState::enumParse(const char* enumName, const char* str)
+{
+    if (std::strcmp("gameplay::RenderState::AutoBinding", enumName) == 0)
+    {
+        if (std::strcmp("NONE", str) == 0)
+            return RenderState::NONE;
+        else if (std::strcmp("WORLD_MATRIX", str) == 0)
+            return RenderState::WORLD_MATRIX;
+        else if (std::strcmp("VIEW_MATRIX", str) == 0)
+            return RenderState::VIEW_MATRIX;
+        else if (std::strcmp("PROJECTION_MATRIX", str) == 0)
+            return RenderState::PROJECTION_MATRIX;
+        else if (std::strcmp("WORLD_VIEW_MATRIX", str) == 0)
+            return RenderState::WORLD_VIEW_MATRIX;
+        else if (std::strcmp("VIEW_PROJECTION_MATRIX", str) == 0)
+            return RenderState::VIEW_PROJECTION_MATRIX;
+        else if (std::strcmp("WORLD_VIEW_PROJECTION_MATRIX", str) == 0)
+            return RenderState::WORLD_VIEW_PROJECTION_MATRIX;
+        else if (std::strcmp("INVERSE_TRANSPOSE_WORLD_MATRIX", str) == 0)
+            return RenderState::INVERSE_TRANSPOSE_WORLD_MATRIX;
+        else if (std::strcmp("INVERSE_TRANSPOSE_WORLD_VIEW_MATRIX", str) == 0)
+            return RenderState::INVERSE_TRANSPOSE_WORLD_VIEW_MATRIX;
+        else if (std::strcmp("CAMERA_WORLD_POSITION", str) == 0)
+            return RenderState::CAMERA_WORLD_POSITION;
+        else if (std::strcmp("CAMERA_VIEW_POSITION", str) == 0)
+            return RenderState::CAMERA_VIEW_POSITION;
+        else if (std::strcmp("MATRIX_PALETTE", str) == 0)
+            return RenderState::MATRIX_PALETTE;
+        else if (std::strcmp("SCENE_AMBIENT_COLOR", str) == 0)
+            return RenderState::SCENE_AMBIENT_COLOR;
+    }
+    else if (std::strcmp("gameplay::RenderState::BlendMode", enumName) == 0)
+    {
+        if (std::strcmp("BLEND_ZERO", str) == 0)
+            return RenderState::BLEND_ZERO;
+        else if (std::strcmp("BLEND_ONE", str) == 0)
+            return RenderState::BLEND_ONE;
+        else if (std::strcmp("BLEND_SRC_COLOR", str) == 0)
+            return RenderState::BLEND_SRC_COLOR;
+        else if (std::strcmp("BLEND_ONE_MINUS_SRC_COLOR", str) == 0)
+            return RenderState::BLEND_ONE_MINUS_SRC_COLOR;
+        else if (std::strcmp("BLEND_DST_COLOR", str) == 0)
+            return RenderState::BLEND_DST_COLOR;
+        else if (std::strcmp("BLEND_ONE_MINUS_DST_COLOR", str) == 0)
+            return RenderState::BLEND_ONE_MINUS_DST_COLOR;
+        else if (std::strcmp("BLEND_SRC_ALPHA", str) == 0)
+            return RenderState::BLEND_SRC_ALPHA;
+        else if (std::strcmp("BLEND_ONE_MINUS_SRC_ALPHA", str) == 0)
+            return RenderState::BLEND_ONE_MINUS_SRC_ALPHA;
+        else if (std::strcmp("BLEND_DST_ALPHA", str) == 0)
+            return RenderState::BLEND_DST_ALPHA;
+        else if (std::strcmp("BLEND_ONE_MINUS_DST_ALPHA", str) == 0)
+            return RenderState::BLEND_ONE_MINUS_DST_ALPHA;
+        else if (std::strcmp("BLEND_CONSTANT_ALPHA", str) == 0)
+            return RenderState::BLEND_CONSTANT_ALPHA;
+        else if (std::strcmp("BLEND_ONE_MINUS_CONSTANT_ALPHA", str) == 0)
+            return RenderState::BLEND_ONE_MINUS_CONSTANT_ALPHA;
+        else if (std::strcmp("BLEND_SRC_ALPHA_SATURATE", str) == 0)
+            return RenderState::BLEND_SRC_ALPHA_SATURATE;
+    }
+    else if (std::strcmp("gameplay::RenderState::DepthFunc", enumName) == 0)
+    {
+        if (std::strcmp("DEPTH_NEVER", str) == 0)
+            return RenderState::DEPTH_NEVER;
+        else if (std::strcmp("DEPTH_LESS", str) == 0)
+            return RenderState::DEPTH_LESS;
+        else if (std::strcmp("DEPTH_EQUAL", str) == 0)
+            return RenderState::DEPTH_EQUAL;
+        else if (std::strcmp("DEPTH_LEQUAL", str) == 0)
+            return RenderState::DEPTH_LEQUAL;
+        else if (std::strcmp("DEPTH_GREATER", str) == 0)
+            return RenderState::DEPTH_GREATER;
+        else if (std::strcmp("DEPTH_NOTEQUAL", str) == 0)
+            return RenderState::DEPTH_NOTEQUAL;
+        else if (std::strcmp("DEPTH_GEQUAL", str) == 0)
+            return RenderState::DEPTH_GEQUAL;
+        else if (std::strcmp("DEPTH_ALWAYS", str) == 0)
+            return RenderState::DEPTH_ALWAYS;
+    }
+    else if (std::strcmp("gameplay::RenderState::CullFaceSide", enumName) == 0)
+    {
+        if (std::strcmp("CULL_FACE_SIDE_BACK", str) == 0)
+            return RenderState::CULL_FACE_SIDE_BACK;
+        else if (std::strcmp("CULL_FACE_SIDE_FRONT", str) == 0)
+            return RenderState::CULL_FACE_SIDE_FRONT;
+        else if (std::strcmp("CULL_FACE_SIDE_FRONT_AND_BACK", str) == 0)
+            return RenderState::CULL_FACE_SIDE_FRONT_AND_BACK;
+    }
+    else if (std::strcmp("gameplay::RenderState::FontFace", enumName) == 0)
+    {
+        if (std::strcmp("FRONT_FACE_CW", str) == 0)
+            return RenderState::FRONT_FACE_CW;
+        else if (std::strcmp("FRONT_FACE_CCW", str) == 0)
+            return RenderState::FRONT_FACE_CCW;
+    }
+    else if (std::strcmp("gameplay::RenderState::StencilFunc", enumName) == 0)
+    {
+        if (std::strcmp("STENCIL_NEVER", str) == 0)
+            return RenderState::STENCIL_NEVER;
+        else if (std::strcmp("STENCIL_ALWAYS", str) == 0)
+            return RenderState::STENCIL_ALWAYS;
+        else if (std::strcmp("STENCIL_LESS", str) == 0)
+            return RenderState::STENCIL_LESS;
+        else if (std::strcmp("STENCIL_LEQUAL", str) == 0)
+            return RenderState::STENCIL_LEQUAL;
+        else if (std::strcmp("STENCIL_EQUAL", str) == 0)
+            return RenderState::STENCIL_EQUAL;
+        else if (std::strcmp("STENCIL_GREATER", str) == 0)
+            return RenderState::STENCIL_GREATER;
+        else if (std::strcmp("STENCIL_GEQUAL", str) == 0)
+            return RenderState::STENCIL_GEQUAL;
+        else if (std::strcmp("STENCIL_NOTEQUAL", str) == 0)
+            return RenderState::STENCIL_NOTEQUAL;
+    }
+    
+    else if (std::strcmp("gameplay::RenderState::StencilOp", enumName) == 0)
+    {
+        if (std::strcmp("STENCIL_OP_KEEP", str) == 0)
+            return RenderState::STENCIL_OP_KEEP;
+        else if (std::strcmp("STENCIL_OP_ZERO", str) == 0)
+            return RenderState::STENCIL_OP_ZERO;
+        else if (std::strcmp("STENCIL_OP_REPLACE", str) == 0)
+            return RenderState::STENCIL_OP_REPLACE;
+        else if (std::strcmp("STENCIL_OP_INCR", str) == 0)
+            return RenderState::STENCIL_OP_INCR;
+        else if (std::strcmp("STENCIL_OP_DECR", str) == 0)
+            return RenderState::STENCIL_OP_DECR;
+        else if (std::strcmp("STENCIL_OP_INVERT", str) == 0)
+            return RenderState::STENCIL_OP_INVERT;
+        else if (std::strcmp("STENCIL_OP_INCR_WRAP", str) == 0)
+            return RenderState::STENCIL_OP_INCR_WRAP;
+        else if (std::strcmp("STENCIL_OP_DECR_WRAP", str) == 0)
+            return RenderState::STENCIL_OP_DECR_WRAP;
+    }
+    
+    return -1;
+}
+
 void RenderState::StateBlock::setState(const char* name, const char* value)
 {
     GP_ASSERT(name);
 
     if (strcmp(name, "blend") == 0)
     {
-        setBlend(parseBoolean(value));
+        setBlend(parseBool(value));
     }
-    else if (strcmp(name, "blendSrc") == 0 || strcmp(name, "srcBlend") == 0 )   // Leaving srcBlend for backward compat.
+    else if (strcmp(name, "blendSrc") == 0)
     {
-        setBlendSrc(parseBlend(value));
+        setBlendSrc(parseBlendMode(value));
     }
-    else if (strcmp(name, "blendDst") == 0 || strcmp(name, "dstBlend") == 0)    // // Leaving dstBlend for backward compat.
+    else if (strcmp(name, "blendDst") == 0)
     {
-        setBlendDst(parseBlend(value));
+        setBlendDst(parseBlendMode(value));
     }
     else if (strcmp(name, "cullFace") == 0)
     {
-        setCullFace(parseBoolean(value));
+        setCullFace(parseBool(value));
     }
     else if (strcmp(name, "cullFaceSide") == 0)
     {
@@ -993,19 +1299,19 @@ void RenderState::StateBlock::setState(const char* name, const char* value)
     }
     else if (strcmp(name, "depthTest") == 0)
     {
-        setDepthTest(parseBoolean(value));
+        setDepthTest(parseBool(value));
     }
     else if (strcmp(name, "depthWrite") == 0)
     {
-        setDepthWrite(parseBoolean(value));
+        setDepthWrite(parseBool(value));
     }
     else if (strcmp(name, "depthFunc") == 0)
     {
-        setDepthFunction(parseDepthFunc(value));
+        setDepthFunc(parseDepthFunc(value));
     }
 	else if (strcmp(name, "stencilTest") == 0)
     {
-		setStencilTest(parseBoolean(value));
+		setStencilTest(parseBool(value));
     }
 	else if (strcmp(name, "stencilWrite") == 0)
     {
@@ -1013,27 +1319,27 @@ void RenderState::StateBlock::setState(const char* name, const char* value)
     }
 	else if (strcmp(name, "stencilFunc") == 0)
     {
-		setStencilFunction(parseStencilFunc(value), _stencilFunctionRef, _stencilFunctionMask);
+		setStencilFunc(parseStencilFunc(value), _stencilFuncRef, _stencilFuncMask);
     }
 	else if (strcmp(name, "stencilFuncRef") == 0)
     {
-		setStencilFunction(_stencilFunction, parseInt(value), _stencilFunctionMask);
+		setStencilFunc(_stencilFunc, parseInt(value), _stencilFuncMask);
     }
 	else if (strcmp(name, "stencilFuncMask") == 0)
     {
-		setStencilFunction(_stencilFunction, _stencilFunctionRef, parseUInt(value));
+		setStencilFunc(_stencilFunc, _stencilFuncRef, parseUInt(value));
     }
 	else if (strcmp(name, "stencilOpSfail") == 0)
     {
-		setStencilOperation(parseStencilOp(value), _stencilOpDpfail, _stencilOpDppass);
+		setStencilOp(parseStencilOp(value), _stencilOpDpfail, _stencilOpDppass);
     }
 	else if (strcmp(name, "stencilOpDpfail") == 0)
     {
-		setStencilOperation(_stencilOpSfail, parseStencilOp(value), _stencilOpDppass);
+		setStencilOp(_stencilOpSfail, parseStencilOp(value), _stencilOpDppass);
     }
 	else if (strcmp(name, "stencilOpDppass") == 0)
     {
-		setStencilOperation(_stencilOpSfail, _stencilOpDpfail, parseStencilOp(value));
+		setStencilOp(_stencilOpSfail, _stencilOpDpfail, parseStencilOp(value));
     }
     else
     {
@@ -1054,7 +1360,7 @@ void RenderState::StateBlock::setBlend(bool enabled)
     }
 }
 
-void RenderState::StateBlock::setBlendSrc(Blend blend)
+void RenderState::StateBlock::setBlendSrc(BlendMode blend)
 {
     _blendSrc = blend;
     if (_blendSrc == BLEND_ONE && _blendDst == BLEND_ZERO)
@@ -1068,7 +1374,7 @@ void RenderState::StateBlock::setBlendSrc(Blend blend)
     }
 }
 
-void RenderState::StateBlock::setBlendDst(Blend blend)
+void RenderState::StateBlock::setBlendDst(BlendMode blend)
 {
     _blendDst = blend;
     if (_blendSrc == BLEND_ONE && _blendDst == BLEND_ZERO)
@@ -1149,10 +1455,10 @@ void RenderState::StateBlock::setDepthWrite(bool enabled)
     }
 }
 
-void RenderState::StateBlock::setDepthFunction(DepthFunction func)
+void RenderState::StateBlock::setDepthFunc(DepthFunc func)
 {
-    _depthFunction = func;
-    if (_depthFunction == DEPTH_LESS)
+    _depthFunc = func;
+    if (_depthFunc == DEPTH_LESS)
     {
         // Default depth function
         _bits &= ~RS_DEPTH_FUNC;
@@ -1190,11 +1496,11 @@ void RenderState::StateBlock::setStencilWrite(unsigned int mask)
 	}
 }
 
-void RenderState::StateBlock::setStencilFunction(StencilFunction func, int ref, unsigned int mask)
+void RenderState::StateBlock::setStencilFunc(StencilFunc func, int ref, unsigned int mask)
 {
-	_stencilFunction = func;
-	_stencilFunctionRef = ref;
-	_stencilFunctionMask = mask;
+	_stencilFunc = func;
+	_stencilFuncRef = ref;
+	_stencilFuncMask = mask;
 	if (func == STENCIL_ALWAYS && ref == 0 && mask == RS_ALL_ONES)
 	{
 		// Default stencil function
@@ -1206,7 +1512,7 @@ void RenderState::StateBlock::setStencilFunction(StencilFunction func, int ref, 
 	}
 }
 
-void RenderState::StateBlock::setStencilOperation(StencilOperation sfail, StencilOperation dpfail, StencilOperation dppass)
+void RenderState::StateBlock::setStencilOp(StencilOp sfail, StencilOp dpfail, StencilOp dppass)
 {
 	_stencilOpSfail = sfail;
 	_stencilOpDpfail = dpfail;
@@ -1220,6 +1526,54 @@ void RenderState::StateBlock::setStencilOperation(StencilOperation sfail, Stenci
 	{
 		_bits |= RS_STENCIL_OP;
 	}
+}
+
+const char* RenderState::StateBlock::getSerializedClassName() const
+{
+    return "gameplay::RenderState::StateBlock";
+}
+
+void RenderState::StateBlock::serialize(Serializer* serializer)
+{
+    serializer->writeBool("blend", _blendEnabled, false);
+    serializer->writeEnum("blendSrc", "gameplay::RenderState::BlendMode", _blendSrc, BLEND_ONE);
+    serializer->writeEnum("blendDst", "gameplay::RenderState::BlendMode", _blendDst, BLEND_ZERO);
+    serializer->writeBool("cullFace", _cullFaceEnabled, false);
+    serializer->writeEnum("cullFaceSize", "gameplay::RenderState::CullFaceSide", _cullFaceSide, CULL_FACE_SIDE_BACK);
+    serializer->writeEnum("frontFace", "gameplay::RenderState::FrontFace", _frontFace, FRONT_FACE_CCW);
+    serializer->writeBool("depthTest", _depthTestEnabled, false);
+    serializer->writeBool("depthWrite", _depthWriteEnabled, true);
+    serializer->writeEnum("depthFunc", "gameplay::RenderState::DepthFunc", _depthFunc, DEPTH_LESS);
+    serializer->writeBool("stencilTest", _stencilTestEnabled, false);
+    serializer->writeInt("stencilWrite", _stencilWrite, RS_ALL_ONES);
+    serializer->writeEnum("stencilFunc", "gameplay::RenderState::StencilFunc", _stencilFunc, STENCIL_ALWAYS);
+    serializer->writeInt("stencilFuncRef", _stencilFuncRef, 0);
+    serializer->writeInt("stencilFuncMask", _stencilFuncMask, RS_ALL_ONES);
+    serializer->writeEnum("stencilOpSfail", "gameplay::RenderState::StencilOp", _stencilOpSfail, STENCIL_OP_KEEP);
+    serializer->writeEnum("stencilOpDpfail", "gameplay::RenderState::StencilOp", _stencilOpDpfail, STENCIL_OP_KEEP);
+    serializer->writeEnum("stencilOpDppass", "gameplay::RenderState::StencilOp", _stencilOpDppass, STENCIL_OP_KEEP);
+}
+
+void RenderState::StateBlock::deserialize(Serializer* serializer)
+{
+    _blendEnabled = serializer->readBool("blend", false);
+    _blendSrc = static_cast<gameplay::RenderState::BlendMode>(serializer->readEnum("blendSrc", "gameplay::RenderState::BlendMode", BLEND_ONE));
+    _blendDst = static_cast<gameplay::RenderState::BlendMode>(serializer->readEnum("blendDst", "gameplay::RenderState::BlendMode", BLEND_ZERO));
+    _cullFaceEnabled = serializer->readBool("cullFace", false);
+    _cullFaceSide = static_cast<gameplay::RenderState::CullFaceSide>(serializer->readEnum("cullFaceSize", "gameplay::RenderState::CullFaceSide", CULL_FACE_SIDE_BACK));
+    _frontFace = static_cast<gameplay::RenderState::FrontFace>(serializer->readEnum("frontFace", "gameplay::RenderState::FrontFace", FRONT_FACE_CCW));
+    _depthTestEnabled = serializer->readBool("depthTest", false);
+    _depthWriteEnabled = serializer->readBool("depthWrite", true);
+    _depthFunc = static_cast<gameplay::RenderState::DepthFunc>(serializer->readEnum("depthFunction", "gameplay::RenderState::DepthFunc", DEPTH_LESS));
+    _stencilTestEnabled = serializer->readBool("stencilTest", false);
+    _stencilWrite = serializer->readInt("stencilWrite", RS_ALL_ONES);
+    _stencilFunc = static_cast<gameplay::RenderState::StencilFunc>(serializer->readEnum("stencilFunc", "gameplay::RenderState::StencilFunction", STENCIL_ALWAYS));
+    _stencilFuncRef = serializer->readInt("stencilFuncRef", 0);
+    _stencilFuncMask = serializer->readInt("stencilFuncMask", RS_ALL_ONES);
+    _stencilOpSfail = static_cast<gameplay::RenderState::StencilOp>(serializer->readEnum("stencilOpSfail", "gameplay::RenderState::StencilOp", STENCIL_OP_KEEP));
+    _stencilOpDpfail = static_cast<gameplay::RenderState::StencilOp>(serializer->readEnum("stencilOpDpfail", "gameplay::RenderState::StencilOp", STENCIL_OP_KEEP));
+    _stencilOpDppass = static_cast<gameplay::RenderState::StencilOp>(serializer->readEnum("stencilOpDppass", "gameplay::RenderState::StencilOp", STENCIL_OP_KEEP));
+    _bits = 0L;
 }
 
 RenderState::AutoBindingResolver::AutoBindingResolver()

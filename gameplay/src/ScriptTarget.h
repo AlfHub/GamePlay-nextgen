@@ -217,7 +217,7 @@ public:
      * @return A string describing the type name of the ScriptTarget child
      *      class, as it is defined in the lua bindings (i.e. "Node").
      */
-    virtual const char* getTypeName() const = 0;
+    virtual const char* getScriptClassName() const = 0;
 
     /**
      * Attaches a script to this object.

@@ -63,14 +63,14 @@ public:
     static Container* create(const char* id, Theme::Style* style = NULL, Layout::Type layout = Layout::LAYOUT_ABSOLUTE);
 
     /**
-     * Extends ScriptTarget::getTypeName() to return the type name of this class.
+     * Extends ScriptTarget::getScriptClassName() to return the type name of this class.
      *
      * Child controls should override this function to return the correct type name.
      *
      * @return The type name of this class: "Container"
-     * @see ScriptTarget::getTypeName()
+     * @see ScriptTarget::getScriptClassName()
      */
-    const char* getTypeName() const;
+    const char* getScriptClassName() const;
 
     /**
      * Get this container's layout.

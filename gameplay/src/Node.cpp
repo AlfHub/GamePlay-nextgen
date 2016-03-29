@@ -23,16 +23,20 @@
 namespace gameplay
 {
 
-Node::Node(const char* id)
-    : _scene(NULL), _firstChild(NULL), _nextSibling(NULL), _prevSibling(NULL), _parent(NULL), _childCount(0), _enabled(true), _tags(NULL),
-    _drawable(NULL), _camera(NULL), _light(NULL), _audioSource(NULL), _collisionObject(NULL), _agent(NULL), _userObject(NULL),
-      _dirtyBits(NODE_DIRTY_ALL)
+Node::Node() : _scene(NULL), _id(""), _firstChild(NULL), _nextSibling(NULL), _prevSibling(NULL), _parent(NULL), _childCount(0), _enabled(true), _tags(NULL),
+    _drawable(NULL), _camera(NULL), _light(NULL), _collisionObject(NULL), _audioSource(NULL),
+    _agent(NULL), _userObject(NULL), _dirtyBits(NODE_DIRTY_ALL)
 {
     GP_REGISTER_SCRIPT_EVENTS();
-    if (id)
-    {
-        _id = id;
-    }
+}
+    
+Node::Node(const char* id) :
+    _scene(NULL), _id(id ? id : ""), _firstChild(NULL), _nextSibling(NULL), _prevSibling(NULL), _parent(NULL),
+    _childCount(0), _enabled(true), _tags(NULL),
+    _drawable(NULL), _camera(NULL), _light(NULL), _collisionObject(NULL), _audioSource(NULL),
+    _agent(NULL), _userObject(NULL), _dirtyBits(NODE_DIRTY_ALL)
+{
+    GP_REGISTER_SCRIPT_EVENTS();
 }
 
 Node::~Node()
@@ -46,8 +50,8 @@ Node::~Node()
     SAFE_RELEASE(ref);
     SAFE_RELEASE(_camera);
     SAFE_RELEASE(_light);
-    SAFE_RELEASE(_audioSource);
     SAFE_DELETE(_collisionObject);
+    SAFE_RELEASE(_audioSource);
     SAFE_RELEASE(_userObject);
     SAFE_DELETE(_tags);
     setAgent(NULL);
@@ -58,7 +62,7 @@ Node* Node::create(const char* id)
     return new Node(id);
 }
 
-const char* Node::getTypeName() const
+const char* Node::getScriptClassName() const
 {
     return "Node";
 }
@@ -74,11 +78,6 @@ void Node::setId(const char* id)
     {
         _id = id;
     }
-}
-
-Node::Type Node::getType() const
-{
-    return Node::NODE;
 }
 
 void Node::addChild(Node* child)
@@ -797,7 +796,6 @@ void Node::setLight(Light* light)
         _light->addRef();
         _light->setNode(this);
     }
-
     setBoundsDirty();
 }
 
@@ -863,7 +861,7 @@ const BoundingSphere& Node::getBoundingSphere() const
         }
         if (_light)
         {
-            switch (_light->getLightType())
+            switch (_light->getType())
             {
             case Light::POINT:
                 if (empty)
@@ -938,7 +936,6 @@ const BoundingSphere& Node::getBoundingSphere() const
             }
         }
     }
-
     return _bounds;
 }
 
@@ -1223,6 +1220,88 @@ Ref* Node::getUserObject() const
 void Node::setUserObject(Ref* obj)
 {
     _userObject = obj;
+}
+
+const char* Node::getSerializedClassName() const
+{
+    return "gameplay::Node";
+}
+
+void Node::serialize(Serializer* serializer)
+{
+    serializer->writeString("id", _id.c_str(), "");
+    serializer->writeBool("enabled", _enabled, true);
+    Matrix transform = getMatrix();
+    Vector3 translation;
+    Quaternion rotation;
+    Vector3 scale;
+    transform.decompose(&scale, &rotation, &translation);
+    serializer->writeVector("translate", translation, Vector3::zero());
+    serializer->writeVector("rotate", Vector4(rotation.x, rotation.y, rotation.z, rotation.w), Vector4::zero());
+    serializer->writeVector("scale", scale, Vector3::one());
+    
+    if (_drawable)
+    {
+        Model* model = dynamic_cast<Model*>(_drawable);
+        if (model)
+            serializer->writeObject("drawable", model);
+        // TODO: Other drawables
+    }
+    serializer->writeObject("camera", _camera);
+    serializer->writeObject("light", _light);
+    
+    // TODO:
+    //serializer->writeObject("collidable", _collidable);
+    // Audio
+    // AIAgent
+    // Scripts
+    // Animations
+    
+    serializer->writeObject("parent", _parent);
+    serializer->writeObjectList("children", _childCount);
+    for (Node* child = getFirstChild(); child != NULL; child = child->getNextSibling())
+    {
+        serializer->writeObject(NULL, child);
+    }
+}
+
+void Node::deserialize(Serializer* serializer)
+{
+    serializer->readString("id", _id, "");
+    _enabled = serializer->readBool("enabled", true);
+    Vector3 translation = serializer->readVector("translate", Vector3::zero());
+    setTranslation(translation);
+    Vector4 rot = serializer->readVector("rotate", Vector4::zero());
+    Quaternion rotation(rot.x, rot.y, rot.z, rot.w);
+    setRotation(rotation);
+    Vector3 scale = serializer->readVector("scale", Vector3::one());
+    setScale(scale);
+    setDrawable(dynamic_cast<Drawable*>(serializer->readObject("drawable")));
+    //_collidable =  dynamic_cast<Collidable*>(serializer->readObject("collidable"));
+    setCamera(dynamic_cast<Camera*>(serializer->readObject("camera")));
+    setLight(dynamic_cast<Light*>(serializer->readObject("light")));
+    
+    // TODO:
+    // Audio
+    // AIAgent
+    // Scripts
+    // Animations
+    
+    _parent = dynamic_cast<Node*>(serializer->readObject("parent"));
+    _childCount = serializer->readObjectList("children");
+    for (unsigned int i = 0; _childCount; i++)
+    {
+        Node* child = dynamic_cast<Node*>(serializer->readObject(NULL));
+        if (child)
+        {
+            addChild(child);
+        }
+    }
+}
+
+Serializable* Node::createInstance()
+{
+    return static_cast<Serializable*>(new Node());
 }
 
 NodeCloneContext::NodeCloneContext()

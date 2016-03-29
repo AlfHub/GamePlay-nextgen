@@ -82,12 +82,12 @@ public:
     };
 
     /**
-     * Extends ScriptTarget::getTypeName() to return the type name of this class.
+     * Extends ScriptTarget::getScriptClassName() to return the type name of this class.
      *
      * @return The type name of this class: "AnimationClip"
-     * @see ScriptTarget::getTypeName()
+     * @see ScriptTarget::getScriptClassName()
      */
-    const char* getTypeName() const;
+    const char* getScriptClassName() const;
 
     /**
      * Gets the AnimationClip's ID.
@@ -386,27 +386,27 @@ private:
      */
     AnimationClip* clone(Animation* animation) const;
 
-    std::string _id;                                    // AnimationClip ID.
-    Animation* _animation;                              // The Animation this clip is created from.
-    unsigned long _startTime;                           // Start time of the clip.
-    unsigned long _endTime;                             // End time of the clip.
-    unsigned long _duration;                            // The total duration.
-    unsigned char _stateBits;                           // Bit flag used to keep track of the clip's current state.
-    float _repeatCount;                                 // The clip's repeat count.
-    unsigned int _loopBlendTime;                        // Time spent blending the last frame of animation with the first frame, when looping.
-    unsigned long _activeDuration;                      // The active duration of the clip.
-    float _speed;                                       // The speed that the clip is playing. Default is 1.0. Negative goes in reverse.
-    double _timeStarted;                                // The game time when this clip was actually started.
-    float _elapsedTime;                                 // Time elapsed while the clip is running.
-    AnimationClip* _crossFadeToClip;                    // The clip to cross fade to.
-    float _crossFadeOutElapsed;                         // The amount of time that has elapsed for the crossfade.
-    unsigned long _crossFadeOutDuration;                // The duration of the cross fade.
-    float _blendWeight;                                 // The clip's blendweight.
-    std::vector<AnimationValue*> _values;               // AnimationValue holder.
-    std::vector<Listener*>* _beginListeners;            // Collection of begin listeners on the clip.
-    std::vector<Listener*>* _endListeners;              // Collection of end listeners on the clip.
-    std::list<ListenerEvent*>* _listeners;              // Ordered collection of listeners on the clip.
-    std::list<ListenerEvent*>::iterator* _listenerItr;  // Iterator that points to the next listener event to be triggered.
+    std::string _id;                            // AnimationClip ID.
+    Animation* _animation;                      // The Animation this clip is created from.
+    unsigned long _startTime;                   // Start time of the clip.
+    unsigned long _endTime;                     // End time of the clip.
+    unsigned long _duration;                    // The total duration.
+    unsigned char _stateBits;                   // Bit flag used to keep track of the clip's current state.
+    float _repeatCount;                         // The clip's repeat count.
+    unsigned int _loopBlendTime;                // Time spent blending last frame with the first frame, when looping.
+    unsigned long _activeDuration;              // The active duration of the clip.
+    float _speed;                               // The speed the clip is playing. Default 1.0. Negative goes reverse.
+    double _timeStarted;                        // The game time when this clip was actually started.
+    float _elapsedTime;                         // Time elapsed while the clip is running.
+    AnimationClip* _crossFadeToClip;            // The clip to cross fade to.
+    float _crossFadeOutElapsed;                 // The amount of time that has elapsed for the crossfade.
+    unsigned long _crossFadeOutDuration;        // The duration of the cross fade.
+    float _blendWeight;                         // The clip's blendweight.
+    std::vector<AnimationValue*> _values;       // AnimationValue holder.
+    std::vector<Listener*>* _beginListeners;    // Collection of begin listeners on the clip.
+    std::vector<Listener*>* _endListeners;      // Collection of end listeners on the clip.
+    std::list<ListenerEvent*>* _listeners;      // Ordered collection of listeners on the clip.
+    std::list<ListenerEvent*>::iterator* _listenerItr;  // Iterator to the next listener event to be triggered.
 };
 
 }

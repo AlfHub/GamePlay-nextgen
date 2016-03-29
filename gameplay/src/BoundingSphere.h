@@ -1,6 +1,7 @@
 #ifndef BOUNDINGSPHERE_H_
 #define BOUNDINGSPHERE_H_
 
+#include "Serializable.h"
 #include "Frustum.h"
 
 namespace gameplay
@@ -9,7 +10,7 @@ namespace gameplay
 /**
  * Defines a 3-dimensional bounding sphere.
  */
-class BoundingSphere
+class BoundingSphere : public Serializable
 {
 public:
 
@@ -152,6 +153,21 @@ public:
      * @param matrix The transformation matrix to transform by.
      */
     void transform(const Matrix& matrix);
+
+    /**
+     * @see Serializeable::getSerializedClassName
+     */
+    const char* getSerializedClassName() const;
+    
+    /**
+     * @see Serializeable::serialize
+     */
+    void serialize(Serializer* serializer);
+    
+    /**
+     * @see Serializeable::deserialize
+     */
+    void deserialize(Serializer* serializer);
 
     /**
      * Transforms this bounding sphere by the given matrix.

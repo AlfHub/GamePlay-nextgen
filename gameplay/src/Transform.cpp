@@ -92,7 +92,7 @@ bool Transform::isTransformChangedSuspended()
     return (_suspendTransformChanged > 0);
 }
 
-const char* Transform::getTypeName() const
+const char* Transform::getScriptClassName() const
 {
     return "Transform";
 }

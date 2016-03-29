@@ -25,8 +25,6 @@ class ScriptController;
  *
  * This represents a running cross-platform game application and provides an abstraction
  * to most typical platform functionality and events.
- *
- * @see http://gameplay3d.github.io/GamePlay/docs/file-formats.html#wiki-Game_Config
  */
 class Game
 {
@@ -230,7 +228,7 @@ public:
     void clear(ClearFlags flags, float red, float green, float blue, float alpha, float clearDepth, int clearStencil);
 
     /**
-     * Gets the audio controller for managing control of audio
+     * Gets the audio controller for controlling the audio
      * associated with the game.
      *
      * @return The audio controller for this game.
@@ -238,7 +236,7 @@ public:
     inline AudioController* getAudioController() const;
 
     /**
-     * Gets the animation controller for managing control of animations
+     * Gets the animation controller for controlling the animations
      * associated with the game.
      * 
      * @return The animation controller for this game.
@@ -246,7 +244,7 @@ public:
     inline AnimationController* getAnimationController() const;
 
     /**
-     * Gets the physics controller for managing control of physics
+     * Gets the physics controller for controlling the physics
      * associated with the game.
      * 
      * @return The physics controller for this game.
@@ -254,7 +252,7 @@ public:
     inline PhysicsController* getPhysicsController() const;
 
     /** 
-     * Gets the AI controller for managing control of artificial
+     * Gets the AI controller for controlling the artificial
      * intelligence associated with the game.
      *
      * @return The AI controller for this game.
@@ -262,7 +260,7 @@ public:
     inline AIController* getAIController() const;
 
     /**
-     * Gets the script controller for managing control of Lua scripts
+     * Gets the script controller for controlling the scripts
      * associated with the game.
      * 
      * @return The script controller for this game.
@@ -270,7 +268,7 @@ public:
     inline ScriptController* getScriptController() const;
 
     /**
-     * Gets the audio listener for 3D audio.
+     * Gets the audio listener.
      * 
      * @return The audio listener for this game.
      */
@@ -619,6 +617,65 @@ public:
      */
     bool launchURL(const char *url) const;
 
+    /**
+     * Game configuration.
+     */
+    class Config : public Serializable
+    {
+        friend class Game;
+
+    public:
+
+        /**
+         * Constructor
+         */
+        Config();
+
+        /**
+          * Destructor
+          */
+        ~Config();
+
+        /**
+         * @see Serializer::Activator::CreateInstanceCallback
+         */
+        static Serializable* createInstance();
+
+        /**
+         * @see Serializable::getSerializedClassName
+         */
+        const char* getSerializedClassName() const;
+
+        /**
+         * @see Serializable::serialize
+         */
+        void serialize(Serializer* serializer);
+
+        /**
+         * @see Serializable::deserialize
+         */
+        void deserialize(Serializer* serializer);
+
+        std::string title;
+        bool fullscreen;
+        bool resizable;
+        unsigned int x;
+        unsigned int y;
+        unsigned int width;
+        unsigned int height;
+        unsigned int samples;        
+        std::string theme;
+        std::string gamepad;
+        std::vector<std::pair<std::string, std::string> > aliases;
+    };
+
+public:
+    /**
+     * Gets the game configuration
+     * @return The game configuration.
+     */
+    Game::Config* getConfig();
+
 protected:
 
     /**
@@ -699,8 +756,6 @@ private:
 
     /**
      * Constructor.
-     *
-     * @param copy The game to copy.
      */
     Game(const Game& copy);
 
@@ -722,11 +777,6 @@ private:
     void fireTimeEvents(double frameTime);
 
     /**
-     * Loads the game configuration.
-     *
-    void loadConfig();*/
-
-    /**
      * Loads the gamepads from the configuration file.
      */
     void loadGamepads();
@@ -743,6 +793,7 @@ private:
     void gestureDropEventInternal(int x, int y);
     void gamepadEventInternal(Gamepad::GamepadEvent evt, Gamepad* gamepad);
 
+    Config* _config;                            // The configuration for the game.
     bool _initialized;                          // If game has initialized yet.
     State _state;                               // The game state.
     unsigned int _pausedCount;                  // Number of times pause() has been called.
@@ -757,14 +808,13 @@ private:
     Vector4 _clearColor;                        // The clear color value last used for clearing the color buffer.
     float _clearDepth;                          // The clear depth value last used for clearing the depth buffer.
     int _clearStencil;                          // The clear stencil value last used for clearing the stencil buffer.
-    //Properties* _properties;                    // Game configuration properties object.
     AnimationController* _animationController;  // Controls the scheduling and running of animations.
     AudioController* _audioController;          // Controls audio sources that are playing in the game.
     PhysicsController* _physicsController;      // Controls the simulation of a physics scene and entities.
     AIController* _aiController;                // Controls AI simulation.
     AudioListener* _audioListener;              // The audio listener in 3D space.
-    std::priority_queue<TimeEvent, std::vector<TimeEvent>, std::less<TimeEvent> >* _timeEvents;     // Contains the scheduled time events.
-    ScriptController* _scriptController;            // Controls the scripting engine.
+    std::priority_queue<TimeEvent, std::vector<TimeEvent>, std::less<TimeEvent> >* _timeEvents;
+    ScriptController* _scriptController;        // Controls the scripting engine.
     ScriptTarget* _scriptTarget;                // Script target for the game
 
     // Note: Do not add STL object member variables on the stack; this will cause false memory leaks to be reported.

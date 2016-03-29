@@ -19,6 +19,7 @@ class NodeCloneContext;
  */
 class Pass : public RenderState
 {
+    friend class Serializer::Activator;
     friend class Technique;
     friend class Material;
     friend class RenderState;
@@ -68,7 +69,27 @@ public:
      */
     void unbind();
 
+    /**
+     * @see Serializeable::getSerializedClassName
+     */
+    const char* getSerializedClassName() const;
+
+    /**
+     * @see Serializeable::serialize
+     */
+    void serialize(Serializer* serializer);
+
+    /**
+     * @see Serializeable::deserialize
+     */
+    void deserialize(Serializer* serializer);
+
 private:
+
+    /**
+     * Constructor
+     */
+    Pass();
 
     /**
      * Constructor.
@@ -94,6 +115,11 @@ private:
      * Hidden copy assignment operator.
      */
     Pass& operator=(const Pass&);
+
+    /**
+     * @see Serializer::Activator::CreateInstanceCallback
+     */
+    static Serializable* createInstance();
 
     /**
      * Clones the Pass and assigns it the given Technique.

@@ -2,8 +2,17 @@
 #include "Light.h"
 #include "Node.h"
 
+#define LIGHT_COLOR Vector3::one()
+#define LIGHT_RANGE 10.0f
+#define LIGHT_INNER_ANGLE 30.0f
+#define LIGHT_OUTER_ANGLE 45.0f
+
 namespace gameplay
 {
+Light::Light() :
+    _type(DIRECTIONAL), _node(NULL)
+{
+}
 
 Light::Light(Light::Type type, const Vector3& color) :
     _type(type), _node(NULL)
@@ -151,7 +160,7 @@ Light* Light::createSpot(float red, float green, float blue, float range, float 
     return light;
 }*/
 
-Light::Type Light::getLightType() const
+Light::Type Light::getType() const
 {
     return _type;
 }
@@ -320,6 +329,108 @@ float Light::getOuterAngleCos()  const
     GP_ASSERT(_type == SPOT);
 
     return _spot->outerAngleCos;
+}
+
+const char* Light::getSerializedClassName() const
+{
+    return "gameplay::Light";
+}
+
+void Light::serialize(Serializer* serializer)
+{
+    serializer->writeEnum("type", "gameplay::Light::Type", _type, -1);
+    switch(_type)
+    {
+        case DIRECTIONAL:
+        {
+            serializer->writeColor("color", _directional->color, LIGHT_COLOR);
+            break;
+        }
+        case POINT:
+        {
+            serializer->writeColor("color", _point->color, LIGHT_COLOR);
+            serializer->writeFloat("range", _point->range, LIGHT_RANGE);
+            break;
+        }
+        case SPOT:
+        {
+            serializer->writeColor("color", _spot->color, LIGHT_COLOR);
+            serializer->writeFloat("range", _spot->range, LIGHT_RANGE);
+            serializer->writeFloat("innerAngle", _spot->range, LIGHT_INNER_ANGLE);
+            serializer->writeFloat("outerAngle", _spot->range, LIGHT_OUTER_ANGLE);
+            break;
+        }
+        default:
+            break;
+    }
+}
+
+void Light::deserialize(Serializer* serializer)
+{
+    _type = static_cast<Light::Type>(serializer->readEnum("type", "gameplay::Light::Type", -1));
+    Vector3 color = serializer->readColor("color", LIGHT_COLOR);
+    switch(_type)
+    {
+        case Light::DIRECTIONAL:
+        {
+            _directional = new Light::Directional(color);
+            break;
+        }
+        case Light::POINT:
+        {
+            float pointRange = serializer->readFloat("range", LIGHT_RANGE);
+            _point = new Light::Point(color, pointRange);
+            break;
+        }
+        case Light::SPOT:
+        {
+            float spotRange = serializer->readFloat("range", LIGHT_RANGE);
+            float innerAngle = serializer->readFloat("innerAngle", LIGHT_INNER_ANGLE);
+            float outerAngle = serializer->readFloat("outerAngle", LIGHT_OUTER_ANGLE);
+            _spot = new Light::Spot(color, spotRange, innerAngle, outerAngle);
+            break;
+        }
+        default:
+            break;
+    }
+}
+
+Serializable* Light::createInstance()
+{
+    return static_cast<Serializable*>(new Light());
+}
+
+const char* Light::enumToString(const char* enumName, int value)
+{
+    if (std::strcmp("gameplay::Light::Type", enumName) == 0)
+    {
+        switch (value)
+        {
+            case Light::DIRECTIONAL:
+                return "DIRECTIONAL";
+            case Light::POINT:
+                return "POINT";
+            case Light::SPOT:
+                return "SPOT";
+            default:
+                return NULL;
+        }
+    }
+    return NULL;
+}
+
+int Light::enumParse(const char* enumName, const char* str)
+{
+    if (std::strcmp("gameplay::Light::Type", enumName) == 0)
+    {
+        if (std::strcmp("DIRECTIONAL", str) == 0)
+            return Light::DIRECTIONAL;
+        else if (std::strcmp("POINT", str) == 0)
+            return Light::POINT;
+        else if (std::strcmp("SPOT", str) == 0)
+            return Light::SPOT;
+    }
+    return -1;
 }
 
 Light* Light::clone(NodeCloneContext &context)
