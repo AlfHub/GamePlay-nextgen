@@ -3,28 +3,13 @@
   <ItemGroup>
     <Filter Include="res">
     </Filter>
-    <Filter Include="src">
-    </Filter>
     <Filter Include="res\shaders">
-      <UniqueIdentifier>{f54d3628-f193-4138-97ca-0ca3b34480d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src">
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="game.config" />
-    <None Include="icon.png" />
-    <None Include="bar-descriptor.xml" />
-    <None Include="res\demo.fbx">
-      <Filter>res</Filter>
-    </None>
-    <None Include="res\demo.gpb">
-      <Filter>res</Filter>
-    </None>
-    <None Include="res\demo.material">
-      <Filter>res</Filter>
-    </None>
-    <None Include="res\demo.scene">
-      <Filter>res</Filter>
-    </None>
     <None Include="res\shaders\colored.frag">
       <Filter>res\shaders</Filter>
     </None>
@@ -75,13 +60,19 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\TemplateGame.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
     <ClInclude Include="src\TemplateGame.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\TemplateGame.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
+    <Image Include="icon.png" />
+    <Image Include="res\logo.png">
+      <Filter>res</Filter>
+    </Image>
   </ItemGroup>
 </Project>

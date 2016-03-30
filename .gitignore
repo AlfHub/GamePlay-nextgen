@@ -18,6 +18,7 @@ Thumbs.db
 /api/xml
 /bin
 /external-deps
+/samples
 /api/html
 Makefile
 Makefile.Debug

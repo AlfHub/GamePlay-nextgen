@@ -52,11 +52,17 @@ protected:
 private:
 
     /**
+     * Create a simple cube mesh.
+     */
+    static Mesh* createCubeMesh(float size = 1.0f);
+
+    /**
      * Draws the scene each frame.
      */
     bool drawScene(Node* node);
 
     Scene* _scene;
+    Node* _cubeNode;
     bool _wireframe;
 };
 

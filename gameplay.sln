@@ -4,6 +4,11 @@ VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gameplay", "gameplay\gameplay.vcxproj", "{1032BA4B-57EB-4348-9E03-29DD63E80E4A}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "samples", "samples\samples.vcxproj", "{30BEE126-8B04-4F96-84A1-30CBF8B3E491}"
+	ProjectSection(ProjectDependencies) = postProject
+		{1032BA4B-57EB-4348-9E03-29DD63E80E4A} = {1032BA4B-57EB-4348-9E03-29DD63E80E4A}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -17,6 +22,12 @@ Global
 		{1032BA4B-57EB-4348-9E03-29DD63E80E4A}.DebugMem|x64.Build.0 = DebugMem|x64
 		{1032BA4B-57EB-4348-9E03-29DD63E80E4A}.Release|x64.ActiveCfg = Release|x64
 		{1032BA4B-57EB-4348-9E03-29DD63E80E4A}.Release|x64.Build.0 = Release|x64
+		{30BEE126-8B04-4F96-84A1-30CBF8B3E491}.Debug|x64.ActiveCfg = Debug|x64
+		{30BEE126-8B04-4F96-84A1-30CBF8B3E491}.Debug|x64.Build.0 = Debug|x64
+		{30BEE126-8B04-4F96-84A1-30CBF8B3E491}.DebugMem|x64.ActiveCfg = DebugMem|x64
+		{30BEE126-8B04-4F96-84A1-30CBF8B3E491}.DebugMem|x64.Build.0 = DebugMem|x64
+		{30BEE126-8B04-4F96-84A1-30CBF8B3E491}.Release|x64.ActiveCfg = Release|x64
+		{30BEE126-8B04-4F96-84A1-30CBF8B3E491}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

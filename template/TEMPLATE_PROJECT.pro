@@ -37,7 +37,6 @@ linux: LIBS += -L$$PWD/GAMEPLAY_PATH/external-deps/lib/linux/x86_64/ -lgameplay-
 linux: LIBS += -lm -lGL -lrt -ldl -lX11 -lpthread -lgtk-x11-2.0 -lglib-2.0 -lgobject-2.0
 linux: QMAKE_POST_LINK += $$quote(rsync -rau $$PWD/GAMEPLAY_PATH/gameplay/res/shaders ../res$$escape_expand(\n\t))
 linux: QMAKE_POST_LINK += $$quote(rsync -rau $$PWD/GAMEPLAY_PATH/gameplay/res/ui ../res$$escape_expand(\n\t))
-linux: QMAKE_POST_LINK += $$quote(cp -rf $$PWD/GAMEPLAY_PATH/gameplay/res/logo_powered_white.png ../res$$escape_expand(\n\t))
 
 macx: QMAKE_CXXFLAGS += -x c++ -stdlib=libc++ -w -arch x86_64
 macx: QMAKE_OBJECTIVE_CFLAGS += -x objective-c++ -stdlib=libc++ -w -arch x86_64
@@ -51,7 +50,6 @@ macx: LIBS += -F/System/Library/Frameworks -framework OpenGL
 macx: LIBS += -F/System/Library/Frameworks -framework Cocoa
 macx: QMAKE_POST_LINK += $$quote(rsync -rau $$PWD/GAMEPLAY_PATH/gameplay/res/shaders ../res$$escape_expand(\n\t))
 macx: QMAKE_POST_LINK += $$quote(rsync -rau $$PWD/GAMEPLAY_PATH/gameplay/res/ui ../res$$escape_expand(\n\t))
-macx: QMAKE_POST_LINK += $$quote(cp -rf $$PWD/GAMEPLAY_PATH/gameplay/res/logo_powered_white.png ../res$$escape_expand(\n\t))
 macx 
 {
     icon.files = icon.png
@@ -79,4 +77,4 @@ win32: QMAKE_CXXFLAGS_WARN_ON -= -w34100
 win32: QMAKE_CXXFLAGS_WARN_ON -= -w34189
 win32: QMAKE_POST_LINK += $$quote(xcopy ..\GAMEPLAY_PATH\gameplay\res\shaders res\shaders\* /s /y /d$$escape_expand(\n\t))
 win32: QMAKE_POST_LINK += $$quote(xcopy ..\GAMEPLAY_PATH\gameplay\res\ui res\ui\* /s /y /d$$escape_expand(\n\t))
-win32: QMAKE_POST_LINK += $$quote(copy ..\GAMEPLAY_PATH\gameplay\res\logo_powered_white.png res$$escape_expand(\n\t))
+

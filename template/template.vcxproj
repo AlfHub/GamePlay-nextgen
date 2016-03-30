@@ -72,7 +72,7 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;GP_USE_GAMEPAD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>GAMEPLAY_PATH\gameplay\src;GAMEPLAY_PATH\external-deps\include;$(DXSDK_DIR)include;</AdditionalIncludeDirectories>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
-      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -104,7 +104,7 @@ xcopy GAMEPLAY_PATH\gameplay\res\ui res\ui\* /s /y /d</Command>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <ShowIncludes>false</ShowIncludes>
       <PreprocessToFile>false</PreprocessToFile>
-      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -158,15 +158,6 @@ xcopy GAMEPLAY_PATH\gameplay\res\ui res\ui\* /s /y /d</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <None Include="bar-descriptor.xml">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="game.config" />
-    <None Include="icon.png" />
-    <None Include="res\demo.fbx" />
-    <None Include="res\demo.gpb" />
-    <None Include="res\demo.material" />
-    <None Include="res\demo.scene" />
     <None Include="res\shaders\colored.frag" />
     <None Include="res\shaders\colored.vert" />
     <None Include="res\shaders\font.frag" />
@@ -189,6 +180,11 @@ xcopy GAMEPLAY_PATH\gameplay\res\ui res\ui\* /s /y /d</Command>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\TemplateGame.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\logo.png" />
+    <None Include="game.config" />
+    <Image Include="icon.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
