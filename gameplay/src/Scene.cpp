@@ -98,18 +98,24 @@ Scene* Scene::create(const char* id)
 
 Scene* Scene::load(const char* filePath)
 {
-    if (endsWith(filePath, ".gpb", true))
+    Scene* scene = nullptr;
+    Serializer* reader = Serializer::createReader(filePath);
+    if (reader)
     {
-        Scene* scene = NULL;
-        Bundle* bundle = Bundle::create(filePath);
-        if (bundle)
-        {
-            scene = bundle->loadScene();
-            SAFE_RELEASE(bundle);
-        }
-        return scene;
+        scene = static_cast<Scene*>(reader->readObject(nullptr));
+        reader->close();
     }
-    return SceneLoader::load(filePath);
+    return scene;
+}
+
+void Scene::save(const char* filePath)
+{
+    Serializer* writer = SerializerJson::createWriter(filePath);
+    if (writer)
+    {
+        writer->writeObject(nullptr, this);
+        writer->close();
+    }
 }
 
 Scene* Scene::getScene(const char* id)

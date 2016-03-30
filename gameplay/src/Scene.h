@@ -31,14 +31,21 @@ public:
     static Scene* create(const char* id = NULL);
 
     /**
-     * Loads a scene from the given '.scene' or '.gpb' file.
+     * Loads a scene from the given '.scene' file.
      *
-     * @param filePath The path to the '.scene' or '.gpb' file to load from.
+     * @param filePath The path to the '.scene' file to load from.
      * @return The loaded scene or <code>NULL</code> if the scene
      *      could not be loaded from the given file.
      * @script{create}
      */
     static Scene* load(const char* filePath);
+
+    /**
+     * Save a '.scene' file to a given filePath.
+     *
+     * @param filePath The path the save the '.scene' file to.
+     */
+    void save(const char* filePath);
 
     /**
      * Gets a currently active scene.
