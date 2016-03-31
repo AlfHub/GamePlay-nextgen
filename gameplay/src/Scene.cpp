@@ -6,6 +6,7 @@
 #include "Joint.h"
 #include "Terrain.h"
 #include "Bundle.h"
+#include "SerializerJson.h"
 
 namespace gameplay
 {
