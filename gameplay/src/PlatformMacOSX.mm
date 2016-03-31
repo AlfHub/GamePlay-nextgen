@@ -824,13 +824,9 @@ static CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink, const CVTime
 - (id) initWithFrame: (NSRect) frame
 {
     _game = Game::getInstance();
-    
-    int samples = 0;
-    /*Properties* config = _game->getConfig()->getNamespace("window", true);
-    int samples = config ? config->getInt("samples") : 0;
+    int samples = _game->getConfig()->samples;
     if (samples < 0)
         samples = 0;
-     */
     
     // Note: Keep multisampling attributes at the start of the attribute lists since code below
     // assumes they are array elements 0 through 4.
@@ -1676,36 +1672,20 @@ int Platform::enterMessagePump()
     NSString* path = [bundlePath stringByAppendingString:@"/Contents/Resources/"];
     FileSystem::setResourcePath([path cStringUsingEncoding:NSASCIIStringEncoding]);
     
-    /* Read window settings from config.
-    if (_game->getConfig())
+    // Read window settings from config.
+    _game = Game::getInstance();
+    Game::Config* config = _game->getConfig();
+    __title = const_cast<char*>(config->title.c_str());
+    __width = config->width;
+    __height = config->height;
+    __fullscreen = config->fullscreen;
+    __resizable = config->resizable;
+    if (__fullscreen && __width == 0 && __height == 0)
     {
-        Properties* config = _game->getConfig()->getNamespace("window", true);
-        if (config)
-        {
-            // Read window title.
-            __title = const_cast<char *>(config->getString("title"));
-
-            // Read window size.
-            int width = config->getInt("width");
-            if (width != 0)
-                __width = width;
-            int height = config->getInt("height");
-            if (height != 0)
-                __height = height;
-
-            // Read fullscreen state.
-            __fullscreen = config->getBool("fullscreen");
-            if (__fullscreen && width == 0 && height == 0)
-            {
-                CGRect mainMonitor = CGDisplayBounds(CGMainDisplayID());
-                __width = CGRectGetWidth(mainMonitor);
-                __height = CGRectGetHeight(mainMonitor);
-            }
-            
-            // Read resizable state.
-            __resizable = config->getBool("resizable");
-        }
-    }*/
+        CGRect mainMonitor = CGDisplayBounds(CGMainDisplayID());
+        __width = CGRectGetWidth(mainMonitor);
+        __height = CGRectGetHeight(mainMonitor);
+    }
 
     NSAutoreleasePool* pool = [NSAutoreleasePool new];
     NSApplication* app = [NSApplication sharedApplication];
@@ -1757,8 +1737,7 @@ void Platform::signalShutdown()
 {
     [__view haltDisplayRenderer];
 
-    // Don't perform terminate right away, enqueue to give game object
-    // a chance to cleanup
+    // Don't perform terminate right away, enqueue to give game object a chance to cleanup
     NSApplication* app = [NSApplication sharedApplication];
     [app performSelectorOnMainThread:@selector(terminate:) withObject:nil waitUntilDone:NO];
 }

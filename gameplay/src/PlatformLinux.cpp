@@ -578,40 +578,21 @@ Platform* Platform::create(Game* game)
     }
 
     // Get the window configuration values
-    const char *title = NULL;
-    int __x = 0, __y = 0, __width = 1280, __height = 800, __samples = 0;
-    bool fullscreen = false;
-    
-    /*if (game->getConfig())
+    Game::Config* config = game->getConfig();
+    const char* __title = config->title;
+    int __x = config->x;
+    int __y = config->y;
+    int __width = config->width;
+    int __height = config->height;
+    int __samples = config->samples;
+    bool __fullscreen = config->fullscreen;
+    if (__fullscreen && __width == 0 && __height == 0)
     {
-        Properties* config = game->getConfig()->getNamespace("window", true);
-        if (config)
-        {
-            // Read window title.
-            title = config->getString("title");
-
-            // Read window rect.
-            int x = config->getInt("x");
-            int y = config->getInt("y");
-            int width = config->getInt("width");
-            int height = config->getInt("height");
-            int samples = config->getInt("samples");
-            fullscreen = config->getBool("fullscreen");
-
-            if (fullscreen && width == 0 && height == 0)
-            {
-                // Use the screen resolution if fullscreen is true but width and height were not set in the config
-                int screen_num = DefaultScreen(__display);
-                width = DisplayWidth(__display, screen_num);
-                height = DisplayHeight(__display, screen_num);
-            }
-            if (x != 0) __x = x;
-            if (y != 0) __y = y;
-            if (width != 0) __width = width;
-            if (height != 0) __height = height;
-            if (samples != 0) __samples = samples;
-        }
-    }*/
+        // Use the screen resolution if fullscreen is true but width and height were not set in the config
+        int screen_num = DefaultScreen(__display);
+        __width = DisplayWidth(__display, screen_num);
+        __height = DisplayHeight(__display, screen_num);
+    }
 
     // GLX version
     GLint majorGLX, minorGLX = 0;
@@ -707,7 +688,7 @@ Platform* Platform::create(Game* game)
         XSendEvent(__display, DefaultRootWindow(__display), false, SubstructureNotifyMask | SubstructureRedirectMask, &xev);
     }
 
-    XStoreName(__display, __window, title ? title : "");
+    XStoreName(__display, __window, __title ? __title : "");
 
     __context = glXCreateContext(__display, visualInfo, NULL, True);
     if (!__context)
@@ -1679,7 +1660,8 @@ bool Platform::launchURL(const char* url)
     return (r == 0);
 }
 
-std::string Platform::displayFileDialog(size_t mode, const char* title, const char* filterDescription, const char* filterExtensions, const char* initialDirectory)
+std::string Platform::displayFileDialog(size_t mode, const char* title, const char* filterDescription,
+                                        const char* filterExtensions, const char* initialDirectory)
 {
     std::string filename = "";
 

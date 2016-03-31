@@ -180,12 +180,8 @@ static int getRotation()
 // Initialized EGL resources.
 static bool initEGL()
 {
-    int samples = 0;
-    /*Properties* config = Game::getInstance()->getConfig()->getNamespace("window", true);
-    if (config)
-    {
-        samples = std::max(config->getInt("samples"), 0);
-    }*/
+    Game::Config* config = Game::getInstance()->getConfig();
+    int samples = std::max(config->samples, 0);
 
     // Hard-coded to 32-bit/OpenGL ES 2.0.
     // NOTE: EGL_SAMPLE_BUFFERS, EGL_SAMPLES and EGL_DEPTH_SIZE MUST remain at the beginning of the attribute list
