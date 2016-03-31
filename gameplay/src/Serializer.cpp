@@ -6,6 +6,7 @@
 #include "Node.h"
 #include "MeshPart.h"
 #include "Joint.h"
+#include "Animation.h"
 
 namespace gameplay
 {
@@ -39,6 +40,7 @@ void Serializer::Activator::initializeClasses()
     Serializer::getActivator()->registerClass("gameplay::Joint", &Joint::createInstance);
     Serializer::getActivator()->registerClass("gameplay::Texture", &Texture::createInstance);
     Serializer::getActivator()->registerClass("gameplay::Texture::Sampler", &Texture::Sampler::createInstance);
+    Serializer::getActivator()->registerClass("gameplay::Animation", &Animation::createInstance);
     // TODO: All the other classes...
 }
 

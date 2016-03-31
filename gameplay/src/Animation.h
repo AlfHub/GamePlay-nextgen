@@ -2,6 +2,7 @@
 #define ANIMATION_H_
 
 #include "Ref.h"
+#include "Serializable.h"
 #include "Curve.h"
 
 namespace gameplay
@@ -18,11 +19,10 @@ class AnimationClip;
  * Every Animation has the default clip which will run from begin-end time.
  * You can create additional clips to run only parts of an animation and control
  * various runtime characteristics, such as repeat count, etc.
- *
- * @see http://gameplay3d.github.io/GamePlay/docs/file-formats.html#wiki-Animation
  */
-class Animation : public Ref
+class Animation : public Ref, public Serializable
 {
+    friend class Serializer::Activator;
     friend class AnimationClip;
     friend class AnimationTarget;
     friend class Bundle;
@@ -71,7 +71,7 @@ public:
      *
      * @return The AnimationClip with the specified ID; NULL if an AnimationClip with the given ID is not found.
      */
-    AnimationClip* getClip(const char* clipId = NULL);
+    AnimationClip* getClip(const char* clipId = nullptr);
 
     /**
      * Returns the AnimationClip at the given index.
@@ -88,28 +88,46 @@ public:
     /**
      * Plays the AnimationClip with the specified name.
      *
-     * @param clipId The ID of the AnimationClip to play. If NULL, plays the default clip.
+     * @param clipId The ID of the AnimationClip to play. If null, plays the default clip.
      */
-    void play(const char* clipId = NULL);
+    void play(const char* clipId = nullptr);
 
     /**
      * Stops the AnimationClip with the specified name.
      *
-     * @param clipId The ID of the AnimationClip to stop. If NULL, stops the default clip.
+     * @param clipId The ID of the AnimationClip to stop. If null, stops the default clip.
      */
-    void stop(const char* clipId = NULL);
+    void stop(const char* clipId = nullptr);
 
     /**
      * Pauses the AnimationClip with the specified name.
      *
      * @param clipId The ID of the AnimationClip to pause. If NULL, pauses the default clip.
      */
-    void pause(const char* clipId = NULL);
+    void pause(const char* clipId = nullptr);
 
     /**
-     * Returns true if this animation targets the given AnimationTarget.
+     * Determines if this animation is bound to the specified target.
+     *
+     * @param target The animation target to test against.
+     * @return true if the animation is bound to the specified target, false if not.
      */
-    bool targets(AnimationTarget* target) const;
+    bool isTarget(AnimationTarget* target) const;
+
+    /**
+     * @see Serializeable::getSerializedClassName
+     */
+    const char* getSerializedClassName() const;
+
+    /**
+     * @see Serializeable::serialize
+     */
+    void serialize(Serializer* serializer);
+
+    /**
+     * @see Serializeable::deserialize
+     */
+    void deserialize(Serializer* serializer);
 
 private:
 
@@ -129,9 +147,9 @@ private:
 
         Channel(Animation* animation, AnimationTarget* target, int propertyId, Curve* curve, unsigned long duration);
         Channel(const Channel& copy, Animation* animation, AnimationTarget* target);
-        Channel(const Channel&); // Hidden copy constructor.
+        Channel(const Channel&);
         ~Channel();
-        Channel& operator=(const Channel&); // Hidden copy assignment operator.
+        Channel& operator=(const Channel&);
         Curve* getCurve() const;
 
         Animation* _animation;                // Reference to the animation this channel belongs to.
@@ -142,19 +160,14 @@ private:
     };
 
     /**
-     * Hidden copy constructor.
+     * Constructor.
+     */
+    Animation();
+
+    /**
+     * Constructor.
      */
     Animation(const Animation& copy);
-
-    /**
-     * Constructor.
-     */
-    Animation(const char* id, AnimationTarget* target, int propertyId, unsigned int keyCount, unsigned int* keyTimes, float* keyValues, float* keyInValue, float* keyOutValue, unsigned int type);
-
-    /**
-     * Constructor.
-     */
-    Animation(const char* id, AnimationTarget* target, int propertyId, unsigned int keyCount, unsigned int* keyTimes, float* keyValues, unsigned int type);
 
     /**
      * Constructor.
@@ -162,24 +175,36 @@ private:
     Animation(const char* id);
 
     /**
+     * Constructor.
+     */
+    Animation(const char* id, AnimationTarget* target, int propertyId,
+              unsigned int keyCount, unsigned int* keyTimes, float* keyValues, float* keyInValue,
+              float* keyOutValue, unsigned int type);
+    /**
+     * Constructor.
+     */
+    Animation(const char* id, AnimationTarget* target, int propertyId,
+              unsigned int keyCount, unsigned int* keyTimes, float* keyValues,
+              unsigned int type);
+    /**
      * Destructor.
      */
     ~Animation();
 
     /**
-     * Hidden copy assignment operator.
+     * Copy assignment operator.
      */
     Animation& operator=(const Animation&);
 
     /**
-     * Creates the default clip.
+     * @see Serializer::Activator::CreateInstanceCallback
      */
-    void createDefaultClip();
+    static Serializable* createInstance();
 
     /**
-     * Creates AnimationClip's for this Animation from the specified Property object.
-     *
-    void createClips(Properties* animationProperties, unsigned int frameCount);*/
+     * Creates the (default) clip. All animation need at least one clip.
+     */
+    void createClipDefault();
 
     /**
      * Adds a clip to this Animation.
@@ -194,12 +219,15 @@ private:
     /**
      * Creates a channel within this animation.
      */
-    Channel* createChannel(AnimationTarget* target, int propertyId, unsigned int keyCount, unsigned int* keyTimes, float* keyValues, unsigned int type);
+    Channel* createChannel(AnimationTarget* target, int propertyId, unsigned int keyCount,
+                           unsigned int* keyTimes, float* keyValues, unsigned int type);
 
     /**
      * Creates a channel within this animation.
      */
-    Channel* createChannel(AnimationTarget* target, int propertyId, unsigned int keyCount, unsigned int* keyTimes, float* keyValues, float* keyInValue, float* keyOutValue, unsigned int type);
+    Channel* createChannel(AnimationTarget* target, int propertyId, unsigned int keyCount,
+                           unsigned int* keyTimes, float* keyValues, float* keyInValue, float* keyOutValue,
+                           unsigned int type);
 
     /**
      * Adds a channel to the animation.
@@ -227,12 +255,12 @@ private:
     Animation* clone(Channel* channel, AnimationTarget* target);
 
     AnimationController* _controller;       // The AnimationController that this Animation will run on.
+    std::string _url;                       // The url the animation was loaded from.
     std::string _id;                        // The Animation's ID.
     unsigned long _duration;                // the length of the animation (in milliseconds).
     std::vector<Channel*> _channels;        // The channels within this Animation.
-    AnimationClip* _defaultClip;            // The Animation's default clip.
+    AnimationClip* _clipDefault;            // The Animation's default clip.
     std::vector<AnimationClip*>* _clips;    // All the clips created from this Animation.
-
 };
 
 }

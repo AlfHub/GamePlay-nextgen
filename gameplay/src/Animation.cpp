@@ -7,49 +7,64 @@
 #include "Transform.h"
 
 #define ANIMATION_INDEFINITE_STR "INDEFINITE"
-#define ANIMATION_DEFAULT_CLIP 0
+#define ANIMATION_CLIP 0
+#define ANIMATION_CLIP_ID "default"
 #define ANIMATION_ROTATE_OFFSET 0
 #define ANIMATION_SRT_OFFSET 3
 
 namespace gameplay
 {
 
-Animation::Animation(const char* id, AnimationTarget* target, int propertyId, unsigned int keyCount, unsigned int* keyTimes, float* keyValues, unsigned int type)
-    : _controller(Game::getInstance()->getAnimationController()), _id(id), _duration(0L), _defaultClip(NULL), _clips(NULL)
+Animation::Animation() :
+    _controller(nullptr), _id(""), _duration(0L),
+    _clipDefault(nullptr), _clips(nullptr)
+{
+}
+
+Animation::Animation(const char* id) :
+    _controller(Game::getInstance()->getAnimationController()), _id(id), _duration(0L),
+    _clipDefault(nullptr), _clips(nullptr)
+{
+}
+
+Animation::Animation(const char* id, AnimationTarget* target, int propertyId,
+                     unsigned int keyCount, unsigned int* keyTimes, float* keyValues, unsigned int type) :
+    _controller(Game::getInstance()->getAnimationController()), _id(id), _duration(0L),
+    _clipDefault(nullptr), _clips(nullptr)
 {
     createChannel(target, propertyId, keyCount, keyTimes, keyValues, type);
 
-    // Release the animation because a newly created animation has a ref count of 1 and the channels hold the ref to animation.
+    // Release the animation because a newly created animation has a ref count of 1
+    // and the channels hold the ref to animation.
     release();
     GP_ASSERT(getRefCount() == 1);
 }
 
-Animation::Animation(const char* id, AnimationTarget* target, int propertyId, unsigned int keyCount, unsigned int* keyTimes, float* keyValues, float* keyInValue, float* keyOutValue, unsigned int type)
-    : _controller(Game::getInstance()->getAnimationController()), _id(id), _duration(0L), _defaultClip(NULL), _clips(NULL)
+Animation::Animation(const char* id, AnimationTarget* target, int propertyId,
+                     unsigned int keyCount, unsigned int* keyTimes, float* keyValues, float* keyInValue,
+                     float* keyOutValue, unsigned int type) :
+    _controller(Game::getInstance()->getAnimationController()), _id(id), _duration(0L),
+    _clipDefault(nullptr), _clips(nullptr)
 {
     createChannel(target, propertyId, keyCount, keyTimes, keyValues, keyInValue, keyOutValue, type);
-    // Release the animation because a newly created animation has a ref count of 1 and the channels hold the ref to animation.
+    // Release the animation because a new created animation has a ref count of 1
+    // and the channels hold the ref to animation.
     release();
     GP_ASSERT(getRefCount() == 1);
-}
-
-Animation::Animation(const char* id)
-    : _controller(Game::getInstance()->getAnimationController()), _id(id), _duration(0L), _defaultClip(NULL), _clips(NULL)
-{
 }
 
 Animation::~Animation()
 {
     _channels.clear();
 
-    if (_defaultClip)
+    if (_clipDefault)
     {
-        if (_defaultClip->isClipStateBitSet(AnimationClip::CLIP_IS_PLAYING_BIT))
+        if (_clipDefault->isClipStateBitSet(AnimationClip::CLIP_IS_PLAYING_BIT))
         {
             GP_ASSERT(_controller);
-            _controller->unschedule(_defaultClip);
+            _controller->unschedule(_clipDefault);
         }
-        SAFE_RELEASE(_defaultClip);
+        SAFE_RELEASE(_clipDefault);
     }
 
     if (_clips)
@@ -73,14 +88,17 @@ Animation::~Animation()
     SAFE_DELETE(_clips);
 }
 
-Animation::Channel::Channel(Animation* animation, AnimationTarget* target, int propertyId, Curve* curve, unsigned long duration)
-    : _animation(animation), _target(target), _propertyId(propertyId), _curve(curve), _duration(duration)
+Animation::Channel::Channel(Animation* animation, AnimationTarget* target, int propertyId,
+                            Curve* curve, unsigned long duration) :
+    _animation(animation), _target(target), _propertyId(propertyId),
+    _curve(curve), _duration(duration)
 {
     GP_ASSERT(_animation);
     GP_ASSERT(_target);
     GP_ASSERT(_curve);
 
-    // get property component count, and ensure the property exists on the AnimationTarget by getting the property component count.
+    // get property component count, and ensure the property exists on the AnimationTarget by
+    // getting the property component count.
     GP_ASSERT(_target->getAnimationPropertyComponentCount(propertyId));
     _curve->addRef();
     _target->addChannel(this);
@@ -120,23 +138,6 @@ unsigned long Animation::getDuration() const
     return _duration;
 }
 
-/*void Animation::createClips(const char* url)
-{
-    Properties* properties = Properties::create(url);
-    GP_ASSERT(properties);
-
-    Properties* pAnimation = (strlen(properties->getNamespace()) > 0) ? properties : properties->getNextNamespace();
-    GP_ASSERT(pAnimation);
-
-    int frameCount = pAnimation->getInt("frameCount");
-    if (frameCount <= 0)
-        GP_ERROR("The animation's frame count must be greater than 0.");
-
-    createClips(pAnimation, (unsigned int)frameCount);
-
-    SAFE_DELETE(properties);
-}*/
-
 AnimationClip* Animation::createClip(const char* id, unsigned long begin, unsigned long end)
 {
     AnimationClip* clip = new AnimationClip(id, this, begin, end);
@@ -146,13 +147,13 @@ AnimationClip* Animation::createClip(const char* id, unsigned long begin, unsign
 
 AnimationClip* Animation::getClip(const char* id)
 {
-    // If id is NULL return the default clip.
-    if (id == NULL)
+    // If id is null return the default clip.
+    if (id == nullptr)
     {
-        if (_defaultClip == NULL)
-            createDefaultClip();
+        if (_clipDefault == nullptr)
+            createClipDefault();
 
-        return _defaultClip;
+        return _clipDefault;
     }
     else
     {
@@ -165,7 +166,7 @@ AnimationClip* Animation::getClip(unsigned int index) const
     if (_clips)
         return _clips->at(index);
 
-    return NULL;
+    return nullptr;
 }
 
 unsigned int Animation::getClipCount() const
@@ -175,56 +176,56 @@ unsigned int Animation::getClipCount() const
 
 void Animation::play(const char* clipId)
 {
-    // If id is NULL, play the default clip.
-    if (clipId == NULL)
+    // If id is null, play the default clip.
+    if (clipId == nullptr)
     {
-        if (_defaultClip == NULL)
-            createDefaultClip();
+        if (_clipDefault == nullptr)
+            createClipDefault();
 
-        _defaultClip->play();
+        _clipDefault->play();
     }
     else
     {
         // Find animation clip and play.
         AnimationClip* clip = findClip(clipId);
-        if (clip != NULL)
+        if (clip != nullptr)
             clip->play();
     }
 }
 
 void Animation::stop(const char* clipId)
 {
-    // If id is NULL, play the default clip.
-    if (clipId == NULL)
+    // If id is null, play the default clip.
+    if (clipId == nullptr)
     {
-        if (_defaultClip)
-            _defaultClip->stop();
+        if (_clipDefault)
+            _clipDefault->stop();
     }
     else
     {
         // Find animation clip and play.
         AnimationClip* clip = findClip(clipId);
-        if (clip != NULL)
+        if (clip != nullptr)
             clip->stop();
     }
 }
 
 void Animation::pause(const char * clipId)
 {
-    if (clipId == NULL)
+    if (clipId == nullptr)
     {
-        if (_defaultClip)
-            _defaultClip->pause();
+        if (_clipDefault)
+            _clipDefault->pause();
     }
     else
     {
         AnimationClip* clip = findClip(clipId);
-        if (clip != NULL)
+        if (clip != nullptr)
             clip->pause();
     }
 }
 
-bool Animation::targets(AnimationTarget* target) const
+bool Animation::isTarget(AnimationTarget* target) const
 {
     for (std::vector<Animation::Channel*>::const_iterator itr = _channels.begin(); itr != _channels.end(); ++itr)
     {
@@ -237,10 +238,29 @@ bool Animation::targets(AnimationTarget* target) const
     return false;
 }
 
-
-void Animation::createDefaultClip()
+const char* Animation::getSerializedClassName() const
 {
-    _defaultClip = new AnimationClip("default_clip", this, 0.0f, _duration);
+    return "gameplay::Animation";
+}
+
+void Animation::serialize(Serializer* serializer)
+{
+    // TODO
+}
+
+void Animation::deserialize(Serializer* serializer)
+{
+    // TODO
+}
+
+Serializable* Animation::createInstance()
+{
+    return static_cast<Serializable*>(new Animation());
+}
+
+void Animation::createClipDefault()
+{
+    _clipDefault = new AnimationClip(ANIMATION_CLIP_ID, this, 0.0f, _duration);
 }
 
 /*void Animation::createClips(Properties* animationProperties, unsigned int frameCount)
@@ -249,7 +269,7 @@ void Animation::createDefaultClip()
 
     Properties* pClip = animationProperties->getNextNamespace();
 
-    while (pClip != NULL && std::strcmp(pClip->getNamespace(), "clip") == 0)
+    while (pClip != nullptr && std::strcmp(pClip->getNamespace(), "clip") == 0)
     {
         int begin = pClip->getInt("begin");
         int end = pClip->getInt("end");
@@ -287,7 +307,7 @@ void Animation::createDefaultClip()
 
 void Animation::addClip(AnimationClip* clip)
 {
-    if (_clips == NULL)
+    if (_clips == nullptr)
         _clips = new std::vector<AnimationClip*>;
 
     GP_ASSERT(clip);
@@ -309,10 +329,12 @@ AnimationClip* Animation::findClip(const char* id) const
             }
         }
     }
-    return NULL;
+    return nullptr;
 }
 
-Animation::Channel* Animation::createChannel(AnimationTarget* target, int propertyId, unsigned int keyCount, unsigned int* keyTimes, float* keyValues, unsigned int type)
+Animation::Channel* Animation::createChannel(AnimationTarget* target, int propertyId,
+                                             unsigned int keyCount, unsigned int* keyTimes, float* keyValues,
+                                             unsigned int type)
 {
     GP_ASSERT(target);
     GP_ASSERT(keyTimes);
@@ -356,7 +378,9 @@ Animation::Channel* Animation::createChannel(AnimationTarget* target, int proper
     return channel;
 }
 
-Animation::Channel* Animation::createChannel(AnimationTarget* target, int propertyId, unsigned int keyCount, unsigned int* keyTimes, float* keyValues, float* keyInValue, float* keyOutValue, unsigned int type)
+Animation::Channel* Animation::createChannel(AnimationTarget* target, int propertyId, unsigned int keyCount,
+                                             unsigned int* keyTimes, float* keyValues, float* keyInValue,
+                                             float* keyOutValue, unsigned int type)
 {
     GP_ASSERT(target);
     GP_ASSERT(keyTimes);
@@ -372,7 +396,6 @@ Animation::Channel* Animation::createChannel(AnimationTarget* target, int proper
 
     unsigned long lowest = keyTimes[0];
     unsigned long duration = keyTimes[keyCount-1] - lowest;
-
     float* normalizedKeyTimes = new float[keyCount];
 
     normalizedKeyTimes[0] = 0.0f;
@@ -440,7 +463,6 @@ void Animation::setTransformRotationOffset(Curve* curve, unsigned int propertyId
         curve->setQuaternionOffset(ANIMATION_SRT_OFFSET);
         return;
     }
-
     return;
 }
 
@@ -452,15 +474,15 @@ Animation* Animation::clone(Channel* channel, AnimationTarget* target)
 
     Animation::Channel* channelCopy = new Animation::Channel(*channel, animation, target);
     animation->addChannel(channelCopy);
-    // Release the animation because a newly created animation has a ref count of 1 and the channels hold the ref to animation.
+    // Release the animation because a newly created animation has a ref count of 1
+    // and the channels hold the ref to animation.
     animation->release();
     GP_ASSERT(animation->getRefCount() == 1);
 
     // Clone the clips
-    
-    if (_defaultClip)
+    if (_clipDefault)
     {
-        animation->_defaultClip = _defaultClip->clone(animation);
+        animation->_clipDefault = _clipDefault->clone(animation);
     }
     
     if (_clips)
