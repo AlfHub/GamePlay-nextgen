@@ -579,7 +579,7 @@ Platform* Platform::create(Game* game)
 
     // Get the window configuration values
     Game::Config* config = game->getConfig();
-    const char* __title = config->title;
+    const char* __title = config->title.c_str();
     int __x = config->x;
     int __y = config->y;
     int __width = config->width;
@@ -670,7 +670,7 @@ Platform* Platform::create(Game* game)
 
     // Send fullscreen atom message to the window; most window managers respect WM_STATE messages
     // Note: fullscreen mode will use native desktop resolution and won't care about width/height specified
-    if (fullscreen)
+    if (__fullscreen)
     {
         XEvent xev;
         Atom atomWm_state = XInternAtom(__display, "_NET_WM_STATE", False);
