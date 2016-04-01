@@ -39,3 +39,7 @@ gameplay.xcworkspace/xcshareddata/gameplay.xccheckout
 /gameplay.xcworkspace/xcuserdata
 /gameplay/gameplay.xcodeproj/xcuserdata
 /gameplay/gameplay.vcxproj.user
+
+/tools/editor/Debug
+/tools/editor/Release
+
