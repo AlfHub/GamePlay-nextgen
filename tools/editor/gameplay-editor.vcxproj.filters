@@ -1,0 +1,489 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Form Files">
+      <UniqueIdentifier>{99349809-55BA-4b9d-BF79-8FDBB0286EB3}</UniqueIdentifier>
+      <Extensions>ui</Extensions>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
+    <Filter Include="Form Files">
+      <UniqueIdentifier>{99349809-55BA-4b9d-BF79-8FDBB0286EB3}</UniqueIdentifier>
+      <Extensions>ui</Extensions>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
+    <Filter Include="Generated Files">
+      <UniqueIdentifier>{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;moc;h;def;odl;idl;res;</Extensions>
+    </Filter>
+    <Filter Include="Generated Files">
+      <UniqueIdentifier>{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;moc;h;def;odl;idl;res;</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{D9D6E242-F8AF-46E4-B9FD-80ECBC20BA3E}</UniqueIdentifier>
+      <Extensions>qrc;*</Extensions>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{D9D6E242-F8AF-46E4-B9FD-80ECBC20BA3E}</UniqueIdentifier>
+      <Extensions>qrc;*</Extensions>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Distribution Files">
+      <UniqueIdentifier>{B83CAF91-C7BF-462F-B76C-EA11631F866C}</UniqueIdentifier>
+      <Extensions>*</Extensions>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
+    <Filter Include="Distribution Files">
+      <UniqueIdentifier>{B83CAF91-C7BF-462F-B76C-EA11631F866C}</UniqueIdentifier>
+      <Extensions>*</Extensions>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
+    <Filter Include="Generated Files\Debug">
+      <UniqueIdentifier>{aeb1ba68-c976-4df6-a0cc-bcc9c54d7dd5}</UniqueIdentifier>
+      <Extensions>cpp;moc</Extensions>
+      <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
+    <Filter Include="Generated Files\Release">
+      <UniqueIdentifier>{9e3eb141-8247-4753-b4a9-c23beea59159}</UniqueIdentifier>
+      <Extensions>cpp;moc</Extensions>
+      <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\EditorWindow.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameView.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Project.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ProjectTreeView.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ProjectView.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ProjectWizard.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ProjectWizardItemDelegate.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\PropertiesView.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SceneView.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Debug\moc_EditorWindow.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="Release\moc_EditorWindow.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Debug\moc_GameView.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="Release\moc_GameView.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Debug\moc_Project.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="Release\moc_Project.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Debug\moc_ProjectTreeView.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="Release\moc_ProjectTreeView.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Debug\moc_ProjectView.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="Release\moc_ProjectView.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Debug\moc_ProjectWizard.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="Release\moc_ProjectWizard.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Debug\moc_PropertiesView.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="Release\moc_PropertiesView.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Debug\moc_SceneView.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="Release\moc_SceneView.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\qrc_gameplay-editor.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="src\EditorWindow.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="src\GameView.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="src\Project.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="src\ProjectTreeView.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="src\ProjectView.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="src\ProjectWizard.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <ClInclude Include="src\ProjectWizardItemDelegate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <CustomBuild Include="src\PropertiesView.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="src\SceneView.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="src\EditorWindow.ui">
+      <Filter>Form Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="src\ProjectView.ui">
+      <Filter>Form Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="src\ProjectWizard.ui">
+      <Filter>Form Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="src\PropertiesView.ui">
+      <Filter>Form Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="src\SceneView.ui">
+      <Filter>Form Files</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\images\css-arrow-down-disabled.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\images\css-arrow-down.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\images\css-arrow-left-disabled.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\images\css-arrow-left.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\images\css-arrow-right-disabled.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\images\css-arrow-right.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\images\css-arrow-up-disabled.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\images\css-arrow-up.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\images\css-branch-closed-on.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\images\css-branch-closed.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\images\css-branch-end.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\images\css-branch-more.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\images\css-branch-open-on.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\images\css-branch-open.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\images\css-checkbox-checked-disabled.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\images\css-checkbox-checked-focus.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\images\css-checkbox-checked.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\images\css-checkbox-indeterminate-disabled.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\images\css-checkbox-indeterminate-focus.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\images\css-checkbox-indeterminate.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\images\css-checkbox-unchecked-disabled.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\images\css-checkbox-unchecked-focus.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\images\css-checkbox-unchecked.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\images\css-close-hover.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\images\css-close-pressed.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\images\css-close.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\images\css-line-vert.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\images\css-radio-checked-disabled.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\images\css-radio-checked-focus.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\images\css-radio-checked.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\images\css-radio-unchecked-disabled.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\images\css-radio-unchecked-focus.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\images\css-radio-unchecked.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\images\css-sizegrip.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\images\css-toolbar-horiz-handle.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\images\css-toolbar-horiz-separator.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\images\css-toolbar-vert-handle.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\images\css-toolbar-vert-separator.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\images\css-transparent.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\images\css-undock.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="gameplay-editor.css">
+      <Filter>Resource Files</Filter>
+    </None>
+    <CustomBuild Include="gameplay-editor.qrc">
+      <Filter>Resource Files</Filter>
+    </CustomBuild>
+    <None Include="res\images\icon.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\images\logo.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\images\project-config.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\images\project-help.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\images\project-import.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\images\project-new-arrow.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\images\project-new.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\images\project-open.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\images\project-package.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\images\project-pause.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\images\project-play.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\images\project-preferences.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\images\project-save.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\images\scene-add.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\images\scene-audio.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\images\scene-bounds.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\images\scene-camera.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\images\scene-collider.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\images\scene-fbx.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\images\scene-font.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\images\scene-form.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\images\scene-group.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\images\scene-hierarchy.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\images\scene-light-directional.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\images\scene-light-point.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\images\scene-light-spot.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\images\scene-material.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\images\scene-model.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\images\scene-particles.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\images\scene-path.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\images\scene-script.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\images\scene-terrain.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\images\scene-texture.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\images\scene-transform.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\images\scene-video.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\images\toolbar-move.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\images\toolbar-orbit.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\images\toolbar-pan.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\images\toolbar-rotate.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\images\toolbar-scale.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\images\toolbar-select.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\images\toolbar-zoom.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\images\view-fullscreen.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\images\view-grid.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\images\wizard-new.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\images\wizard-open.png">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="game.config">
+      <Filter>Distribution Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="gameplay-editor.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="GeneratedFiles\ui_EditorWindow.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_ProjectView.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_ProjectWizard.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_PropertiesView.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_SceneView.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

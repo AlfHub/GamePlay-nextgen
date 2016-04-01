@@ -1,8 +1,13 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.23107.0
+VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gameplay", "gameplay\gameplay.vcxproj", "{1032BA4B-57EB-4348-9E03-29DD63E80E4A}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gameplay-editor", "tools\editor\gameplay-editor.vcxproj", "{A03F5072-451F-34B8-B078-936DF5731B50}"
+	ProjectSection(ProjectDependencies) = postProject
+		{1032BA4B-57EB-4348-9E03-29DD63E80E4A} = {1032BA4B-57EB-4348-9E03-29DD63E80E4A}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,6 +22,12 @@ Global
 		{1032BA4B-57EB-4348-9E03-29DD63E80E4A}.DebugMem|x64.Build.0 = DebugMem|x64
 		{1032BA4B-57EB-4348-9E03-29DD63E80E4A}.Release|x64.ActiveCfg = Release|x64
 		{1032BA4B-57EB-4348-9E03-29DD63E80E4A}.Release|x64.Build.0 = Release|x64
+		{A03F5072-451F-34B8-B078-936DF5731B50}.Debug|x64.ActiveCfg = Debug|x64
+		{A03F5072-451F-34B8-B078-936DF5731B50}.Debug|x64.Build.0 = Debug|x64
+		{A03F5072-451F-34B8-B078-936DF5731B50}.DebugMem|x64.ActiveCfg = Debug|x64
+		{A03F5072-451F-34B8-B078-936DF5731B50}.DebugMem|x64.Build.0 = Debug|x64
+		{A03F5072-451F-34B8-B078-936DF5731B50}.Release|x64.ActiveCfg = Release|x64
+		{A03F5072-451F-34B8-B078-936DF5731B50}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

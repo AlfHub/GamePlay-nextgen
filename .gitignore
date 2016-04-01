@@ -1,6 +1,8 @@
 *.suo
 *.sdf
 *.opensdf
+*.opendb
+*.db
 *.layout
 *.depend
 *.pro.user
@@ -10,6 +12,7 @@ Icon?
 Thumbs.db
 .metadata
 .settings
+.vs
 /ipch
 /build
 /cmake
@@ -42,4 +45,5 @@ gameplay.xcworkspace/xcshareddata/gameplay.xccheckout
 
 /tools/editor/Debug
 /tools/editor/Release
+/tools/editor/GeneratedFiles
 
