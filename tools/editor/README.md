@@ -5,18 +5,20 @@ Cross-platform editor for GamePlay.
 ## Developer Setup
 
 -  Windows (64-bit)
+  * Install Windows 10
   * Install Visual Studio 2015 (https://www.visualstudio.com/en-us/products/visual-studio-community-vs.aspx)
   * Install DirectX SDK (https://www.microsoft.com/en-ca/download/details.aspx?id=6812)
   * Intall Qt 5.6 (http://download.qt.io/official_releases/qt/5.6/5.6.0/) : windows-x86-msvc2015_64
   * Note: Install Qt to default installer path
   
-- MacOSX (64-bit)
-  * Install XCode 7 (https://developer.apple.com/xcode/download/) 
+- MacOS X (64-bit)
+  * Install MacOS X El Capitan
+  * Install XCode 7+ (https://developer.apple.com/xcode/download/) 
   * Intall Qt 5.6  (http://download.qt.io/official_releases/qt/5.6/5.6.0/) : mac-x64-clang
   * Note: Install Qt to default installer path
 
 - Linux (64-bit)
-  * Install ubuntu 15
+  * Install Ubuntu 15.10 Desktop
   * Intall Qt 5.6 (http://download.qt.io/official_releases/qt/5.6/5.6.0/) : linux-x64
   * Note: Install Qt to default installer path
 
