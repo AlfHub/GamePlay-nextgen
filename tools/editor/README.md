@@ -35,7 +35,7 @@ Cross-platform editor for GamePlay.
 
 ## Visual Studio 2015 (Option B - Windows only)
 - Open Visual Studio 2015
-- Open menu Tools->Extensions and Updates...->
+- Open menu Tools->Extensions and Updates...
 - Search for Qt5Package and install extension.
 - Restart Visual Studio 2015
 - Open menu QT5->Qt Options
