@@ -28,11 +28,11 @@ Cross-platform editor for GamePlay.
 - Open Qt Creator and open the following projects:
 	*  GamePlay-nextgen/gameplay/gameplay.pro
 	*  GamePlay-nextgen/tools/editor/gameplay-editor.pro
-- Configure output paths from big path to "Debug" or "Release" on both projects
-- Build gameplay project
-- Build gameplay-editor project
-- Set Working directory on gameplay-editor proect to "%buildDir/.."
-- Run Editor
+- Configure output paths from big path to "Debug", "Release", "Profile" on both projects
+- Build project gameplay
+- Build project gameplay-editor
+- Set Working directory for project gameplay-editor to "%{buildDir}/.."
+- Run gameplay-editor
 
 ## Visual Studio 2015 (Option B - Windows only)
 - Clone gameplay3d.io repo (https://github.com/gameplay3d/GamePlay-nextgen.git)
@@ -44,4 +44,5 @@ Cross-platform editor for GamePlay.
 - Open menu QT5->Qt Options
 - Add Name=Qt5.6  Path=C:\Qt\Qt5.6.0\5.6\msvc2015_64
 - Open GamePlay-nextgen\gameplay.sln
-- Build and Run
+- Build project gameplay-editor (which depends on gameplay)
+- Run project gameplay-editor
