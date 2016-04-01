@@ -24,6 +24,7 @@ Cross-platform editor for GamePlay.
 
 ## Qt Creator (Option A - Linux, MacOS X, Windows)
 - Clone gameplay3d.io repo (https://github.com/gameplay3d/GamePlay-nextgen.git)
+- Run install.sh or install.bat script
 - Open Qt Creator and open the following projects:
 	*  GamePlay-nextgen/gameplay/gameplay.pro
 	*  GamePlay-nextgen/tools/editor/gameplay-editor.pro
@@ -34,6 +35,8 @@ Cross-platform editor for GamePlay.
 - Run Editor
 
 ## Visual Studio 2015 (Option B - Windows only)
+- Clone gameplay3d.io repo (https://github.com/gameplay3d/GamePlay-nextgen.git)
+- Run install.sh or install.bat script
 - Open Visual Studio 2015
 - Open menu Tools->Extensions and Updates...
 - Search for Qt5Package and install extension.
