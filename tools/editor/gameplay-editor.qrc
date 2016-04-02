@@ -62,17 +62,22 @@
         <file>res/images/scene-fbx.png</file>
         <file>res/images/scene-font.png</file>
         <file>res/images/scene-form.png</file>
-        <file>res/images/scene-group.png</file>
         <file>res/images/scene-hierarchy.png</file>
         <file>res/images/scene-light-directional.png</file>
         <file>res/images/scene-light-point.png</file>
         <file>res/images/scene-light-spot.png</file>
         <file>res/images/scene-material.png</file>
-        <file>res/images/scene-model.png</file>
+        <file>res/images/scene-node.png</file>
         <file>res/images/scene-particles.png</file>
         <file>res/images/scene-path.png</file>
         <file>res/images/scene-script.png</file>
+        <file>res/images/scene-shape-cone.png</file>
+        <file>res/images/scene-shape-cube.png</file>
+        <file>res/images/scene-shape-cylinder.png</file>
+        <file>res/images/scene-shape-sphere.png</file>
+        <file>res/images/scene-sprite.png</file>
         <file>res/images/scene-terrain.png</file>
+        <file>res/images/scene-text.png</file>
         <file>res/images/scene-texture.png</file>
         <file>res/images/scene-transform.png</file>
         <file>res/images/scene-video.png</file>

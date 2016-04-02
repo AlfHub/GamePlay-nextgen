@@ -42,4 +42,5 @@ gameplay.xcworkspace/xcshareddata/gameplay.xccheckout
 
 /tools/editor/Debug
 /tools/editor/Release
-
+/tools/editor/Profile
+/tools/editor/res/ui

@@ -355,28 +355,64 @@
     <string>Meta+A</string>
    </property>
   </action>
-  <action name="actionAdd_Group">
+  <action name="actionAdd_Node">
    <property name="icon">
     <iconset resource="../gameplay-editor.qrc">
-     <normaloff>:/res/images/scene-group.png</normaloff>:/res/images/scene-group.png</iconset>
+     <normaloff>:/res/images/scene-node.png</normaloff>:/res/images/scene-node.png</iconset>
    </property>
    <property name="text">
-    <string>Add Group</string>
+    <string>Add Node</string>
    </property>
    <property name="toolTip">
-    <string>Add Group</string>
+    <string>Add Node</string>
    </property>
   </action>
-  <action name="actionAdd_Model">
+  <action name="actionAdd_Cube">
    <property name="icon">
     <iconset resource="../gameplay-editor.qrc">
-     <normaloff>:/res/images/scene-model.png</normaloff>:/res/images/scene-model.png</iconset>
+     <normaloff>:/res/images/scene-shape-cube.png</normaloff>:/res/images/scene-shape-cube.png</iconset>
    </property>
    <property name="text">
-    <string>Add Model</string>
+    <string>Add Cube</string>
    </property>
    <property name="toolTip">
-    <string>Add Model</string>
+    <string>Add Cube</string>
+   </property>
+  </action>
+  <action name="actionAdd_Cone">
+   <property name="icon">
+    <iconset resource="../gameplay-editor.qrc">
+     <normaloff>:/res/images/scene-shape-cone.png</normaloff>:/res/images/scene-shape-cone.png</iconset>
+   </property>
+   <property name="text">
+    <string>Add Cone</string>
+   </property>
+   <property name="toolTip">
+    <string>Add Cone</string>
+   </property>
+  </action>
+  <action name="actionAdd_Cylinder">
+   <property name="icon">
+    <iconset resource="../gameplay-editor.qrc">
+     <normaloff>:/res/images/scene-shape-cylinder.png</normaloff>:/res/images/scene-shape-cylinder.png</iconset>
+   </property>
+   <property name="text">
+    <string>Add Cylinder</string>
+   </property>
+   <property name="toolTip">
+    <string>Add Cylinder</string>
+   </property>
+  </action>
+  <action name="actionAdd_Sphere">
+   <property name="icon">
+    <iconset resource="../gameplay-editor.qrc">
+     <normaloff>:/res/images/scene-shape-sphere.png</normaloff>:/res/images/scene-shape-sphere.png</iconset>
+   </property>
+   <property name="text">
+    <string>Add Sphere</string>
+   </property>
+   <property name="toolTip">
+    <string>Add Sphere</string>
    </property>
   </action>
   <action name="actionAdd_Camera">
@@ -425,6 +461,90 @@
    </property>
    <property name="toolTip">
     <string>Add Directional Light</string>
+   </property>
+  </action>
+  <action name="actionAdd_Terrain">
+   <property name="icon">
+    <iconset resource="../gameplay-editor.qrc">
+     <normaloff>:/res/images/scene-terrain.png</normaloff>:/res/images/scene-terrain.png</iconset>
+   </property>
+   <property name="text">
+    <string>Add Terrain</string>
+   </property>
+   <property name="toolTip">
+    <string>Add Terrain</string>
+   </property>
+  </action>
+  <action name="actionAdd_Sprite">
+   <property name="icon">
+    <iconset resource="../gameplay-editor.qrc">
+     <normaloff>:/res/images/scene-sprite.png</normaloff>:/res/images/scene-sprite.png</iconset>
+   </property>
+   <property name="text">
+    <string>Add Sprite</string>
+   </property>
+   <property name="toolTip">
+    <string>Add Sprite</string>
+   </property>
+  </action>
+  <action name="actionAdd_Text">
+   <property name="icon">
+    <iconset resource="../gameplay-editor.qrc">
+     <normaloff>:/res/images/scene-text.png</normaloff>:/res/images/scene-text.png</iconset>
+   </property>
+   <property name="text">
+    <string>Add Text</string>
+   </property>
+   <property name="toolTip">
+    <string>Add Text</string>
+   </property>
+  </action>
+  <action name="actionAdd_Form">
+   <property name="icon">
+    <iconset resource="../gameplay-editor.qrc">
+     <normaloff>:/res/images/scene-form.png</normaloff>:/res/images/scene-form.png</iconset>
+   </property>
+   <property name="text">
+    <string>Add Form</string>
+   </property>
+   <property name="toolTip">
+    <string>Add Form</string>
+   </property>
+  </action>
+  <action name="actionAdd_ParticleEmitter">
+   <property name="icon">
+    <iconset resource="../gameplay-editor.qrc">
+     <normaloff>:/res/images/scene-particles.png</normaloff>:/res/images/scene-particles.png</iconset>
+   </property>
+   <property name="text">
+    <string>Add Particle Emitter</string>
+   </property>
+   <property name="toolTip">
+    <string>Add Particle Emitter</string>
+   </property>
+  </action>
+  <action name="actionAdd_Audio">
+   <property name="icon">
+    <iconset resource="../gameplay-editor.qrc">
+     <normaloff>:/res/images/scene-audio.png</normaloff>:/res/images/scene-audio.png</iconset>
+   </property>
+   <property name="text">
+    <string>Add Audio</string>
+   </property>
+   <property name="toolTip">
+    <string>Add Audio</string>
+   </property>
+  </action>
+  <action name="actionAdd_Video">
+   <property name="icon">
+    <iconset resource="../gameplay-editor.qrc">
+     <normaloff>:/res/images/scene-video.png</normaloff>:/res/images/scene-video.png</iconset>
+   </property>
+   <property name="text">
+    <string>Add Video</string>
+   </property>
+   <property name="toolTip">
+    <string>Add Video</string>
    </property>
   </action>
  </widget>
